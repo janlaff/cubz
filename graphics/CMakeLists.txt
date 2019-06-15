@@ -8,6 +8,7 @@ set(
         GRAPHICS_SOURCE_FILES
         OpenGLContext.cpp
         OpenGLShader.cpp
+        OpenGLVertexArray.cpp
 )
 
 add_subdirectory(shaders)

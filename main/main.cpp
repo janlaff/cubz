@@ -7,6 +7,7 @@
 #include "ConsoleLogger.h"
 #include "OpenGLContext.h"
 #include "OpenGLShader.h"
+#include "OpenGLVertexArray.h"
 
 using namespace std::string_literals;
 
@@ -17,9 +18,8 @@ int main() {
         auto ctx = graphics::OpenGLContext(800, 600, "Cubz - Experimental Version");
         auto window = ctx.getWindow();
 
-        GLuint vertexArrayId;
-        glGenVertexArrays(1, &vertexArrayId);
-        glBindVertexArray(vertexArrayId);
+        auto vertexArray = graphics::OpenGLVertexArray();
+        vertexArray.bind();
 
         std::array<GLfloat, 9> vertexData {
             -1.0f, -1.0f, 0.0f,
@@ -36,6 +36,8 @@ int main() {
         shader.bind();
 
         while (!glfwWindowShouldClose(window)) {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
             glEnableVertexAttribArray(0);
             glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
