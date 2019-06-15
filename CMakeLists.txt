@@ -15,4 +15,5 @@ hunter_add_package(glm)
 hunter_add_package(glew)
 
 add_subdirectory(utility)
+add_subdirectory(graphics)
 add_subdirectory(main)

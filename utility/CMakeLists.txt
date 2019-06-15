@@ -8,3 +8,4 @@ set(
 )
 
 add_library(utility STATIC ${UTILITY_SOURCE_FILES})
+target_include_directories(utility PUBLIC .)
