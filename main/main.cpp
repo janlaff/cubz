@@ -6,6 +6,7 @@
 #include "Log.h"
 #include "ConsoleLogger.h"
 #include "OpenGLContext.h"
+#include "OpenGLShader.h"
 
 using namespace std::string_literals;
 
@@ -30,6 +31,9 @@ int main() {
         glGenBuffers(1, &vertexBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData.data(), GL_STATIC_DRAW);
+
+        auto shader = graphics::OpenGLShader("triangle");
+        shader.bind();
 
         while (!glfwWindowShouldClose(window)) {
             glEnableVertexAttribArray(0);
