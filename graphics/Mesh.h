@@ -11,7 +11,7 @@ namespace graphics {
     public:
         std::vector<glm::vec3> vertices;
         std::vector<GLuint> triangles;
-        std::vector<glm::vec3> uvs;
+        std::vector<glm::vec2> uvs;
 
         Mesh();
 
@@ -23,5 +23,6 @@ namespace graphics {
         void addLeft();
         void addRight();
         void addQuadTriangles();
+        void addQuadUvs();
     };
 }
