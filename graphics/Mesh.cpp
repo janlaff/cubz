@@ -88,13 +88,5 @@ namespace graphics {
         uvs.emplace_back(1.0f, 1.0f);
         uvs.emplace_back(1.0f, 0.0f);
         uvs.emplace_back(0.0f, 0.0f);
-
-        /*uvs.emplace_back(0.0f, 1.0f);
-        uvs.emplace_back(1.0f, 0.0f);
-        uvs.emplace_back(0.0f, 0.0f);*/
-
-        /*uvs.emplace_back(0.0f, 1.0f);
-        uvs.emplace_back(1.0f, 1.0f);
-        uvs.emplace_back(1.0f, 0.0f);*/
     }
 }

@@ -19,7 +19,6 @@ namespace graphics {
         m_elementBuffer.update(mesh.triangles);
         m_elementBuffer.draw();
 
-
         m_vertexBuffer.unbind();
         m_uvBuffer.unbind();
         m_elementBuffer.unbind();

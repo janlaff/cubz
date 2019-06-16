@@ -22,12 +22,13 @@ int main() {
         auto shaderManager = graphics::ShaderManager();
         auto model = graphics::Model(shaderManager.getShader("triangle"), "stone.bmp");
         auto fontCtx = graphics::FreetypeContext();
-        auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 48);
+        auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 128);
         auto fpsText = graphics::FreetypeText(font, shaderManager.getShader("text"));
 
-        fpsText.setColor(glm::vec3(1.0f, 1.0f, 1.0f));
+        fpsText.setScale(1.0f);
+        fpsText.setColor(glm::vec3(1.0f, 0.0f, 0.0f));
         fpsText.setPosition(10.0f, 10.0f);
-        fpsText.setText("Fps should be displayed here");
+        fpsText.setText("LANGER TEXT");
 
         while (!screen.shouldQuit()) {
             screen.clear();
