@@ -35,6 +35,8 @@ namespace graphics::opengl {
         if (glewInit() != GLEW_OK) {
             throw std::runtime_error("Failed to initialize GLEW");
         }
+
+        //glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
     }
 
     Context::~Context() {

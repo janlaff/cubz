@@ -9,6 +9,7 @@ namespace graphics::opengl {
     public:
         ElementBuffer();
 
+        void setAttribPointer();
         void update(const std::vector<GLuint>& data);
         void draw();
 

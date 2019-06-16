@@ -6,12 +6,14 @@ namespace graphics {
         m_vertexArray.bind();
         m_vertexBuffer.bind();
         m_vertexBuffer.update(std::vector<glm::vec3>(4), true);
+        m_vertexBuffer.setAttribPointer();
 
         m_elementBuffer.bind();
         m_elementBuffer.update({
             0, 2, 3,
             0, 1, 2
         });
+        m_elementBuffer.setAttribPointer();
 
         m_uvBuffer.bind();
         m_uvBuffer.update({
@@ -20,10 +22,10 @@ namespace graphics {
             { 1.0f, 1.0f },
             { 0.0f, 1.0f }
         });
-
-        m_vertexBuffer.unbind();
-        m_elementBuffer.unbind();
-        m_uvBuffer.unbind();
+        m_uvBuffer.setAttribPointer();
+        m_vertexArray.enableAttrib(0);
+        m_vertexArray.enableAttrib(1);
+        m_vertexArray.unbind();
     }
 
     float FreetypeText::getWidth() const {
@@ -34,6 +36,10 @@ namespace graphics {
         }
 
         return width;
+    }
+
+    float FreetypeText::getHeight() const {
+        return m_font.getCharacter('B').size.y;
     }
 
     void FreetypeText::setPosition(float x, float y) {
@@ -60,8 +66,8 @@ namespace graphics {
         m_shader.bind();
         m_shader.setVec3("textColor", m_color);
         m_shader.setMat4("projection", camera.getTextProjection());
-        m_shader.enableVertexAttribArray(0);
-        m_shader.enableVertexAttribArray(1);
+
+        m_vertexArray.bind();
 
         float x = m_x;
 
@@ -82,28 +88,16 @@ namespace graphics {
 
             ch.texture.bind();
 
-            m_vertexArray.bind();
-
             m_vertexBuffer.bind();
             m_vertexBuffer.update(vertices, true);
-            m_uvBuffer.bind();
-            m_elementBuffer.bind();
+            m_vertexBuffer.setAttribPointer();
             m_elementBuffer.draw();
-            m_vertexBuffer.draw();
-
-            m_uvBuffer.unbind();
-            m_vertexBuffer.unbind();
-            m_elementBuffer.unbind();
-
-            m_vertexArray.unbind();
 
             ch.texture.unbind();
 
             x += (ch.advance >> 6) * m_scale;
         }
 
-        m_shader.disableVertexAttribArray(0);
-        m_shader.disableVertexAttribArray(1);
         m_shader.unbind();
 
         glDisable(GL_BLEND);

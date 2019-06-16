@@ -6,6 +6,7 @@ namespace graphics::opengl {
     class AbstractBuffer {
     public:
         AbstractBuffer(GLint type);
+        ~AbstractBuffer();
 
         void bind();
         void unbind();

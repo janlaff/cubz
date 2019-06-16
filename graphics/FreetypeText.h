@@ -18,6 +18,7 @@ namespace graphics {
         FreetypeText(const FreetypeFont& font, opengl::Shader shader);
 
         float getWidth() const;
+        float getHeight() const;
         void setPosition(float x, float y);
         void setColor(glm::vec3 color);
         void setText(const std::string& text);

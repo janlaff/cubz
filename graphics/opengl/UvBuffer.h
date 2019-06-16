@@ -11,6 +11,7 @@ namespace graphics::opengl {
     public:
         UvBuffer();
 
+        void setAttribPointer();
         void update(const std::vector<glm::vec2>& data);
     };
 }

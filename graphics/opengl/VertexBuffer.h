@@ -11,6 +11,7 @@ namespace graphics::opengl {
     public:
         VertexBuffer();
 
+        void setAttribPointer();
         void update(const std::vector<glm::vec3>& data, bool dynamic);
         void partialUpdate(const std::vector<glm::vec3>& data);
         void draw();

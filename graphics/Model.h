@@ -10,6 +10,7 @@ namespace graphics {
         Model(opengl::Shader shader, const std::string& texture);
 
         void render(const Camera& camera);
+        void setPosition(const glm::vec3& position);
 
     private:
         opengl::Shader m_shader;

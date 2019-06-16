@@ -6,7 +6,9 @@ namespace graphics::opengl {
     class VertexArray {
     public:
         VertexArray();
+        ~VertexArray();
 
+        void enableAttrib(GLint id);
         void bind();
         void unbind();
 

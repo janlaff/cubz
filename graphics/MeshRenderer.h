@@ -13,7 +13,8 @@ namespace graphics {
     public:
         MeshRenderer();
 
-        void render(const Mesh& mesh);
+        void update(const Mesh& mesh);
+        void render();
 
     private:
         opengl::VertexBuffer m_vertexBuffer;
