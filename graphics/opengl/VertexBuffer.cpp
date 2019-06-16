@@ -1,23 +1,21 @@
 #include "VertexBuffer.h"
 
 namespace graphics::opengl {
-    VertexBuffer::VertexBuffer() {
-        glGenBuffers(1, &m_id);
+    VertexBuffer::VertexBuffer() : AbstractBuffer(GL_ARRAY_BUFFER) {}
+
+    void VertexBuffer::update(const std::vector<glm::vec3> &data, bool dynamic) {
+        glBufferData(GL_ARRAY_BUFFER, data.size() * 3 * sizeof(GLfloat), data.data(), dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+        m_triangles = data.size();
     }
 
-    void VertexBuffer::update(const std::vector<glm::vec3> &data) {
-        glBufferData(GL_ARRAY_BUFFER, data.size() * 3 * sizeof(GLfloat), data.data(), GL_STATIC_DRAW);
-    }
-
-    void VertexBuffer::bind() {
-        glBindBuffer(GL_ARRAY_BUFFER, m_id);
-    }
-
-    void VertexBuffer::unbind() {
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    void VertexBuffer::partialUpdate(const std::vector<glm::vec3> &data) {
+        glBufferSubData(GL_ARRAY_BUFFER, 0, data.size() * 3, data.data());
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+        m_triangles = data.size();
     }
 
     void VertexBuffer::draw() {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+        glDrawArrays(GL_TRIANGLES, 0, m_triangles);
     }
 }

@@ -102,8 +102,13 @@ namespace graphics::opengl {
         glUseProgram(0);
     }
 
-    void Shader::setMVP(const glm::mat4 &mvp) {
-        GLint mvpId = glGetUniformLocation(m_programId, "mvp");
-        glUniformMatrix4fv(mvpId, 1, GL_FALSE, &mvp[0][0]);
+    void Shader::setMat4(const std::string &name, const glm::mat4 &mat) {
+        GLint matId = glGetUniformLocation(m_programId, name.c_str());
+        glUniformMatrix4fv(matId, 1, GL_FALSE, &mat[0][0]);
+    }
+
+    void Shader::setVec3(const std::string &name, const glm::vec3 &vec) {
+        GLint vecId = glGetUniformLocation(m_programId, name.c_str());
+        glUniform3f(vecId, vec.x, vec.y, vec.z);
     }
 }

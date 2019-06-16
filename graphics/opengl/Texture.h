@@ -6,6 +6,7 @@
 namespace graphics::opengl {
     class Texture {
     public:
+        Texture(GLuint id, int width, int height);
         Texture(const std::string& name);
 
         int getWidth() const;

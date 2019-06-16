@@ -1,16 +1,15 @@
 #pragma once
 
 #include <vector>
-#include <GL/glew.h>
+
+#include "AbstractBuffer.h"
 
 namespace graphics::opengl {
-    class ElementBuffer {
+    class ElementBuffer : public AbstractBuffer {
     public:
         ElementBuffer();
 
         void update(const std::vector<GLuint>& data);
-        void bind();
-        void unbind();
         void draw();
 
     private:

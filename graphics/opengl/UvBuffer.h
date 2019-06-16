@@ -2,20 +2,15 @@
 
 #include <vector>
 
-#include <GL/glew.h>
 #include <glm/vec2.hpp>
 
+#include "AbstractBuffer.h"
+
 namespace graphics::opengl {
-    class UvBuffer {
+    class UvBuffer : public AbstractBuffer {
     public:
         UvBuffer();
 
         void update(const std::vector<glm::vec2>& data);
-        void bind();
-        void unbind();
-        void draw();
-
-    private:
-        GLuint m_id;
     };
 }

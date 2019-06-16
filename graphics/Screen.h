@@ -1,8 +1,6 @@
 #pragma once
 
 #include "opengl/Context.h"
-#include "opengl/VertexArray.h"
-
 #include "Camera.h"
 
 namespace graphics::opengl {

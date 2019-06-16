@@ -8,6 +8,11 @@
 namespace graphics::opengl {
     static const auto textureDir = "./assets/textures/";
 
+    Texture::Texture(GLuint id, int width, int height)
+        : m_id(id)
+        , m_width(width)
+        , m_height(height) {}
+
     Texture::Texture(const std::string &name) {
         int comp;
 

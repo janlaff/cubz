@@ -13,7 +13,8 @@ namespace graphics::opengl {
         void unbind();
         void enableVertexAttribArray(GLuint id);
         void disableVertexAttribArray(GLuint id);
-        void setMVP(const glm::mat4& mvp);
+        void setMat4(const std::string& name, const glm::mat4& mat);
+        void setVec3(const std::string& name, const glm::vec3& vec);
 
     private:
         std::string loadShader(const std::string& filename);

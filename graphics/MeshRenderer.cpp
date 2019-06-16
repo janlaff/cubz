@@ -10,12 +10,10 @@ namespace graphics {
         m_vertexArray.bind();
         // Bind Vertex Buffer
         m_vertexBuffer.bind();
-        m_vertexBuffer.update(mesh.vertices);
-        m_vertexBuffer.draw();
+        m_vertexBuffer.update(mesh.vertices, false);
         // Bind Uv Buffer
         m_uvBuffer.bind();
         m_uvBuffer.update(mesh.uvs);
-        m_uvBuffer.draw();
         // Bind Element Buffer
         m_elementBuffer.bind();
         m_elementBuffer.update(mesh.triangles);

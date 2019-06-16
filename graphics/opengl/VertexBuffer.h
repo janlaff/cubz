@@ -1,20 +1,21 @@
 #pragma once
 
 #include <vector>
-#include <GL/glew.h>
+
 #include <glm/vec3.hpp>
 
+#include "AbstractBuffer.h"
+
 namespace graphics::opengl {
-    class VertexBuffer {
+    class VertexBuffer : public AbstractBuffer {
     public:
         VertexBuffer();
 
-        void update(const std::vector<glm::vec3>& data);
-        void bind();
-        void unbind();
+        void update(const std::vector<glm::vec3>& data, bool dynamic);
+        void partialUpdate(const std::vector<glm::vec3>& data);
         void draw();
 
     private:
-        GLuint m_id;
+        size_t m_triangles;
     };
 }

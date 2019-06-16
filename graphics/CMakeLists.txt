@@ -9,6 +9,10 @@ set(
         Screen.cpp
         Camera.cpp
         MeshRenderer.cpp
+        ShaderManager.cpp
+        FreetypeContext.cpp
+        FreetypeFont.cpp
+        FreetypeText.cpp
 )
 
 add_library(graphics STATIC ${GRAPHICS_SOURCE_FILES})

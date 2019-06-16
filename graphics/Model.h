@@ -7,7 +7,7 @@
 namespace graphics {
     class Model {
     public:
-        Model(const std::string& shader, const std::string& texture);
+        Model(opengl::Shader shader, const std::string& texture);
 
         void render(const Camera& camera);
 

@@ -15,6 +15,7 @@ hunter_add_package(glfw)
 hunter_add_package(glm)
 hunter_add_package(glew)
 hunter_add_package(stb)
+hunter_add_package(freetype)
 
 add_subdirectory(utility)
 add_subdirectory(graphics)
