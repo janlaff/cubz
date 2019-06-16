@@ -8,12 +8,14 @@
 using namespace std::string_literals;
 
 namespace graphics::opengl {
+    static const auto shaderDir = "./assets/shaders/";
+
     Shader::Shader(const std::string &shaderName) {
         GLuint vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
         GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
 
-        auto vertexShaderCode = loadShader(shaderName + ".vert");
-        auto fragmentShaderCode = loadShader(shaderName + ".frag");
+        auto vertexShaderCode = loadShader(shaderDir + shaderName + ".vert");
+        auto fragmentShaderCode = loadShader(shaderDir + shaderName + ".frag");
 
         utility::Log::debug("Compiling shader " + shaderName + ".vert");
         compileShader(vertexShaderId, vertexShaderCode);

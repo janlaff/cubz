@@ -2,7 +2,8 @@
 
 namespace graphics::opengl {
     Screen::Screen(int width, int height, const std::string &title)
-        : m_context(width, height, title) {}
+        : m_context(width, height, title)
+        , m_camera(width, height) {}
 
     bool Screen::shouldQuit() const {
         return glfwWindowShouldClose(m_context.getWindow());
@@ -19,5 +20,9 @@ namespace graphics::opengl {
 
     const Context& Screen::getContext() const {
         return m_context;
+    }
+
+    const Camera& Screen::getCamera() const {
+        return m_camera;
     }
 }

@@ -18,3 +18,5 @@ hunter_add_package(glew)
 add_subdirectory(utility)
 add_subdirectory(graphics)
 add_subdirectory(main)
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

@@ -74,6 +74,6 @@ namespace graphics {
         // Triangle 2
         triangles.push_back(vertices.size() - 4);
         triangles.push_back(vertices.size() - 3);
-        triangles.push_back(vertices.size() - 1);
+        triangles.push_back(vertices.size() - 2);
     }
 }

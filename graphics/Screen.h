@@ -3,6 +3,8 @@
 #include "opengl/Context.h"
 #include "opengl/VertexArray.h"
 
+#include "Camera.h"
+
 namespace graphics::opengl {
     class Screen {
     public:
@@ -12,7 +14,9 @@ namespace graphics::opengl {
         void render();
         void clear();
         const Context& getContext() const;
+        const Camera& getCamera() const;
     private:
         Context m_context;
+        Camera m_camera;
     };
 }

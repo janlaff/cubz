@@ -34,16 +34,14 @@ int main() {
         shader.bind();*/
 
         auto model = graphics::Model("triangle");
-        auto camera = graphics::Camera(screen.getContext().getWindowWidth(), screen.getContext().getWindowHeight());
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
-
         while (!screen.shouldQuit()) {
             screen.clear();
 
-            model.render(camera);
+            model.render(screen.getCamera());
 
             screen.render();
         }

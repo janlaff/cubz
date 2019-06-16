@@ -13,7 +13,5 @@ set(
         ElementBuffer.cpp
 )
 
-add_subdirectory(shaders)
-
 add_library(opengl STATIC ${OPENGL_SOURCE_FILES})
 target_link_libraries(opengl glfw glm glew::glew utility)
