@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Context.h"
-#include "VertexArray.h"
+#include "opengl/Context.h"
+#include "opengl/VertexArray.h"
 
 namespace graphics::opengl {
     class Screen {
@@ -11,6 +11,7 @@ namespace graphics::opengl {
         bool shouldQuit() const;
         void render();
         void clear();
+        const Context& getContext() const;
     private:
         Context m_context;
     };

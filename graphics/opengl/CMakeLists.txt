@@ -10,7 +10,7 @@ set(
         Shader.cpp
         VertexArray.cpp
         VertexBuffer.cpp
-        Screen.cpp
+        ElementBuffer.cpp
 )
 
 add_subdirectory(shaders)

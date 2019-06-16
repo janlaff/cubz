@@ -3,8 +3,12 @@ cmake_minimum_required(VERSION 3.10)
 add_subdirectory(opengl)
 
 set(
-        GRAPHICS_SOURCES
+        GRAPHICS_SOURCE_FILES
         Model.cpp
+        Mesh.cpp
+        Screen.cpp
+        Camera.cpp
+        MeshRenderer.cpp
 )
 
 add_library(graphics STATIC ${GRAPHICS_SOURCE_FILES})

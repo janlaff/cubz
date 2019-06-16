@@ -4,12 +4,13 @@
 
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
+#include <GL/glew.h>
 
 namespace graphics {
     class Mesh {
     public:
         std::vector<glm::vec3> vertices;
-        std::vector<int> triangles;
+        std::vector<GLuint> triangles;
         std::vector<glm::vec3> uvs;
 
         Mesh();

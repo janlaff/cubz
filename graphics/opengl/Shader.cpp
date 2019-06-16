@@ -99,4 +99,9 @@ namespace graphics::opengl {
     void Shader::unbind() {
         glUseProgram(0);
     }
+
+    void Shader::setMVP(const glm::mat4 &mvp) {
+        GLint mvpId = glGetUniformLocation(m_programId, "mvp");
+        glUniformMatrix4fv(mvpId, 1, GL_FALSE, &mvp[0][0]);
+    }
 }

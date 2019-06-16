@@ -2,6 +2,7 @@
 
 #include <string>
 #include <GL/glew.h>
+#include <glm/mat4x4.hpp>
 
 namespace graphics::opengl {
     class Shader {
@@ -12,6 +13,7 @@ namespace graphics::opengl {
         void unbind();
         void enableVertexAttribArray(GLuint id);
         void disableVertexAttribArray(GLuint id);
+        void setMVP(const glm::mat4& mvp);
 
     private:
         std::string loadShader(const std::string& filename);
