@@ -1,4 +1,4 @@
-#include "OpenGLShader.h"
+#include "Shader.h"
 #include "Log.h"
 
 #include <fstream>
@@ -7,8 +7,8 @@
 
 using namespace std::string_literals;
 
-namespace graphics {
-    OpenGLShader::OpenGLShader(const std::string &shaderName) {
+namespace graphics::opengl {
+    Shader::Shader(const std::string &shaderName) {
         GLuint vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
         GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -25,7 +25,15 @@ namespace graphics {
         linkProgram(vertexShaderId, fragmentShaderId);
     }
 
-    std::string OpenGLShader::loadShader(const std::string &filename) {
+    void Shader::enableVertexAttribArray(GLuint id) {
+        glEnableVertexAttribArray(id);
+    }
+
+    void Shader::disableVertexAttribArray(GLuint id) {
+        glDisableVertexAttribArray(id);
+    }
+
+    std::string Shader::loadShader(const std::string &filename) {
         auto fs = std::ifstream(filename);
 
         if (fs.is_open()) {
@@ -39,7 +47,7 @@ namespace graphics {
         }
     }
 
-    void OpenGLShader::compileShader(GLuint shaderId, const std::string& shaderCode) {
+    void Shader::compileShader(GLuint shaderId, const std::string& shaderCode) {
         auto srcPtr = shaderCode.data();
 
         glShaderSource(shaderId, 1, &srcPtr, nullptr);
@@ -59,7 +67,7 @@ namespace graphics {
         }
     }
 
-    void OpenGLShader::linkProgram(GLuint vertexShaderId, GLuint fragmentShaderId) {
+    void Shader::linkProgram(GLuint vertexShaderId, GLuint fragmentShaderId) {
         m_programId = glCreateProgram();
         glAttachShader(m_programId, vertexShaderId);
         glAttachShader(m_programId, fragmentShaderId);
@@ -84,11 +92,11 @@ namespace graphics {
         glDeleteShader(fragmentShaderId);
     }
 
-    void OpenGLShader::bind() {
+    void Shader::bind() {
         glUseProgram(m_programId);
     }
 
-    void OpenGLShader::unbind() {
+    void Shader::unbind() {
         glUseProgram(0);
     }
 }

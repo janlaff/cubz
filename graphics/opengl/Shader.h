@@ -3,13 +3,15 @@
 #include <string>
 #include <GL/glew.h>
 
-namespace graphics {
-    class OpenGLShader {
+namespace graphics::opengl {
+    class Shader {
     public:
-        OpenGLShader(const std::string& shaderName);
+        Shader(const std::string& shaderName);
 
         void bind();
         void unbind();
+        void enableVertexAttribArray(GLuint id);
+        void disableVertexAttribArray(GLuint id);
 
     private:
         std::string loadShader(const std::string& filename);

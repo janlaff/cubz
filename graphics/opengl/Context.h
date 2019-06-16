@@ -4,11 +4,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-namespace graphics {
-    class OpenGLContext {
+namespace graphics::opengl {
+    class Context {
     public:
-        OpenGLContext(int windowWidth, int windowHeight, const std::string& windowTitle);
-        ~OpenGLContext();
+        Context(int windowWidth, int windowHeight, const std::string& windowTitle);
+        ~Context();
 
         int getWindowWidth() const;
         int getWindowHeight() const;
