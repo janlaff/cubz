@@ -22,7 +22,7 @@ int main() {
         auto shaderManager = graphics::ShaderManager();
         auto model = graphics::Model(shaderManager.getShader("triangle"), "stone.bmp");
         auto fontCtx = graphics::FreetypeContext();
-        auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 24);
+        auto font = fontCtx.generateFont("Minecraftia_Regular.ttf", 24);
         auto disclaimerText = graphics::FreetypeText(font, shaderManager.getShader("text"));
 
         disclaimerText.setText("https://github.com/proman973");
