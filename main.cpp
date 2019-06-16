@@ -22,18 +22,16 @@ int main() {
         auto shaderManager = graphics::ShaderManager();
         auto model = graphics::Model(shaderManager.getShader("triangle"), "stone.bmp");
         auto fontCtx = graphics::FreetypeContext();
-        auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 128);
-        auto fpsText = graphics::FreetypeText(font, shaderManager.getShader("text"));
+        auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 24);
+        auto disclaimerText = graphics::FreetypeText(font, shaderManager.getShader("text"));
 
-        fpsText.setScale(1.0f);
-        fpsText.setColor(glm::vec3(1.0f, 0.0f, 0.0f));
-        fpsText.setPosition(10.0f, 10.0f);
-        fpsText.setText("LANGER TEXT");
+        disclaimerText.setText("https://github.com/proman973");
+        disclaimerText.setPosition(800.0f - disclaimerText.getWidth() - 10.0f, 10.0f);
 
         while (!screen.shouldQuit()) {
             screen.clear();
             model.render(screen.getCamera());
-            fpsText.render(screen.getCamera());
+            disclaimerText.render(screen.getCamera());
             screen.render();
         }
     } catch (std::exception &e) {

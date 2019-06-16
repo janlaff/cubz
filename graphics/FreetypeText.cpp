@@ -2,7 +2,7 @@
 
 namespace graphics {
     FreetypeText::FreetypeText(const FreetypeFont &font, opengl::Shader shader)
-            : m_font(font), m_x(0.0f), m_y(0.0f), m_color(1.0f, 1.0f, 1.0f), m_shader(shader), m_scale(1.0f), m_text("löl") {
+            : m_font(font), m_x(0.0f), m_y(0.0f), m_color(0.0f, 0.0f, 0.0f), m_shader(shader), m_scale(1.0f), m_text("löl") {
         m_vertexArray.bind();
         m_vertexBuffer.bind();
         m_vertexBuffer.update(std::vector<glm::vec3>(4), true);
@@ -24,6 +24,16 @@ namespace graphics {
         m_vertexBuffer.unbind();
         m_elementBuffer.unbind();
         m_uvBuffer.unbind();
+    }
+
+    float FreetypeText::getWidth() const {
+        auto width = 0.0f;
+
+        for (auto c : m_text) {
+            width += (m_font.getCharacter(c).advance >> 6) * m_scale;
+        }
+
+        return width;
     }
 
     void FreetypeText::setPosition(float x, float y) {
@@ -79,6 +89,7 @@ namespace graphics {
             m_uvBuffer.bind();
             m_elementBuffer.bind();
             m_elementBuffer.draw();
+            m_vertexBuffer.draw();
 
             m_uvBuffer.unbind();
             m_vertexBuffer.unbind();
