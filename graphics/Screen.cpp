@@ -6,7 +6,11 @@ namespace graphics::opengl {
         : m_context(width, height, title)
         , m_camera(width, height)
         , m_deltaTime(0.0f)
-        , m_lastFrame(0.0f) {}
+        , m_lastFrame(0.0f) {
+        // Used to hide vertices when inside of an object
+        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CW);
+    }
 
     bool Screen::shouldQuit() const {
         return glfwWindowShouldClose(m_context.getWindow());
