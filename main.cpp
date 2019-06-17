@@ -22,6 +22,14 @@ int main() {
         auto shaderManager = graphics::ShaderManager();
         auto model = graphics::Model(shaderManager.getShader("triangle"), "stone.bmp");
 
+        auto position = [](glm::vec3 pos) {
+            return "x: " + std::to_string(pos.x) + "; y: " + std::to_string(pos.y) + "; z: " + std::to_string(pos.z);
+        };
+
+        auto direction = [](float yaw, float pitch) {
+            return "yaw: " + std::to_string(yaw) + "; pitch: " + std::to_string(pitch);
+        };
+
         auto fontCtx = graphics::FreetypeContext();
         auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 24);
         auto disclaimerText = graphics::FreetypeText(font, shaderManager.getShader("text"));
@@ -29,19 +37,20 @@ int main() {
         disclaimerText.setText("https://github.com/proman0973");
         disclaimerText.setPosition(800.0f - disclaimerText.getWidth() - 10.0f, 10.0f);
 
-        auto position = [](glm::vec3 pos) {
-            return "x: " + std::to_string(pos.x) + "; y: " + std::to_string(pos.y) + "; z: " + std::to_string(pos.z);
-        };
-
         auto positionText = graphics::FreetypeText(font, shaderManager.getShader("text"));
         positionText.setPosition(10.0f, 600.0f - positionText.getHeight() - 10.0f);
 
+        auto directionText = graphics::FreetypeText(font, shaderManager.getShader("text"));
+        directionText.setPosition(10.0f, 600.0f - directionText.getHeight() - 40.0f);
+
         while (!screen.shouldQuit()) {
             positionText.setText(position(screen.getCamera().getPosition()));
+            directionText.setText(direction(screen.getCamera().getYaw(), screen.getCamera().getPitch()));
             screen.clear();
             model.render(screen.getCamera());
             disclaimerText.render(screen.getCamera());
             positionText.render(screen.getCamera());
+            directionText.render(screen.getCamera());
             screen.render();
             screen.processInput();
         }

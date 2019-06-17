@@ -17,6 +17,8 @@ namespace graphics {
         glm::mat4 getModelViewProjection(const glm::mat4& model) const;
         glm::mat4 getTextProjection() const;
         glm::vec3 getPosition() const;
+        float getYaw() const;
+        float getPitch() const;
 
     private:
         glm::mat4 m_textProjection;

@@ -73,4 +73,12 @@ namespace graphics {
     glm::vec3 Camera::getPosition() const {
         return m_position;
     }
+
+    float Camera::getYaw() const {
+        return m_yaw;
+    }
+
+    float Camera::getPitch() const {
+        return m_pitch;
+    }
 }
