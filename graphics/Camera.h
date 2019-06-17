@@ -24,7 +24,7 @@ namespace graphics {
         glm::vec3 m_position;
         glm::vec3 m_direction;
         glm::vec3 m_right;
-        float m_horizontalAngle;
-        float m_verticalAngle;
+        float m_yaw;
+        float m_pitch;
     };
 }

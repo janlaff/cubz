@@ -30,7 +30,7 @@ namespace graphics::opengl {
         double xPos;
         double yPos;
         glfwGetCursorPos(m_context.getWindow(), &xPos, &yPos);
-        m_camera.changeDirection(m_context.getWindowWidth() / 2.0 - xPos, m_context.getWindowHeight() / 2.0 - yPos, m_deltaTime);
+        m_camera.changeDirection(xPos - m_context.getWindowWidth() / 2.0, m_context.getWindowHeight() / 2.0 - yPos, m_deltaTime);
         glfwSetCursorPos(m_context.getWindow(), m_context.getWindowWidth() / 2.0, m_context.getWindowHeight() / 2.0);
 
         if (glfwGetKey(m_context.getWindow(), GLFW_KEY_W) == GLFW_PRESS) {

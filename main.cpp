@@ -23,10 +23,10 @@ int main() {
         auto model = graphics::Model(shaderManager.getShader("triangle"), "stone.bmp");
 
         auto fontCtx = graphics::FreetypeContext();
-        auto font = fontCtx.generateFont("Minecraftia_Regular.ttf", 24);
+        auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 24);
         auto disclaimerText = graphics::FreetypeText(font, shaderManager.getShader("text"));
 
-        disclaimerText.setText("https://github.com/proman973");
+        disclaimerText.setText("https://github.com/proman0973");
         disclaimerText.setPosition(800.0f - disclaimerText.getWidth() - 10.0f, 10.0f);
 
         auto position = [](glm::vec3 pos) {
