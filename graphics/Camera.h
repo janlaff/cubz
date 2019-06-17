@@ -26,5 +26,6 @@ namespace graphics {
         glm::vec3 m_right;
         float m_yaw;
         float m_pitch;
+        bool m_firstMouse;
     };
 }

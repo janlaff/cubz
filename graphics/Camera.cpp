@@ -13,11 +13,18 @@ namespace graphics {
         m_right = glm::vec3(0.0f, 1.0f, 0.0f);
         m_direction = glm::vec3(4, 3, 3);
         m_textProjection = glm::ortho(0.0f, float(screenWidth), 0.0f, float(screenHeight));
+        m_yaw = 0.0f;
+        m_pitch = 0.0f;
+        m_firstMouse = true;
     }
 
     void Camera::changeDirection(int deltaX, int deltaY, float deltaTime) {
-        m_yaw += mouseSpeed * deltaTime * deltaX;
-        m_pitch += mouseSpeed * deltaTime * deltaY;
+        if (!m_firstMouse) {
+            m_yaw += mouseSpeed * deltaTime * deltaX;
+            m_pitch += mouseSpeed * deltaTime * deltaY;
+        } else {
+            m_firstMouse = false;
+        }
 
         m_pitch = glm::clamp(m_pitch, -89.0f, 89.0f);
 
