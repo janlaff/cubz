@@ -4,8 +4,6 @@
 #include <sstream>
 
 namespace graphics::ui {
-    static const char *const disclaimer = "@proman0973 - GitHub";
-
     DebugView::DebugView(const FreetypeFont &font)
         : m_positionText(font, graphics::ShaderManager::getInstance().getShader("text"))
         , m_directionText(font, graphics::ShaderManager::getInstance().getShader("text"))
