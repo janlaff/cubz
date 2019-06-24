@@ -13,7 +13,7 @@ namespace core::opengl {
         void clear();
         void processInput();
         const Context& getContext() const;
-        const Camera& getCamera() const;
+        Camera& getCamera();
     private:
         Context m_context;
         Camera m_camera;

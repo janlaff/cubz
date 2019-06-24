@@ -14,6 +14,8 @@ set(
         AirBlock.cpp
         GrassBlock.cpp
         Chunk.cpp
+        World.cpp
+        WorldPos.cpp
 )
 
 add_library(core STATIC ${CORE_SOURCE_FILES})

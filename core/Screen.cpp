@@ -54,7 +54,7 @@ namespace core::opengl {
         return m_context;
     }
 
-    const Camera& Screen::getCamera() const {
+    Camera& Screen::getCamera() {
         return m_camera;
     }
 }

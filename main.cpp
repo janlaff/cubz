@@ -13,6 +13,7 @@
 #include "core/ResourceManager.h"
 #include "core/ui/DebugView.h"
 #include "core/GrassBlock.h"
+#include "core/World.h"
 
 using namespace std::string_literals;
 
@@ -21,19 +22,10 @@ int main() {
 
     try {
         auto screen = core::opengl::Screen(800, 600, "Cubz - Experimental Version");
-        //auto chunk = core::Chunk(glm::vec3(0, 0, 0));
+        screen.getCamera().setPosition({ -1.0f, 1.0f, -2.0f });
 
-        auto chunkRenderer = core::ChunkRenderer();
-        auto chunk = core::Chunk(glm::vec3(0, 0, 0));
-        auto blockA = core::GrassBlock();
-
-        for (int x = 0; x < 16; ++x) {
-            for (int z = 0; z < 16; ++z) {
-                blockA.addToMesh(chunk, x, 0, z, chunkRenderer.getMeshData());
-            }
-        }
-
-        chunkRenderer.update();
+        auto world = core::World();
+        world.setBlock(std::make_shared<core::GrassBlock>(), 1, 1, 0);
 
         auto fontCtx = core::ui::FreetypeContext();
         auto font = fontCtx.generateFont("Minecraftia_Regular.ttf", 24);
@@ -42,8 +34,8 @@ int main() {
 
         while (!screen.shouldQuit()) {
             screen.clear();
-            //chunk.render(screen.getCamera());
-            chunkRenderer.render(screen.getCamera(), glm::vec3(0, 0, 0));
+            world.update();
+            world.render(screen.getCamera());
             debugView.render(screen.getCamera());
             screen.render();
             screen.processInput();
