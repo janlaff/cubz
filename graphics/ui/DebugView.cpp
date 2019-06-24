@@ -3,18 +3,15 @@
 
 #include <sstream>
 
-namespace graphics {
+namespace graphics::ui {
     static const char *const disclaimer = "@proman0973 - GitHub";
 
-    DebugView::DebugView(const graphics::FreetypeFont &font)
+    DebugView::DebugView(const FreetypeFont &font)
         : m_positionText(font, graphics::ShaderManager::getInstance().getShader("text"))
         , m_directionText(font, graphics::ShaderManager::getInstance().getShader("text"))
-        , m_disclaimerText(font, graphics::ShaderManager::getInstance().getShader("text")) {
-        m_disclaimerText.setText(disclaimer);
-
-        m_positionText.setPosition(10.0f, 600.0f - m_positionText.getHeight() - 10.0f);
-        m_directionText.setPosition(10.0f, 600.0f - m_directionText.getHeight() - m_positionText.getHeight() - 20.0f);
-        m_disclaimerText.setPosition(10.0f, 10.0f);
+        , m_textGrid(font.getHeight()) {
+        m_positionText.setPosition(m_textGrid.getTextPosition());
+        m_directionText.setPosition(m_textGrid.getTextPosition());
     }
 
     void DebugView::render(const graphics::Camera &camera) {
@@ -23,7 +20,6 @@ namespace graphics {
 
         m_positionText.render(camera);
         m_directionText.render(camera);
-        m_disclaimerText.render(camera);
     }
 
     std::string DebugView::getPositionText(const glm::vec3 &position) {

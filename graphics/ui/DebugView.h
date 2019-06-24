@@ -2,8 +2,9 @@
 
 #include "FreetypeText.h"
 #include "Camera.h"
+#include "TextGrid.h"
 
-namespace graphics {
+namespace graphics::ui {
     class DebugView {
     public:
         DebugView(const FreetypeFont& font);
@@ -14,8 +15,8 @@ namespace graphics {
         std::string getPositionText(const glm::vec3& position);
         std::string getDirectionText(float yaw, float pitch);
 
-        graphics::FreetypeText m_positionText;
-        graphics::FreetypeText m_directionText;
-        graphics::FreetypeText m_disclaimerText;
+        FreetypeText m_positionText;
+        FreetypeText m_directionText;
+        TextGrid m_textGrid;
     };
 }

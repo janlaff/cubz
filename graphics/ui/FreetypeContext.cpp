@@ -4,7 +4,7 @@
 
 using namespace std::string_literals;
 
-namespace graphics {
+namespace graphics::ui {
     static const auto fontsDir = "./assets/fonts/";
 
     FreetypeContext::FreetypeContext() {

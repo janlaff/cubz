@@ -22,10 +22,10 @@ int main() {
         auto screen = graphics::opengl::Screen(800, 600, "Cubz - Experimental Version");
         auto model = graphics::Model(graphics::ShaderManager::getInstance().getShader("triangle"), "stone.bmp");
 
-        auto fontCtx = graphics::FreetypeContext();
+        auto fontCtx = graphics::ui::FreetypeContext();
         auto font = fontCtx.generateFont("Minecraftia_Regular.ttf", 24);
 
-        auto debugView = graphics::DebugView(font);
+        auto debugView = graphics::ui::DebugView(font);
 
         while (!screen.shouldQuit()) {
             screen.clear();

@@ -1,6 +1,6 @@
 #include "FreetypeText.h"
 
-namespace graphics {
+namespace graphics::ui {
     FreetypeText::FreetypeText(const FreetypeFont &font, opengl::Shader shader)
             : m_font(font), m_x(0.0f), m_y(0.0f), m_color(0.0f, 0.0f, 0.0f), m_shader(shader), m_scale(1.0f), m_text("löl") {
         m_vertexArray.bind();
@@ -38,16 +38,12 @@ namespace graphics {
         return width;
     }
 
-    float FreetypeText::getHeight() const {
-        return m_font.getCharacter('B').size.y;
+    void FreetypeText::setPosition(const glm::vec2& position) {
+        m_x = position.x;
+        m_y = position.y;
     }
 
-    void FreetypeText::setPosition(float x, float y) {
-        m_x = x;
-        m_y = y;
-    }
-
-    void FreetypeText::setColor(glm::vec3 color) {
+    void FreetypeText::setColor(const glm::vec3& color) {
         m_color = color;
     }
 

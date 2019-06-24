@@ -10,7 +10,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
-namespace graphics {
+namespace graphics::ui {
     struct FreetypeCharacter {
         opengl::Texture texture;
         GLuint advance;
@@ -23,6 +23,7 @@ namespace graphics {
         FreetypeFont();
 
         void addCharacter(GLchar c, const FreetypeCharacter& character);
+        float getHeight() const;
         const FreetypeCharacter& getCharacter(GLchar c) const;
 
     private:

@@ -8,6 +8,7 @@ set(
         FreetypeFont.cpp
         FreetypeText.cpp
         DebugView.cpp
+        TextGrid.cpp
 )
 
 add_library(ui STATIC ${UI_SOURCE_FILES})

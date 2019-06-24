@@ -8,7 +8,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H"freetype2/freetype/freetype.h"
 
-namespace graphics {
+namespace graphics::ui {
     class FreetypeContext {
     public:
         FreetypeContext();

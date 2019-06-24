@@ -12,15 +12,14 @@
 
 #include <glm/mat4x4.hpp>
 
-namespace graphics {
+namespace graphics::ui {
     class FreetypeText {
     public:
         FreetypeText(const FreetypeFont& font, opengl::Shader shader);
 
         float getWidth() const;
-        float getHeight() const;
-        void setPosition(float x, float y);
-        void setColor(glm::vec3 color);
+        void setPosition(const glm::vec2& position);
+        void setColor(const glm::vec3& color);
         void setText(const std::string& text);
         void setScale(float scale);
         void render(const Camera& camera);
