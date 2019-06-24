@@ -18,10 +18,10 @@ hunter_add_package(stb)
 hunter_add_package(freetype)
 
 add_subdirectory(utility)
-add_subdirectory(graphics)
+add_subdirectory(core)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 add_executable(Cubz main.cpp)
-target_link_libraries(Cubz utility graphics)
+target_link_libraries(Cubz utility core)
 target_include_directories(Cubz PUBLIC .)

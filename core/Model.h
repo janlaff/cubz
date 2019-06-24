@@ -1,0 +1,22 @@
+#pragma once
+
+#include "Camera.h"
+#include "MeshRenderer.h"
+#include "opengl/Texture.h"
+
+namespace core {
+    class Model {
+    public:
+        Model(opengl::Shader shader, const std::string& texture);
+
+        void render(const Camera& camera);
+        void setPosition(const glm::vec3& position);
+
+    private:
+        opengl::Shader m_shader;
+        opengl::Texture m_texture;
+        Mesh m_mesh;
+        MeshRenderer m_meshRenderer;
+        glm::vec3 m_position;
+    };
+}

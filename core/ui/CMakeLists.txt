@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.10)
+
+find_package(freetype CONFIG REQUIRED)
+
+set(
+        UI_SOURCE_FILES
+        FreetypeContext.cpp
+        FreetypeFont.cpp
+        FreetypeText.cpp
+        DebugView.cpp
+        TextGrid.cpp
+)
+
+add_library(ui STATIC ${UI_SOURCE_FILES})
+target_link_libraries(ui core freetype::freetype)

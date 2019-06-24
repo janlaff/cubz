@@ -6,12 +6,12 @@
 
 #include "utility/Log.h"
 #include "utility/ConsoleLogger.h"
-#include "graphics/Screen.h"
-#include "graphics/Model.h"
-#include "graphics/ui/FreetypeContext.h"
-#include "graphics/ui/FreetypeText.h"
-#include "graphics/ShaderManager.h"
-#include "graphics/ui/DebugView.h"
+#include "core/Screen.h"
+#include "core/Model.h"
+#include "core/ui/FreetypeContext.h"
+#include "core/ui/FreetypeText.h"
+#include "core/ShaderManager.h"
+#include "core/ui/DebugView.h"
 
 using namespace std::string_literals;
 
@@ -19,13 +19,13 @@ int main() {
     utility::Log::addLogger(std::make_shared<utility::ConsoleLogger>());
 
     try {
-        auto screen = graphics::opengl::Screen(800, 600, "Cubz - Experimental Version");
-        auto model = graphics::Model(graphics::ShaderManager::getInstance().getShader("triangle"), "stone.bmp");
+        auto screen = core::opengl::Screen(800, 600, "Cubz - Experimental Version");
+        auto model = core::Model(core::ShaderManager::getInstance().getShader("triangle"), "stone.bmp");
 
-        auto fontCtx = graphics::ui::FreetypeContext();
+        auto fontCtx = core::ui::FreetypeContext();
         auto font = fontCtx.generateFont("Minecraftia_Regular.ttf", 24);
 
-        auto debugView = graphics::ui::DebugView(font);
+        auto debugView = core::ui::DebugView(font);
 
         while (!screen.shouldQuit()) {
             screen.clear();
