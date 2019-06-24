@@ -1,6 +1,12 @@
 #include "ShaderManager.h"
 
 namespace graphics {
+    ShaderManager ShaderManager::instance;
+
+    ShaderManager& ShaderManager::getInstance() {
+        return instance;
+    }
+
     ShaderManager::ShaderManager() {}
 
     opengl::Shader ShaderManager::getShader(const std::string &name) {

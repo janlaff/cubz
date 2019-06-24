@@ -13,6 +13,7 @@ set(
         FreetypeContext.cpp
         FreetypeFont.cpp
         FreetypeText.cpp
+        DebugView.cpp
 )
 
 add_library(graphics STATIC ${GRAPHICS_SOURCE_FILES})

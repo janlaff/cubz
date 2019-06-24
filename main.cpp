@@ -11,6 +11,7 @@
 #include "graphics/FreetypeContext.h"
 #include "graphics/FreetypeText.h"
 #include "graphics/ShaderManager.h"
+#include "graphics/DebugView.h"
 
 using namespace std::string_literals;
 
@@ -19,38 +20,18 @@ int main() {
 
     try {
         auto screen = graphics::opengl::Screen(800, 600, "Cubz - Experimental Version");
-        auto shaderManager = graphics::ShaderManager();
-        auto model = graphics::Model(shaderManager.getShader("triangle"), "stone.bmp");
-
-        auto position = [](glm::vec3 pos) {
-            return "x: " + std::to_string(pos.x) + "; y: " + std::to_string(pos.y) + "; z: " + std::to_string(pos.z);
-        };
-
-        auto direction = [](float yaw, float pitch) {
-            return "yaw: " + std::to_string(yaw) + "; pitch: " + std::to_string(pitch);
-        };
+        auto model = graphics::Model(graphics::ShaderManager::getInstance().getShader("triangle"), "stone.bmp");
 
         auto fontCtx = graphics::FreetypeContext();
-        auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 24);
-        auto disclaimerText = graphics::FreetypeText(font, shaderManager.getShader("text"));
+        auto font = fontCtx.generateFont("Minecraftia_Regular.ttf", 24);
 
-        disclaimerText.setText("https://github.com/proman0973");
-        disclaimerText.setPosition(800.0f - disclaimerText.getWidth() - 10.0f, 10.0f);
-
-        auto positionText = graphics::FreetypeText(font, shaderManager.getShader("text"));
-        positionText.setPosition(10.0f, 600.0f - positionText.getHeight() - 10.0f);
-
-        auto directionText = graphics::FreetypeText(font, shaderManager.getShader("text"));
-        directionText.setPosition(10.0f, 600.0f - directionText.getHeight() - 40.0f);
+        auto debugView = graphics::DebugView(font);
 
         while (!screen.shouldQuit()) {
-            positionText.setText(position(screen.getCamera().getPosition()));
-            directionText.setText(direction(screen.getCamera().getYaw(), screen.getCamera().getPitch()));
             screen.clear();
+            model.setPosition(glm::vec3(0, 0, 0));
             model.render(screen.getCamera());
-            disclaimerText.render(screen.getCamera());
-            positionText.render(screen.getCamera());
-            directionText.render(screen.getCamera());
+            debugView.render(screen.getCamera());
             screen.render();
             screen.processInput();
         }

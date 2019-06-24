@@ -7,10 +7,13 @@
 namespace graphics {
     class ShaderManager {
     public:
-        ShaderManager();
+        static ShaderManager& getInstance();
 
         opengl::Shader getShader(const std::string& name);
     private:
+        ShaderManager();
+
+        static ShaderManager instance;
         std::map<std::string, opengl::Shader> m_shaders;
     };
 }
