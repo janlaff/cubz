@@ -1,12 +1,12 @@
 #include "DebugView.h"
-#include "ShaderManager.h"
+#include "ResourceManager.h"
 
 #include <sstream>
 
 namespace core::ui {
     DebugView::DebugView(const FreetypeFont &font)
-        : m_positionText(font, core::ShaderManager::getInstance().getShader("text"))
-        , m_directionText(font, core::ShaderManager::getInstance().getShader("text"))
+        : m_positionText(font, core::ResourceManager::getInstance().getShader("text"))
+        , m_directionText(font, core::ResourceManager::getInstance().getShader("text"))
         , m_textGrid(font.getHeight()) {
         m_positionText.setPosition(m_textGrid.getTextPosition());
         m_directionText.setPosition(m_textGrid.getTextPosition());

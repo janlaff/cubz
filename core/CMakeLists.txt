@@ -5,12 +5,15 @@ add_subdirectory(ui)
 
 set(
         CORE_SOURCE_FILES
-        Model.cpp
-        Mesh.cpp
+        MeshData.cpp
         Screen.cpp
         Camera.cpp
-        MeshRenderer.cpp
-        ShaderManager.cpp
+        ChunkRenderer.cpp
+        ResourceManager.cpp
+        Block.cpp
+        AirBlock.cpp
+        GrassBlock.cpp
+        Chunk.cpp
 )
 
 add_library(core STATIC ${CORE_SOURCE_FILES})
