@@ -4,7 +4,6 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(glew CONFIG REQUIRED)
 find_package(stb CONFIG REQUIRED)
-find_package(freetype CONFIG REQUIRED)
 
 set(
         OPENGL_SOURCE_FILES
@@ -19,4 +18,4 @@ set(
 )
 
 add_library(opengl STATIC ${OPENGL_SOURCE_FILES})
-target_link_libraries(opengl utility glfw glm glew::glew stb::stb freetype::freetype)
+target_link_libraries(opengl utility glfw glm glew::glew stb::stb)

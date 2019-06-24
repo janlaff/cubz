@@ -8,10 +8,10 @@
 #include "utility/ConsoleLogger.h"
 #include "graphics/Screen.h"
 #include "graphics/Model.h"
-#include "graphics/FreetypeContext.h"
-#include "graphics/FreetypeText.h"
+#include "graphics/ui/FreetypeContext.h"
+#include "graphics/ui/FreetypeText.h"
 #include "graphics/ShaderManager.h"
-#include "graphics/DebugView.h"
+#include "graphics/ui/DebugView.h"
 
 using namespace std::string_literals;
 

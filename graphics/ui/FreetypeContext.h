@@ -6,7 +6,7 @@
 #include <map>
 
 #include <ft2build.h>
-#include FT_FREETYPE_H
+#include FT_FREETYPE_H"freetype2/freetype/freetype.h"
 
 namespace graphics {
     class FreetypeContext {
