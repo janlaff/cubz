@@ -1,7 +1,7 @@
 #include "Block.h"
 
 namespace core {
-    const float tileSize = 0.25f;
+    const float tileSize = 1.0f / 16.0f;
 
     void Block::addToMesh(const core::Chunk &chunk, int x, int y, int z, core::MeshData &meshData) {
         if (!chunk.getBlock(x, y + 1, z)->isSolid(Direction::down)) {

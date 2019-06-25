@@ -16,7 +16,7 @@ namespace core::opengl {
     Texture::Texture(const std::string &name) {
         int comp;
 
-        unsigned char* image = stbi_load((std::string(textureDir) + name).c_str(), &m_width, &m_height, &comp, STBI_rgb);
+        unsigned char* image = stbi_load((std::string(textureDir) + name).c_str(), &m_width, &m_height, &comp, STBI_rgb_alpha);
 
         if (!image) {
             throw std::runtime_error("Failed to load image");
@@ -25,11 +25,11 @@ namespace core::opengl {
         glGenTextures(1, &m_id);
         bind();
 
-        if (comp == 3) {
+        /*if (comp == 3) {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_BGR, GL_UNSIGNED_BYTE, image);
-        } else {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_BGR, GL_UNSIGNED_BYTE, image);
-        }
+        } else {*/
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+        //}
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glGenerateMipmap(GL_TEXTURE_2D);

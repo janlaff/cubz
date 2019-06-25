@@ -6,7 +6,7 @@
 
 namespace core {
     ChunkRenderer::ChunkRenderer()
-        : m_texture(ResourceManager::getInstance().getTexture("tiles.png"))
+        : m_texture(ResourceManager::getInstance().getTexture("terrain.png"))
         , m_shader(ResourceManager::getInstance().getShader("chunk")) {
         m_vertexArray.bind();
         m_vertexBuffer.bind();

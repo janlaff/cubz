@@ -33,7 +33,7 @@ struct PointLight {
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform DirectionalLight dirLight;
 
-out vec3 color;
+out vec4 color;
 
 in vec2 uv;
 in vec3 normal;
@@ -42,12 +42,18 @@ in vec3 fragPos;
 uniform vec3 playerPosition;
 uniform Material material;
 
-vec3 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir);
-vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
+vec4 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir);
+vec4 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
 
 void main() {
+    vec4 texColor = texture2D(material.texture, uv);
+
+    if (texColor.a < 0.1) {
+        discard;
+    }
+
     vec3 viewDir = normalize(playerPosition - fragPos);
-    vec3 result = vec3(0.0, 0.0, 0.0);
+    vec4 result = vec4(0.0, 0.0, 0.0, 0.0);
     // Directional light
     if (dirLight.isActive) {
         result += calculateDirectionalLight(dirLight, normal, viewDir);
@@ -64,7 +70,7 @@ void main() {
     color = result;
 }
 
-vec3 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir) {
+vec4 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir) {
     vec3 lightDir = normalize(light.position - fragPos);
     // Diffuse
     float diff = max(dot(normal, lightDir), 0.0);
@@ -78,19 +84,20 @@ vec3 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir) {
     float qudratic = light.qudratic * (distance * distance);
     float attenuation = 1.0 / (constant + linear + qudratic);
     // Combine all
-    vec3 texColor = material.isActive ? texture2D(material.texture, uv).rgb : vec3(0.5f, 0.5f, 0.0f);
-    vec3 ambient = light.ambient * texColor;
-    vec3 diffuse = light.diffuse * diff * texColor;
-    vec3 specular = light.specular * spec * texColor;
+    vec4 texColor = material.isActive ? texture2D(material.texture, uv) : vec4(0.5, 0.5, 0.0, 1.0);
+    vec4 ambient = vec4(light.ambient, 1.0) * texColor;
+    vec4 diffuse = vec4(light.diffuse * diff, 1.0) * texColor;
+    vec4 specular = vec4(light.specular * spec, 1.0) * texColor;
 
     ambient *= attenuation;
     diffuse *= attenuation;
     specular *= attenuation;
 
+
     return ambient + diffuse + specular;
 }
 
-vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir) {
+vec4 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir) {
     vec3 lightDir = normalize(-light.direction);
     // Diffuse
     float diff = max(dot(normal, lightDir), 0.0);
@@ -99,10 +106,10 @@ vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir
     float shininess = material.isActive ? material.shininess : 32;
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
     // Combine all
-    vec3 texColor = material.isActive ? texture2D(material.texture, uv).rgb : vec3(0.5f, 0.5f, 0.0f);
-    vec3 ambient = light.ambient * texColor;
-    vec3 diffuse = light.diffuse * diff * texColor;
-    vec3 specular = light.specular * spec * texColor;
+    vec4 texColor = material.isActive ? texture2D(material.texture, uv) : vec4(0.5f, 0.5f, 0.0f, 1.0f);
+    vec4 ambient = vec4(light.ambient, 1.0) * texColor;
+    vec4 diffuse = vec4(light.diffuse * diff, 1.0) * texColor;
+    vec4 specular = vec4(light.specular * spec, 1.0) * texColor;
 
     return ambient + diffuse + specular;
 }
