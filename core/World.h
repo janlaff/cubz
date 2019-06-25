@@ -1,27 +1,32 @@
 #pragma once
 
-#include <unordered_map>
 #include <glm/vec3.hpp>
 
 #include "Chunk.h"
+#include "opengl/PointLight.h"
 
 namespace core {
     class World {
     public:
         World();
 
-        void createChunk(int x, int y, int z);
+        std::shared_ptr<Chunk> createChunk(int x, int y, int z);
         void destroyChunk(int x, int y, int z);
         void update();
         void render(const Camera& camera);
 
-        void setBlock(std::shared_ptr<Block> block, int x, int y, int z);
+        void setBlock(BlockType block, int x, int y, int z);
         std::shared_ptr<Block> getBlock(int x, int y, int z);
         std::shared_ptr<Chunk> getChunk(int x, int y, int z);
+
+        void addLight(const WorldPos &position);
+        void removeLight(const WorldPos &position);
+        const WorldPosMap<opengl::PointLight>& getLights() const;
 
     private:
         WorldPos getChunkPos(int x, int y, int z);
 
-        std::unordered_map<WorldPos, std::shared_ptr<Chunk>, WorldPosHash> m_chunks;
+        WorldPosMap<std::shared_ptr<Chunk>> m_chunks;
+        WorldPosMap<core::opengl::PointLight> m_lights;
     };
 }

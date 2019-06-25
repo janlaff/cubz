@@ -16,4 +16,7 @@ namespace core {
     struct WorldPosHash {
         std::size_t operator()(const core::WorldPos& pos) const;
     };
+
+    template<typename T>
+    using WorldPosMap = std::unordered_map<WorldPos, T, WorldPosHash>;
 }

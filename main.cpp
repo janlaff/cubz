@@ -16,9 +16,6 @@
 #include "core/ui/FreetypeText.h"
 #include "core/ResourceManager.h"
 #include "core/ui/DebugView.h"
-#include "core/GrassBlock.h"
-#include "core/TorchBlock.h"
-#include "core/AirBlock.h"
 #include "core/World.h"
 
 using namespace std::string_literals;
@@ -31,8 +28,9 @@ int main() {
         screen.getCamera().setPosition({ 0.0f, 1.0f, -2.0f });
 
         auto world = core::World();
-        world.setBlock(std::make_shared<core::TorchBlock>(), 0, 0, 0);
-
+        world.setBlock(core::BlockType::torch, 0, 0, 0);
+        world.setBlock(core::BlockType::torch, 15, 0, 0);
+        world.setBlock(core::BlockType::air, 16, -1, 0);
         world.update();
 
         auto fontCtx = core::ui::FreetypeContext();
@@ -44,7 +42,7 @@ int main() {
 
         auto dirLight = core::opengl::DirectionalLight {
             { 1.0f, -1.0f, -0.5f },
-            glm::vec3(0.1f),
+            glm::vec3(0.2f),
             glm::vec3(1.0f),
             glm::vec3(1.0f)
         };
@@ -61,13 +59,13 @@ int main() {
             0.09f,
             0.032f,
             glm::vec3(0.1f),
-            { 5.0f, 0.0f, 0.0f },
+            { 1.0f, 0.0f, 0.0f },
             { 1.0f, 0.0f, 0.0f },
             true
         };
 
         chunkShader.bind();
-        //dirLight.bind(chunkShader);
+        dirLight.bind(chunkShader);
         material.bind(chunkShader);
         //pointLight.bind(chunkShader, 0);
         chunkShader.unbind();

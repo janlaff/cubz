@@ -4,6 +4,7 @@
 #include "Block.h"
 #include "AirBlock.h"
 #include "GrassBlock.h"
+#include "DirtBlock.h"
 #include "TorchBlock.h"
 #include "World.h"
 
@@ -15,15 +16,27 @@ namespace core {
         for (int x = 0; x < chunkSize; ++x) {
             for (int y = 0; y < chunkSize; ++y) {
                 for (int z = 0; z < chunkSize; ++z) {
-                    m_blocks[x][y][z] = std::make_shared<AirBlock>();
+                    m_blocks[x][y][z] = BlockType::air;
                 }
             }
         }
     }
 
-    void Chunk::setBlock(std::shared_ptr<core::Block> block, int x, int y, int z) {
-        m_blocks[x][y][z] = std::move(block);
+    void Chunk::setBlockType(BlockType block, int x, int y, int z) {
+        if (m_blocks[x][y][z] == BlockType::torch) {
+            m_world->removeLight({ x, y, z });
+        }
+
+        if (block == BlockType::torch) {
+            m_world->addLight({ x, y, z });
+        }
+
+        m_blocks[x][y][z] = block;
         m_update = true;
+    }
+
+    BlockType Chunk::getBlockType(int x, int y, int z) const {
+        return m_blocks[x][y][z];
     }
 
     void Chunk::update() {
@@ -32,7 +45,6 @@ namespace core {
         auto& meshData = m_chunkRenderer.getMeshData();
         auto& torchMeshData = m_torchRenderer.getMeshData();
 
-        m_torchRenderer.clearTorchs();
 
         meshData.vertices.clear();
         meshData.triangles.clear();
@@ -46,20 +58,19 @@ namespace core {
         for (int x = 0; x < chunkSize; ++x) {
             for (int y = 0; y < chunkSize; ++y) {
                 for (int z = 0; z < chunkSize; ++z) {
-                    auto torchBlock = std::dynamic_pointer_cast<TorchBlock>(m_blocks[x][y][z]);
-
-                    if (torchBlock) {
-                        torchBlock->addToMesh(*this, x, y, z, torchMeshData);
-                        m_torchRenderer.addTorch(WorldPos { x, y, z });
+                    if (getBlockType(x, y, z) == BlockType::torch) {
+                        getBlock(x, y, z)->addToMesh(*this, x, y, z, torchMeshData);
                     } else {
-                        m_blocks[x][y][z]->addToMesh(*this, x, y, z, meshData);
+                        getBlock(x, y, z)->addToMesh(*this, x, y, z, meshData);
                     }
                 }
             }
         }
 
         m_chunkRenderer.update();
+        m_chunkRenderer.updateLights(m_world->getLights());
         m_torchRenderer.update();
+
         m_update = false;
     }
 
@@ -70,7 +81,18 @@ namespace core {
 
     std::shared_ptr<Block> Chunk::getBlock(int x, int y, int z) const {
         if (inRange(x) && inRange(y) && inRange(z)) {
-            return m_blocks[x][y][z];
+            switch (getBlockType(x, y, z)) {
+                case BlockType::air:
+                    return std::make_shared<AirBlock>();
+                case BlockType::grass:
+                    return std::make_shared<GrassBlock>();
+                case BlockType::dirt:
+                    return std::make_shared<DirtBlock>();
+                case BlockType::torch:
+                    return std::make_shared<TorchBlock>();
+                default:
+                    return std::make_shared<AirBlock>();
+            }
         } else {
             return m_world->getBlock(m_position.x + x, m_position.y + y, m_position.z + z);
         }

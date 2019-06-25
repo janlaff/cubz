@@ -72,4 +72,13 @@ namespace core {
 
         glDisable(GL_DEPTH_TEST);
     }
+
+    void Renderer::updateLights(const WorldPosMap<opengl::PointLight> &lights) {
+        m_shader.bind();
+        auto i = 0;
+        for (auto [pos, light] : lights) {
+            light.bind(m_shader, i++);
+        }
+        m_shader.unbind();
+    }
 }

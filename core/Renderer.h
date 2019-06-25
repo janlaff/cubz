@@ -1,5 +1,6 @@
 #pragma once
 
+#include "opengl/PointLight.h"
 #include "opengl/VertexBuffer.h"
 #include "opengl/NormalBuffer.h"
 #include "opengl/UvBuffer.h"
@@ -8,6 +9,7 @@
 #include "opengl/Shader.h"
 #include "opengl/Texture.h"
 #include "MeshData.h"
+#include "WorldPos.h"
 #include "Camera.h"
 
 namespace core {
@@ -17,6 +19,7 @@ namespace core {
 
         MeshData& getMeshData();
         void update();
+        void updateLights(const WorldPosMap<opengl::PointLight>& lights);
         virtual void render(const Camera& camera, const glm::vec3& position);
 
     protected:

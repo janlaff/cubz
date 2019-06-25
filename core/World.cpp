@@ -1,8 +1,6 @@
 #include "World.h"
-#include "AirBlock.h"
-#include "GrassBlock.h"
-#include "DirtBlock.h"
 #include "Log.h"
+#include "AirBlock.h"
 
 namespace core {
     World::World() {
@@ -15,7 +13,7 @@ namespace core {
         }
     }
 
-    void World::createChunk(int x, int y, int z) {
+    std::shared_ptr<Chunk> World::createChunk(int x, int y, int z) {
         auto pos = WorldPos{x, y, z};
         auto chunk = std::make_shared<Chunk>(this, pos);
 
@@ -23,12 +21,12 @@ namespace core {
             for (int yi = 0; yi < chunkSize; ++yi) {
                 for (int zi = 0; zi < chunkSize; ++zi) {
                     if (y >= 0) {
-                        chunk->setBlock(std::make_shared<AirBlock>(), xi, yi, zi);
+                        chunk->setBlockType(BlockType::air, xi, yi, zi);
                     } else {
                         if (yi + 1 >= chunkSize) {
-                            chunk->setBlock(std::make_shared<GrassBlock>(), xi, yi, zi);
+                            chunk->setBlockType(BlockType::grass, xi, yi, zi);
                         } else {
-                            chunk->setBlock(std::make_shared<DirtBlock>(), xi, yi, zi);
+                            chunk->setBlockType(BlockType::dirt, xi, yi, zi);
                         }
                     }
                 }
@@ -36,6 +34,7 @@ namespace core {
         }
 
         m_chunks.insert({pos, chunk});
+        return chunk;
     }
 
     void World::destroyChunk(int x, int y, int z) {
@@ -56,14 +55,17 @@ namespace core {
         }
     }
 
-    void World::setBlock(std::shared_ptr<core::Block> block, int x, int y, int z) {
+    void World::setBlock(BlockType block, int x, int y, int z) {
         auto chunk = getChunk(x, y, z);
 
         if (chunk) {
             auto pos = chunk->getPosition();
-            chunk->setBlock(std::move(block), x - pos.x, y - pos.y, z - pos.z);
+            chunk->setBlockType(block, x - pos.x, y - pos.y, z - pos.z);
         } else {
-            utility::Log::warning("Failed to set block");
+            utility::Log::warning("Failed to find chunk - Creating new one");
+            auto pos = getChunkPos(x, y, z);
+            createChunk(pos.x, pos.y, pos.z);
+            setBlock(block, x, y, z);
         }
     }
 
@@ -94,5 +96,30 @@ namespace core {
             static_cast<int>(std::floor(y / div) * chunkSize),
             static_cast<int>(std::floor(z / div) * chunkSize)
         };
+    }
+
+    void World::addLight(const core::WorldPos &position) {
+        m_lights.insert({position, opengl::PointLight {
+            position.toVec(),
+            1.0f,
+            0.09f,
+            0.032f,
+            glm::vec3(0.1f),
+            { 10.0f, 1.0f, 1.0f },
+            { 1.0f, 1.0f, 1.0f },
+            true
+        }});
+    }
+
+    void World::removeLight(const core::WorldPos &position) {
+        if (auto light = m_lights.find(position); light != m_lights.end()) {
+            m_lights.erase(light);
+        } else {
+            utility::Log::warning("Failed to remove light");
+        }
+    }
+
+    const WorldPosMap<opengl::PointLight>& World::getLights() const {
+        return m_lights;
     }
 }
