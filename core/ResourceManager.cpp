@@ -26,4 +26,8 @@ namespace core {
             return tmp->second;
         }
     }
+
+    ui::FreetypeFont ResourceManager::generateFont(const std::string &name, int size) {
+        return m_freetypeContext.generateFont(name, size);
+    }
 }

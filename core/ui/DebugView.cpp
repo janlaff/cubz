@@ -8,8 +8,8 @@ namespace core::ui {
         : m_positionText(font, core::ResourceManager::getInstance().getShader("text"))
         , m_directionText(font, core::ResourceManager::getInstance().getShader("text"))
         , m_textGrid(font.getHeight()) {
-        m_positionText.setPosition(m_textGrid.getTextPosition());
-        m_directionText.setPosition(m_textGrid.getTextPosition());
+        m_positionText.setPosition(m_textGrid.getTextPosition(3));
+        m_directionText.setPosition(m_textGrid.getTextPosition(2));
     }
 
     void DebugView::render(const core::Camera &camera) {
@@ -22,8 +22,8 @@ namespace core::ui {
 
     std::string DebugView::getPositionText(const glm::vec3 &position) {
         auto ss = std::ostringstream();
-        ss << "x: " << position.x << "; ";
-        ss << "y: " << position.y << "; ";
+        ss << "x: " << position.x << "\n";
+        ss << "y: " << position.y << "\n";
         ss << "z: " << position.z;
 
         return ss.str();
@@ -31,7 +31,7 @@ namespace core::ui {
 
     std::string DebugView::getDirectionText(float yaw, float pitch) {
         auto ss = std::ostringstream();
-        ss << "yaw: " << yaw << "; ";
+        ss << "yaw: " << yaw << "\n";
         ss << "pitch: " << pitch;
 
         return ss.str();

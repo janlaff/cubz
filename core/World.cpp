@@ -101,14 +101,15 @@ namespace core {
     void World::addLight(const core::WorldPos &position) {
         m_lights.insert({position, opengl::PointLight {
             position.toVec(),
-            1.0f,
-            0.09f,
-            0.032f,
+            2.0f,//1.0f,
+            0.8f,//0.09f,
+            2.0f,//0.032f,
             glm::vec3(0.1f),
             { 10.0f, 1.0f, 1.0f },
             { 1.0f, 1.0f, 1.0f },
             true
         }});
+        utility::Log::debug("Spawned light at position: " + position.toStr());
     }
 
     void World::removeLight(const core::WorldPos &position) {
@@ -117,6 +118,7 @@ namespace core {
         } else {
             utility::Log::warning("Failed to remove light");
         }
+        utility::Log::debug("Removed light");
     }
 
     const WorldPosMap<opengl::PointLight>& World::getLights() const {

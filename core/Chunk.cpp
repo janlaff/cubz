@@ -24,11 +24,11 @@ namespace core {
 
     void Chunk::setBlockType(BlockType block, int x, int y, int z) {
         if (m_blocks[x][y][z] == BlockType::torch) {
-            m_world->removeLight({ x, y, z });
+            m_world->removeLight({ m_position.x + x, m_position.y + y, m_position.z + z });
         }
 
         if (block == BlockType::torch) {
-            m_world->addLight({ x, y, z });
+            m_world->addLight({ m_position.x + x, m_position.y + y, m_position.z + z });
         }
 
         m_blocks[x][y][z] = block;

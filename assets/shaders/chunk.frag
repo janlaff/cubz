@@ -35,6 +35,7 @@ in vec3 fragPos;
 #define MAX_POINT_LIGHTS 128
 
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
+uniform int lightCount;
 uniform DirectionalLight dirLight;
 uniform Material material;
 uniform vec3 playerPosition;
@@ -61,10 +62,10 @@ void main() {
             result += calculateDirectionalLight(dirLight, norm, viewDir);
         }
         // Point Lights
-        for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {
+        for (int i = 0; i < lightCount; ++i) {
             PointLight light = pointLights[i];
 
-            if (light.isActive) {
+            if (light.isActive && length(light.position - fragPos) <= 16.0) {
                 result += calculatePointLight(light, norm, viewDir);
             }
         }

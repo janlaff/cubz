@@ -29,13 +29,9 @@ int main() {
 
         auto world = core::World();
         world.setBlock(core::BlockType::torch, 0, 0, 0);
-        world.setBlock(core::BlockType::torch, 15, 0, 0);
-        world.setBlock(core::BlockType::air, 16, -1, 0);
         world.update();
 
-        auto fontCtx = core::ui::FreetypeContext();
-        auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 24);
-
+        auto font = core::ResourceManager::getInstance().generateFont("OpenSans-Regular.ttf", 24);
         auto debugView = core::ui::DebugView(font);
 
         auto chunkShader = core::ResourceManager::getInstance().getShader("chunk");
@@ -48,7 +44,7 @@ int main() {
         };
 
         chunkShader.bind();
-        dirLight.bind(chunkShader);
+        //dirLight.bind(chunkShader);
         chunkShader.unbind();
 
         while (!screen.shouldQuit()) {

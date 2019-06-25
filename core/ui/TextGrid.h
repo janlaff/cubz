@@ -7,7 +7,7 @@ namespace core::ui {
     public:
         TextGrid(float lineHeight);
 
-        glm::vec2 getTextPosition();
+        glm::vec2 getTextPosition(int lines = 1);
 
     private:
         float m_width;

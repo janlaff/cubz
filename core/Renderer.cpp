@@ -63,6 +63,7 @@ namespace core {
         m_shader.bind();
         m_shader.setMat4("mvp", camera.getModelViewProjection(model));
         m_shader.setMat4("model", model);
+        //m_shader.setInt("disableLights", true);
         m_material.bind(m_shader);
 
         m_vertexArray.bind();
@@ -81,6 +82,7 @@ namespace core {
         for (auto [pos, light] : lights) {
             light.bind(m_shader, i++);
         }
+        m_shader.setInt("lightCount", i);
         m_shader.unbind();
     }
 }

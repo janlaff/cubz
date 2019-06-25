@@ -7,10 +7,12 @@ namespace core::ui {
 
     static const float offset = 10.0f;
 
-    glm::vec2 TextGrid::getTextPosition() {
+    glm::vec2 TextGrid::getTextPosition(int lines) {
+        auto tmp = m_numLines;
+        m_numLines += lines;
         return {
             offset,
-            800.0f - (m_numLines++ + 1) * (offset + m_lineHeight)
+            800.0f - (tmp + 1) * (offset + m_lineHeight)
         };
     }
 }

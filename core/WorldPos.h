@@ -11,6 +11,7 @@ namespace core {
 
         bool operator==(const WorldPos& other) const;
         glm::vec3 toVec() const;
+        std::string toStr() const;
     };
 
     struct WorldPosHash {

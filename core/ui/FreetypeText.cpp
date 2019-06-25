@@ -66,12 +66,19 @@ namespace core::ui {
         m_vertexArray.bind();
 
         float x = m_x;
+        float y = m_y;
 
         for (auto c : m_text) {
+            if (c == '\n') {
+                x = m_x;
+                y -= m_font.getHeight() + 10.0f;
+                continue;
+            }
+
             auto ch = m_font.getCharacter(c);
 
             auto xPos = x + ch.bearing.x * m_scale;
-            auto yPos = m_y - (ch.size.y - ch.bearing.y) * m_scale;
+            auto yPos = y - (ch.size.y - ch.bearing.y) * m_scale;
             auto width = ch.size.x * m_scale;
             auto height = ch.size.y * m_scale;
 
