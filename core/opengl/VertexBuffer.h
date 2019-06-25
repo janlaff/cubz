@@ -11,12 +11,12 @@ namespace core::opengl {
     public:
         VertexBuffer();
 
-        void setAttribPointer();
+        virtual void setAttribPointer();
         void update(const std::vector<glm::vec3>& data, bool dynamic);
         void partialUpdate(const std::vector<glm::vec3>& data);
         void draw();
 
-    private:
-        size_t m_triangles;
+    protected:
+        size_t m_vertexCount;
     };
 }

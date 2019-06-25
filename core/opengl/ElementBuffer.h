@@ -14,7 +14,6 @@ namespace core::opengl {
         void draw();
 
     private:
-        GLuint m_id;
         GLuint m_size;
     };
 }

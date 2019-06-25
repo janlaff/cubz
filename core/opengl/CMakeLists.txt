@@ -15,6 +15,7 @@ set(
         Texture.cpp
         UvBuffer.cpp
         AbstractBuffer.cpp
+        NormalBuffer.cpp
 )
 
 add_library(opengl STATIC ${OPENGL_SOURCE_FILES})

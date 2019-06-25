@@ -32,6 +32,7 @@ namespace core {
 
         meshData.vertices.clear();
         meshData.triangles.clear();
+        meshData.normals.clear();
         meshData.uvs.clear();
 
         for (int x = 0; x < chunkSize; ++x) {

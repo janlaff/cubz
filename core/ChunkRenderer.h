@@ -1,6 +1,7 @@
 #pragma once
 
 #include "opengl/VertexBuffer.h"
+#include "opengl/NormalBuffer.h"
 #include "opengl/UvBuffer.h"
 #include "opengl/VertexArray.h"
 #include "opengl/ElementBuffer.h"
@@ -20,8 +21,9 @@ namespace core {
 
     private:
         opengl::VertexBuffer m_vertexBuffer;
-        opengl::UvBuffer m_uvBuffer;
+        opengl::NormalBuffer m_normalBuffer;
         opengl::ElementBuffer m_elementBuffer;
+        opengl::UvBuffer m_uvBuffer;
         opengl::VertexArray m_vertexArray;
         opengl::Shader m_shader;
         opengl::Texture m_texture;

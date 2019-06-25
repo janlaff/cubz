@@ -40,6 +40,7 @@ namespace core {
         meshData.vertices.emplace_back(x + 0.5f, y + 0.5f, z + 0.5f);
         meshData.vertices.emplace_back(x - 0.5f, y + 0.5f, z + 0.5f);
         meshData.addQuadTriangles();
+        meshData.addQuadNormals(glm::vec3(0, 1, 0));
         faceUVs(Direction::up, meshData);
     }
 
@@ -49,6 +50,7 @@ namespace core {
         meshData.vertices.emplace_back(x + 0.5f, y - 0.5f, z - 0.5f);
         meshData.vertices.emplace_back(x - 0.5f, y - 0.5f, z - 0.5f);
         meshData.addQuadTriangles();
+        meshData.addQuadNormals(glm::vec3(0, -1, 0));
         faceUVs(Direction::down, meshData);
     }
 
@@ -58,6 +60,7 @@ namespace core {
         meshData.vertices.emplace_back(x + 0.5f, y - 0.5f, z + 0.5f);
         meshData.vertices.emplace_back(x - 0.5f, y - 0.5f, z + 0.5f);
         meshData.addQuadTriangles();
+        meshData.addQuadNormals(glm::vec3(0, 0, 1));
         faceUVs(Direction::north, meshData);
     }
 
@@ -67,6 +70,7 @@ namespace core {
         meshData.vertices.emplace_back(x - 0.5f, y - 0.5f, z - 0.5f);
         meshData.vertices.emplace_back(x + 0.5f, y - 0.5f, z - 0.5f);
         meshData.addQuadTriangles();
+        meshData.addQuadNormals(glm::vec3(0, 0, -1));
         faceUVs(Direction::south, meshData);
     }
 
@@ -76,6 +80,7 @@ namespace core {
         meshData.vertices.emplace_back(x + 0.5f, y - 0.5f, z - 0.5f);
         meshData.vertices.emplace_back(x + 0.5f, y - 0.5f, z + 0.5f);
         meshData.addQuadTriangles();
+        meshData.addQuadNormals(glm::vec3(1, 0, 0));
         faceUVs(Direction::east, meshData);
     }
 
@@ -85,6 +90,7 @@ namespace core {
         meshData.vertices.emplace_back(x - 0.5f, y - 0.5f, z + 0.5f);
         meshData.vertices.emplace_back(x - 0.5f, y - 0.5f, z - 0.5f);
         meshData.addQuadTriangles();
+        meshData.addQuadNormals(glm::vec3(-1, 0, 0));
         faceUVs(Direction::west, meshData);
     }
 

@@ -1,5 +1,6 @@
 #include "ChunkRenderer.h"
 #include "ResourceManager.h"
+#include "Log.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -12,10 +13,11 @@ namespace core {
         m_vertexBuffer.setAttribPointer();
         m_uvBuffer.bind();
         m_uvBuffer.setAttribPointer();
-        m_elementBuffer.bind();
-        m_elementBuffer.setAttribPointer();
+        m_normalBuffer.bind();
+        m_normalBuffer.setAttribPointer();
         m_vertexArray.enableAttrib(0);
         m_vertexArray.enableAttrib(1);
+        m_vertexArray.enableAttrib(2);
         m_vertexArray.unbind();
     }
 
@@ -24,15 +26,22 @@ namespace core {
     }
 
     void ChunkRenderer::update() {
+        if (m_meshData.normals.size() != m_meshData.vertices.size()) {
+            utility::Log::warning("Incorrect normals");
+        }
+
         m_vertexArray.bind();
         // Update vertices
         m_vertexBuffer.bind();
         m_vertexBuffer.update(m_meshData.vertices, false);
         m_vertexBuffer.setAttribPointer();
+        // Update normals
+        m_normalBuffer.bind();
+        m_normalBuffer.update(m_meshData.normals, false);
+        m_normalBuffer.setAttribPointer();
         // Update triangles
         m_elementBuffer.bind();
         m_elementBuffer.update(m_meshData.triangles);
-        m_elementBuffer.setAttribPointer();
         // Update uvs
         m_uvBuffer.bind();
         m_uvBuffer.update(m_meshData.uvs);
@@ -45,8 +54,11 @@ namespace core {
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
+        auto model = glm::translate(glm::mat4(1.0f), position);
+
         m_shader.bind();
-        m_shader.setMat4("mvp", camera.getModelViewProjection(glm::translate(glm::mat4(1.0f), position)));
+        m_shader.setMat4("mvp", camera.getModelViewProjection(model));
+        m_shader.setMat4("model", model);
         m_texture.bind();
 
         m_vertexArray.bind();

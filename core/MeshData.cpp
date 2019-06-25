@@ -12,4 +12,10 @@ namespace core {
         triangles.push_back(vertices.size() - 3);
         triangles.push_back(vertices.size() - 2);
     }
+
+    void MeshData::addQuadNormals(const glm::vec3 &normal) {
+        for (int i = 0; i < 4; ++i) {
+            normals.push_back(normal);
+        }
+    }
 }

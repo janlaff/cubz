@@ -9,15 +9,15 @@ namespace core::opengl {
 
     void VertexBuffer::update(const std::vector<glm::vec3> &data, bool dynamic) {
         glBufferData(GL_ARRAY_BUFFER, data.size() * 3 * sizeof(GLfloat), data.data(), dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-        m_triangles = data.size();
+        m_vertexCount = data.size();
     }
 
     void VertexBuffer::partialUpdate(const std::vector<glm::vec3> &data) {
         glBufferSubData(GL_ARRAY_BUFFER, 0, data.size() * 3, data.data());
-        m_triangles = data.size();
+        m_vertexCount = data.size();
     }
 
     void VertexBuffer::draw() {
-        glDrawArrays(GL_TRIANGLES, 0, m_triangles);
+        glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
     }
 }

@@ -22,10 +22,10 @@ int main() {
 
     try {
         auto screen = core::opengl::Screen(800, 600, "Cubz - Experimental Version");
-        screen.getCamera().setPosition({ -1.0f, 1.0f, -2.0f });
+        screen.getCamera().setPosition({ 0.0f, 1.0f, -2.0f });
 
         auto world = core::World();
-        world.setBlock(std::make_shared<core::GrassBlock>(), 1, 1, 0);
+        world.setBlock(std::make_shared<core::GrassBlock>(), 0, 2, 0);
 
         auto fontCtx = core::ui::FreetypeContext();
         auto font = fontCtx.generateFont("Minecraftia_Regular.ttf", 24);
@@ -33,6 +33,12 @@ int main() {
         auto debugView = core::ui::DebugView(font);
 
         while (!screen.shouldQuit()) {
+            auto chunkShader = core::ResourceManager::getInstance().getShader("chunk");
+            chunkShader.bind();
+            chunkShader.setVec3("lightPosition", glm::vec3(0, 2, 0));
+            chunkShader.setVec3("playerPosition", screen.getCamera().getPosition());
+            chunkShader.unbind();
+
             screen.clear();
             world.update();
             world.render(screen.getCamera());
