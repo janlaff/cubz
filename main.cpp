@@ -3,6 +3,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <core/opengl/PointLight.h>
+#include "core/opengl/DirectionalLight.h"
+#include "core/opengl/Material.h"
 
 #include "utility/Log.h"
 #include "utility/ConsoleLogger.h"
@@ -21,11 +24,10 @@ int main() {
     utility::Log::addLogger(std::make_shared<utility::ConsoleLogger>());
 
     try {
-        auto screen = core::opengl::Screen(800, 600, "Cubz - Experimental Version");
+        auto screen = core::opengl::Screen(1280, 800, "Cubz - Experimental Version");
         screen.getCamera().setPosition({ 0.0f, 1.0f, -2.0f });
 
         auto world = core::World();
-        world.setBlock(std::make_shared<core::GrassBlock>(), 0, 3, 0);
 
         auto fontCtx = core::ui::FreetypeContext();
         auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 24);
@@ -34,21 +36,34 @@ int main() {
 
         auto chunkShader = core::ResourceManager::getInstance().getShader("chunk");
 
-        // Light properties
-        auto diffuse = glm::vec3(1.0f);
-        auto ambient = glm::vec3(1.0f);
-        auto specular = glm::vec3(1.0f);
-        auto color = glm::vec3(1.0f, 1.0f, 1.0f);
+        auto dirLight = core::opengl::DirectionalLight {
+            { 1.0f, -1.0f, -0.5f },
+            glm::vec3(0.1f),
+            glm::vec3(1.0f),
+            glm::vec3(1.0f)
+        };
+
+        auto material = core::opengl::Material {
+            core::opengl::Texture("stone.bmp"),
+            glm::vec3(1.0f),
+            32
+        };
+
+        auto pointLight = core::opengl::PointLight {
+            { 0, 1, 0 },
+            1.0f,
+            0.09f,
+            0.032f,
+            glm::vec3(0.1f),
+            { 5.0f, 0.0f, 0.0f },
+            { 1.0f, 0.0f, 0.0f },
+            true
+        };
 
         chunkShader.bind();
-        // Light
-        chunkShader.setVec3("light.position",  { 0, 3, 0 });
-        chunkShader.setVec3("light.ambient", ambient * color);
-        chunkShader.setVec3("light.diffuse", diffuse * color);
-        chunkShader.setVec3("light.specular", specular * color);
-        // Material
-        chunkShader.setVec3("material.specular", { 1.0f, 1.0f, 1.0f });
-        chunkShader.setFloat("material.shininess", 32);
+        dirLight.bind(chunkShader);
+        material.bind(chunkShader);
+        //pointLight.bind(chunkShader, 0);
         chunkShader.unbind();
 
         while (!screen.shouldQuit()) {

@@ -13,6 +13,7 @@ set(
         Block.cpp
         AirBlock.cpp
         GrassBlock.cpp
+        DirtBlock.cpp
         Chunk.cpp
         World.cpp
         WorldPos.cpp

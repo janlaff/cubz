@@ -1,15 +1,16 @@
 #include "World.h"
 #include "AirBlock.h"
 #include "GrassBlock.h"
+#include "DirtBlock.h"
 #include "Log.h"
 
 namespace core {
     World::World() {
-        createChunk(0, 0, 0);
-        createChunk(16, 0, 0);
-        createChunk(-16, 0, 0);
-        createChunk(0, 0, 16);
-        createChunk(0, 0, -16);
+        createChunk(0, -16, 0);
+        createChunk(16, -16, 0);
+        createChunk(-16, -16, 0);
+        createChunk(0, -16, 16);
+        createChunk(0, -16, -16);
     }
 
     void World::createChunk(int x, int y, int z) {
@@ -17,8 +18,14 @@ namespace core {
         auto chunk = std::make_shared<Chunk>(this, pos);
 
         for (int x = 0; x < chunkSize; ++x) {
-            for (int z = 0; z < chunkSize; ++z) {
-                chunk->setBlock(std::make_shared<GrassBlock>(), x, 0, z);
+            for (int y = 0; y < chunkSize; ++y) {
+                for (int z = 0; z < chunkSize; ++z) {
+                    if (y + 1 >= chunkSize) {
+                        chunk->setBlock(std::make_shared<GrassBlock>(), x, y, z);
+                    } else {
+                        chunk->setBlock(std::make_shared<DirtBlock>(), x, y, z);
+                    }
+                }
             }
         }
 

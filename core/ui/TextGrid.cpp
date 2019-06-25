@@ -10,7 +10,7 @@ namespace core::ui {
     glm::vec2 TextGrid::getTextPosition() {
         return {
             offset,
-            600.0f - (m_numLines++ + 1) * (offset + m_lineHeight)
+            800.0f - (m_numLines++ + 1) * (offset + m_lineHeight)
         };
     }
 }

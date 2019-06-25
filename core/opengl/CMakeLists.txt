@@ -16,6 +16,9 @@ set(
         UvBuffer.cpp
         AbstractBuffer.cpp
         NormalBuffer.cpp
+        DirectionalLight.cpp
+        PointLight.cpp
+        Material.cpp
 )
 
 add_library(opengl STATIC ${OPENGL_SOURCE_FILES})
