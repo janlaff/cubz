@@ -1,5 +1,6 @@
 # Cubz - Voxel Engine
 Currently under development!!
+![Alt text](assets/textures/example.png)
 
 ## Supported Features
 - Simple Mesh Rendering
