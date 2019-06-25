@@ -6,8 +6,12 @@
 
 namespace core {
     Renderer::Renderer()
-        : m_texture(ResourceManager::getInstance().getTexture("terrain.png"))
-        , m_shader(ResourceManager::getInstance().getShader("chunk")) {
+        : m_shader(ResourceManager::getInstance().getShader("chunk"))
+        , m_material {
+            ResourceManager::getInstance().getTexture("terrain.png"),
+            glm::vec3(1.0f),
+            32
+        } {
         m_vertexArray.bind();
         m_vertexBuffer.bind();
         m_vertexBuffer.setAttribPointer();
@@ -59,15 +63,13 @@ namespace core {
         m_shader.bind();
         m_shader.setMat4("mvp", camera.getModelViewProjection(model));
         m_shader.setMat4("model", model);
-        m_shader.setInt("material.texture", 0);
-        glActiveTexture(GL_TEXTURE0);
-        m_texture.bind();
+        m_material.bind(m_shader);
 
         m_vertexArray.bind();
         m_elementBuffer.draw();
         m_vertexArray.unbind();
 
-        m_texture.unbind();
+        m_material.unbind(m_shader);
         m_shader.unbind();
 
         glDisable(GL_DEPTH_TEST);

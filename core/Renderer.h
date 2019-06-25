@@ -8,6 +8,7 @@
 #include "opengl/ElementBuffer.h"
 #include "opengl/Shader.h"
 #include "opengl/Texture.h"
+#include "opengl/Material.h"
 #include "MeshData.h"
 #include "WorldPos.h"
 #include "Camera.h"
@@ -29,7 +30,7 @@ namespace core {
         opengl::UvBuffer m_uvBuffer;
         opengl::VertexArray m_vertexArray;
         opengl::Shader m_shader;
-        opengl::Texture m_texture;
+        opengl::Material m_material;
         MeshData m_meshData;
     };
 }

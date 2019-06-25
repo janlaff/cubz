@@ -47,27 +47,8 @@ int main() {
             glm::vec3(1.0f)
         };
 
-        auto material = core::opengl::Material {
-            core::opengl::Texture("stone.bmp"),
-            glm::vec3(1.0f),
-            32
-        };
-
-        auto pointLight = core::opengl::PointLight {
-            { 0, 1, 0 },
-            1.0f,
-            0.09f,
-            0.032f,
-            glm::vec3(0.1f),
-            { 1.0f, 0.0f, 0.0f },
-            { 1.0f, 0.0f, 0.0f },
-            true
-        };
-
         chunkShader.bind();
         dirLight.bind(chunkShader);
-        material.bind(chunkShader);
-        //pointLight.bind(chunkShader, 0);
         chunkShader.unbind();
 
         while (!screen.shouldQuit()) {
