@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 add_subdirectory(opengl)
 add_subdirectory(ui)
+add_subdirectory(physics)
 
 set(
         CORE_SOURCE_FILES

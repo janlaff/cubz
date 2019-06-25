@@ -16,6 +16,7 @@ hunter_add_package(glm)
 hunter_add_package(glew)
 hunter_add_package(stb)
 hunter_add_package(freetype)
+hunter_add_package(bullet)
 
 add_subdirectory(utility)
 add_subdirectory(core)
