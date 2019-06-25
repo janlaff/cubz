@@ -1,7 +1,7 @@
 #include "Block.h"
 
 namespace core {
-    const float tileSize = 1.0f / 16.0f;
+    const float Block::tileSize = 1.0f / 16.0f;
 
     void Block::addToMesh(const core::Chunk &chunk, int x, int y, int z, core::MeshData &meshData) {
         if (!chunk.getBlock(x, y + 1, z)->isSolid(Direction::down)) {
@@ -99,11 +99,14 @@ namespace core {
     }
 
     void Block::faceUVs(core::Block::Direction direction, core::MeshData &meshData) {
-        auto tilePos = getTexturePosition(direction);
+        auto tile = getTexturePosition(direction);
+        auto pixelSize = tileSize * tileSize;
+        auto marginTop = (16.0f - tile.pxHeight) / 2.0f * pixelSize;
+        auto marginLeft = (16.0f - tile.pxWidth) / 2.0f * pixelSize;
 
-        meshData.uvs.emplace_back(tileSize * tilePos.x, tileSize * tilePos.y);
-        meshData.uvs.emplace_back(tileSize * tilePos.x + tileSize, tileSize * tilePos.y);
-        meshData.uvs.emplace_back(tileSize * tilePos.x + tileSize, tileSize * tilePos.y + tileSize);
-        meshData.uvs.emplace_back(tileSize * tilePos.x, tileSize * tilePos.y + tileSize);
+        meshData.uvs.emplace_back(tileSize * tile.x + marginLeft, tileSize * tile.y + marginTop);
+        meshData.uvs.emplace_back(tileSize * tile.x + tileSize - marginLeft, tileSize * tile.y + marginTop);
+        meshData.uvs.emplace_back(tileSize * tile.x + tileSize - marginLeft, tileSize * tile.y + tileSize);
+        meshData.uvs.emplace_back(tileSize * tile.x + marginLeft, tileSize * tile.y + tileSize);
     }
 }

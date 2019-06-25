@@ -6,6 +6,8 @@
 namespace core {
     class Block {
     public:
+        static const float tileSize;
+
         enum class Direction {
             north, east, south, west, up, down
         };
@@ -13,6 +15,8 @@ namespace core {
         struct Tile {
             int x;
             int y;
+            int pxWidth = 16;
+            int pxHeight = 16;
         };
 
         virtual void addToMesh(const Chunk& chunk, int x, int y, int z, MeshData& meshData);

@@ -53,18 +53,19 @@ void main() {
     if (disableLights) {
         color = texColor;
     } else {
+        vec3 norm = normalize(normal);
         vec3 viewDir = normalize(playerPosition - fragPos);
         vec4 result = vec4(0.0, 0.0, 0.0, 0.0);
         // Directional light
         if (dirLight.isActive) {
-            result += calculateDirectionalLight(dirLight, normal, viewDir);
+            result += calculateDirectionalLight(dirLight, norm, viewDir);
         }
         // Point Lights
         for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {
             PointLight light = pointLights[i];
 
             if (light.isActive) {
-                result += calculatePointLight(light, normal, viewDir);
+                result += calculatePointLight(light, norm, viewDir);
             }
         }
 
