@@ -15,8 +15,8 @@ namespace core {
         struct Tile {
             int x;
             int y;
-            int pxWidth = 16;
-            int pxHeight = 16;
+            float pxWidth = 15.9f; // Fix invalid textures
+            float pxHeight = 15.9f;
         };
 
         virtual void addToMesh(const Chunk& chunk, int x, int y, int z, MeshData& meshData);
