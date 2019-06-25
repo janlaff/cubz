@@ -24,23 +24,21 @@ struct PointLight {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-
     bool isActive;
 };
-
-#define MAX_POINT_LIGHTS 128
-
-uniform PointLight pointLights[MAX_POINT_LIGHTS];
-uniform DirectionalLight dirLight;
-
 out vec4 color;
 
 in vec2 uv;
 in vec3 normal;
 in vec3 fragPos;
 
-uniform vec3 playerPosition;
+#define MAX_POINT_LIGHTS 128
+
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
+uniform DirectionalLight dirLight;
 uniform Material material;
+uniform vec3 playerPosition;
+uniform bool disableLights;
 
 vec4 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir);
 vec4 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
@@ -52,22 +50,26 @@ void main() {
         discard;
     }
 
-    vec3 viewDir = normalize(playerPosition - fragPos);
-    vec4 result = vec4(0.0, 0.0, 0.0, 0.0);
-    // Directional light
-    if (dirLight.isActive) {
-        result += calculateDirectionalLight(dirLight, normal, viewDir);
-    }
-    // Point Lights
-    for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {
-        PointLight light = pointLights[i];
-
-        if (light.isActive) {
-            result += calculatePointLight(light, normal, viewDir);
+    if (disableLights) {
+        color = texColor;
+    } else {
+        vec3 viewDir = normalize(playerPosition - fragPos);
+        vec4 result = vec4(0.0, 0.0, 0.0, 0.0);
+        // Directional light
+        if (dirLight.isActive) {
+            result += calculateDirectionalLight(dirLight, normal, viewDir);
         }
-    }
+        // Point Lights
+        for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {
+            PointLight light = pointLights[i];
 
-    color = result;
+            if (light.isActive) {
+                result += calculatePointLight(light, normal, viewDir);
+            }
+        }
+
+        color = result;
+    }
 }
 
 vec4 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir) {

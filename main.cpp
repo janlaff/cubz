@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <core/opengl/PointLight.h>
+#include <core/DirtBlock.h>
 #include "core/opengl/DirectionalLight.h"
 #include "core/opengl/Material.h"
 
@@ -16,6 +17,8 @@
 #include "core/ResourceManager.h"
 #include "core/ui/DebugView.h"
 #include "core/GrassBlock.h"
+#include "core/TorchBlock.h"
+#include "core/AirBlock.h"
 #include "core/World.h"
 
 using namespace std::string_literals;
@@ -28,6 +31,9 @@ int main() {
         screen.getCamera().setPosition({ 0.0f, 1.0f, -2.0f });
 
         auto world = core::World();
+        world.setBlock(std::make_shared<core::TorchBlock>(), 0, 0, 0);
+
+        world.update();
 
         auto fontCtx = core::ui::FreetypeContext();
         auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 24);
@@ -61,7 +67,7 @@ int main() {
         };
 
         chunkShader.bind();
-        dirLight.bind(chunkShader);
+        //dirLight.bind(chunkShader);
         material.bind(chunkShader);
         //pointLight.bind(chunkShader, 0);
         chunkShader.unbind();

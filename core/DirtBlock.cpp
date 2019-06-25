@@ -2,6 +2,6 @@
 
 namespace core {
     Block::Tile DirtBlock::getTexturePosition(Direction direction) {
-        return { 15, 0 };
+        return { 2, 0 };
     }
 }

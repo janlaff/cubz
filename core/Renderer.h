@@ -11,15 +11,15 @@
 #include "Camera.h"
 
 namespace core {
-    class ChunkRenderer {
+    class Renderer {
     public:
-        ChunkRenderer();
+        Renderer();
 
         MeshData& getMeshData();
         void update();
-        void render(const Camera& camera, const glm::vec3& position);
+        virtual void render(const Camera& camera, const glm::vec3& position);
 
-    private:
+    protected:
         opengl::VertexBuffer m_vertexBuffer;
         opengl::NormalBuffer m_normalBuffer;
         opengl::ElementBuffer m_elementBuffer;

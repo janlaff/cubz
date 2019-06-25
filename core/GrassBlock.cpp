@@ -2,8 +2,8 @@
 
 namespace core {
     Block::Tile GrassBlock::getTexturePosition(Direction direction) {
-        if (direction == Direction::up) return { 2, 3 };
-        if (direction == Direction::down) return { 1, 3 };
-        return { 3, 3 };
+        if (direction == Direction::up) return { 0, 0 };
+        if (direction == Direction::down) return { 2, 0 };
+        return { 3, 0 };
     }
 }

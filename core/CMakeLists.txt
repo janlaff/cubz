@@ -8,15 +8,17 @@ set(
         MeshData.cpp
         Screen.cpp
         Camera.cpp
-        ChunkRenderer.cpp
+        Renderer.cpp
         ResourceManager.cpp
         Block.cpp
         AirBlock.cpp
         GrassBlock.cpp
         DirtBlock.cpp
+        TorchBlock.cpp
         Chunk.cpp
         World.cpp
         WorldPos.cpp
+        TorchRenderer.cpp
 )
 
 add_library(core STATIC ${CORE_SOURCE_FILES})

@@ -1,11 +1,11 @@
-#include "ChunkRenderer.h"
+#include "Renderer.h"
 #include "ResourceManager.h"
 #include "Log.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace core {
-    ChunkRenderer::ChunkRenderer()
+    Renderer::Renderer()
         : m_texture(ResourceManager::getInstance().getTexture("terrain.png"))
         , m_shader(ResourceManager::getInstance().getShader("chunk")) {
         m_vertexArray.bind();
@@ -21,11 +21,11 @@ namespace core {
         m_vertexArray.unbind();
     }
 
-    MeshData& ChunkRenderer::getMeshData() {
+    MeshData& Renderer::getMeshData() {
         return m_meshData;
     }
 
-    void ChunkRenderer::update() {
+    void Renderer::update() {
         if (m_meshData.normals.size() != m_meshData.vertices.size()) {
             utility::Log::warning("Incorrect normals");
         }
@@ -50,7 +50,7 @@ namespace core {
         m_vertexArray.unbind();
     }
 
-    void ChunkRenderer::render(const Camera& camera, const glm::vec3& position) {
+    void Renderer::render(const Camera& camera, const glm::vec3& position) {
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 

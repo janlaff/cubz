@@ -6,24 +6,30 @@
 
 namespace core {
     World::World() {
-        createChunk(0, -16, 0);
-        createChunk(16, -16, 0);
-        createChunk(-16, -16, 0);
-        createChunk(0, -16, 16);
-        createChunk(0, -16, -16);
+        for (int x = -16; x < 16; x += 16) {
+            for (int y = -16; y < 16; y += 16) {
+                for (int z = -16; z < 16; z += 16) {
+                    createChunk(x, y, z);
+                }
+            }
+        }
     }
 
     void World::createChunk(int x, int y, int z) {
         auto pos = WorldPos{x, y, z};
         auto chunk = std::make_shared<Chunk>(this, pos);
 
-        for (int x = 0; x < chunkSize; ++x) {
-            for (int y = 0; y < chunkSize; ++y) {
-                for (int z = 0; z < chunkSize; ++z) {
-                    if (y + 1 >= chunkSize) {
-                        chunk->setBlock(std::make_shared<GrassBlock>(), x, y, z);
+        for (int xi = 0; xi < chunkSize; ++xi) {
+            for (int yi = 0; yi < chunkSize; ++yi) {
+                for (int zi = 0; zi < chunkSize; ++zi) {
+                    if (y >= 0) {
+                        chunk->setBlock(std::make_shared<AirBlock>(), xi, yi, zi);
                     } else {
-                        chunk->setBlock(std::make_shared<DirtBlock>(), x, y, z);
+                        if (yi + 1 >= chunkSize) {
+                            chunk->setBlock(std::make_shared<GrassBlock>(), xi, yi, zi);
+                        } else {
+                            chunk->setBlock(std::make_shared<DirtBlock>(), xi, yi, zi);
+                        }
                     }
                 }
             }

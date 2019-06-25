@@ -5,7 +5,8 @@
 
 #include "MeshData.h"
 #include "Camera.h"
-#include "ChunkRenderer.h"
+#include "Renderer.h"
+#include "TorchRenderer.h"
 #include "WorldPos.h"
 #include "opengl/Texture.h"
 
@@ -29,7 +30,8 @@ namespace core {
         bool inRange(int index) const;
 
         std::array<std::array<std::array<std::shared_ptr<Block>, chunkSize>, chunkSize>, chunkSize> m_blocks;
-        ChunkRenderer m_chunkRenderer;
+        Renderer m_chunkRenderer;
+        TorchRenderer m_torchRenderer;
         WorldPos m_position;
         bool m_update;
         World* m_world;
