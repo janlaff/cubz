@@ -59,6 +59,8 @@ namespace core {
         m_shader.bind();
         m_shader.setMat4("mvp", camera.getModelViewProjection(model));
         m_shader.setMat4("model", model);
+        m_shader.setInt("material.texture", 0);
+        glActiveTexture(GL_TEXTURE0);
         m_texture.bind();
 
         m_vertexArray.bind();

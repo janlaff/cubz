@@ -15,6 +15,8 @@ namespace core::opengl {
         void disableVertexAttribArray(GLuint id);
         void setMat4(const std::string& name, const glm::mat4& mat);
         void setVec3(const std::string& name, const glm::vec3& vec);
+        void setFloat(const std::string& name, GLfloat value);
+        void setInt(const std::string& name, GLint value);
 
     private:
         std::string loadShader(const std::string& filename);

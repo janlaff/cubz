@@ -25,17 +25,34 @@ int main() {
         screen.getCamera().setPosition({ 0.0f, 1.0f, -2.0f });
 
         auto world = core::World();
-        world.setBlock(std::make_shared<core::GrassBlock>(), 0, 2, 0);
+        world.setBlock(std::make_shared<core::GrassBlock>(), 0, 3, 0);
 
         auto fontCtx = core::ui::FreetypeContext();
-        auto font = fontCtx.generateFont("Minecraftia_Regular.ttf", 24);
+        auto font = fontCtx.generateFont("OpenSans-Regular.ttf", 24);
 
         auto debugView = core::ui::DebugView(font);
 
+        auto chunkShader = core::ResourceManager::getInstance().getShader("chunk");
+
+        // Light properties
+        auto diffuse = glm::vec3(1.0f);
+        auto ambient = glm::vec3(1.0f);
+        auto specular = glm::vec3(1.0f);
+        auto color = glm::vec3(1.0f, 1.0f, 1.0f);
+
+        chunkShader.bind();
+        // Light
+        chunkShader.setVec3("light.position",  { 0, 3, 0 });
+        chunkShader.setVec3("light.ambient", ambient * color);
+        chunkShader.setVec3("light.diffuse", diffuse * color);
+        chunkShader.setVec3("light.specular", specular * color);
+        // Material
+        chunkShader.setVec3("material.specular", { 1.0f, 1.0f, 1.0f });
+        chunkShader.setFloat("material.shininess", 32);
+        chunkShader.unbind();
+
         while (!screen.shouldQuit()) {
-            auto chunkShader = core::ResourceManager::getInstance().getShader("chunk");
             chunkShader.bind();
-            chunkShader.setVec3("lightPosition", glm::vec3(0, 2, 0));
             chunkShader.setVec3("playerPosition", screen.getCamera().getPosition());
             chunkShader.unbind();
 

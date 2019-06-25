@@ -111,4 +111,14 @@ namespace core::opengl {
         GLint vecId = glGetUniformLocation(m_programId, name.c_str());
         glUniform3f(vecId, vec.x, vec.y, vec.z);
     }
+
+    void Shader::setFloat(const std::string &name, GLfloat value) {
+        GLint floatId = glGetUniformLocation(m_programId, name.c_str());
+        glUniform1f(floatId, value);
+    }
+
+    void Shader::setInt(const std::string &name, GLint value) {
+        GLint floatId = glGetUniformLocation(m_programId, name.c_str());
+        glUniform1i(floatId, value);
+    }
 }

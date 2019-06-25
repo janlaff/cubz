@@ -1,35 +1,45 @@
 #version 330 core
 
+// Used to render light different on different materials
+struct Material {
+    sampler2D texture;
+    vec3 specular;
+    float shininess;
+};
+
+struct Light {
+    vec3 position;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+
 out vec3 color;
 
 in vec2 uv;
 in vec3 normal;
 in vec3 fragPos;
 
-uniform sampler2D texture;
-uniform vec3 lightPosition;
 uniform vec3 playerPosition;
+uniform Light light;
+uniform Material material;
 
 void main() {
-    vec3 objectColor = texture2D(texture, uv).rgb;
+    vec3 objectColor = texture2D(material.texture, uv).rgb;
 
     // Ambient lighting
-    float ambientStrength = 0.1;
-    vec3 lightColor = vec3(1.0, 1.0, 1.0);
-    vec3 ambient = ambientStrength * lightColor;
-
+    vec3 ambient = light.ambient * objectColor;
     // Diffuse lighting
-    vec3 lightDir = normalize(lightPosition - fragPos);
+    vec3 lightDir = normalize(light.position - fragPos);
     float diff = max(dot(normal, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor;
+    vec3 diffuse = light.diffuse * diff * objectColor;
 
     // Specular lighting
-    float specularStrength = 0.5;
     vec3 viewDir = normalize(playerPosition - fragPos);
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = specularStrength * spec * lightColor;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = light.specular * (spec * material.specular);
 
     // Combine all into the color
-    color = (ambient + diffuse + specular) * objectColor;
+    color = ambient + diffuse + specular;
 }
