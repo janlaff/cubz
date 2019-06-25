@@ -14,21 +14,18 @@ namespace core::opengl {
         , m_height(height) {}
 
     Texture::Texture(const std::string &name) {
-        int comp;
+        load(name);
+    }
 
-        unsigned char* image = stbi_load((std::string(textureDir) + name).c_str(), &m_width, &m_height, &comp, STBI_rgb_alpha);
+    void Texture::load(const std::string &name) {
+        auto image = loadImage(std::string(textureDir) + name);
 
-        if (!image) {
-            throw std::runtime_error("Failed to load image");
-        }
-
-        glGenTextures(1, &m_id);
         bind();
 
-        if (comp == 3) {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_BGR, GL_UNSIGNED_BYTE, image);
+        if (image.comp == 3) {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_BGR, GL_UNSIGNED_BYTE, image.data);
         } else {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data);
         }
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -37,7 +34,7 @@ namespace core::opengl {
         glGenerateMipmap(GL_TEXTURE_2D);
         unbind();
 
-        stbi_image_free(image);
+        destroyImage(image);
     }
 
     int Texture::getWidth() const {
@@ -54,5 +51,21 @@ namespace core::opengl {
 
     void Texture::unbind() const {
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    Texture::ImageData Texture::loadImage(const std::string &filename) {
+        int comp;
+
+        unsigned char* image = stbi_load(filename.c_str(), &m_width, &m_height, &comp, STBI_rgb_alpha);
+
+        if (!image) {
+            throw std::runtime_error("Failed to load image");
+        }
+
+        return { image, comp };
+    }
+
+    void Texture::destroyImage(core::opengl::Texture::ImageData data) {
+        stbi_image_free(data.data);
     }
 }
