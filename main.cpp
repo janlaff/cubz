@@ -48,18 +48,27 @@ int main() {
         dirLight.bind(chunkShader);
         chunkShader.unbind();
 
+        auto frameCount = 0;
+        const auto skipFrames = 2;
+
         while (!screen.shouldQuit()) {
             chunkShader.bind();
             chunkShader.setVec3("playerPosition", screen.getCamera().getPosition());
             chunkShader.unbind();
+            world.setPlayerPosition(screen.getCamera().getPosition());
 
             screen.clear();
-            world.update();
-            world.setPlayerPosition(screen.getCamera().getPosition());
-            world.render(screen.getCamera());
 
+            if (frameCount++ == skipFrames) {
+                world.update();
+                debugView.update();
+                frameCount = 0;
+            }
+
+            world.render(screen.getCamera());
             debugView.render(screen.getCamera());
             screen.render();
+
             screen.processInput();
         }
     } catch (std::exception &e) {

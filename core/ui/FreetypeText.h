@@ -21,13 +21,17 @@ namespace core::ui {
         void setPosition(const glm::vec2& position);
         void setColor(const glm::vec3& color);
         void setText(const std::string& text);
+        void update();
         void render(const Camera& camera);
 
     private:
         FreetypeCharMap& m_charMap;
         std::string m_text;
+        std::string m_textBuffer;
+        int m_skipFrames;
         float m_x;
         float m_y;
+        bool m_update;
         glm::vec3 m_color;
     };
 }

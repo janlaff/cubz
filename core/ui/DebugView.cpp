@@ -17,10 +17,21 @@ namespace core::ui {
         m_directionText.setColor({ 1, 1, 1 });
     }
 
+    void DebugView::update() {
+        m_positionText.setText(getPositionText(m_position));
+        m_directionText.setText(getDirectionText(m_yaw, m_pitch));
+        m_fpsText.setText(getFpsText(m_deltaTime));
+
+        m_fpsText.update();
+        m_positionText.update();
+        m_directionText.update();
+    }
+
     void DebugView::render(const core::Camera &camera) {
-        m_positionText.setText(getPositionText(camera.getPosition()));
-        m_directionText.setText(getDirectionText(camera.getYaw(), camera.getPitch()));
-        m_fpsText.setText(getFpsText(camera.getDeltaTime()));
+        m_position = camera.getPosition();
+        m_yaw = camera.getYaw();
+        m_pitch = camera.getPitch();
+        m_deltaTime = camera.getDeltaTime();
 
         m_fpsText.render(camera);
         m_positionText.render(camera);

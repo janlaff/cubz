@@ -9,6 +9,7 @@ namespace core::ui {
     public:
         DebugView(FreetypeCharMap& font);
 
+        void update();
         void render(const Camera& camera);
 
     private:
@@ -20,5 +21,10 @@ namespace core::ui {
         FreetypeText m_directionText;
         FreetypeText m_fpsText;
         TextGrid m_textGrid;
+
+        float m_deltaTime;
+        float m_yaw;
+        float m_pitch;
+        glm::vec3 m_position;
     };
 }

@@ -8,7 +8,7 @@ set(
         FreetypeText.cpp
         DebugView.cpp
         TextGrid.cpp
-        FreetypeCharacter.cpp
+        FreetypeChar.cpp
         FreetypeCharMap.cpp
 )
 

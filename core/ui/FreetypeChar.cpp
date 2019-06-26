@@ -1,11 +1,11 @@
 #include <glm/gtc/matrix_transform.hpp>
-#include "FreetypeCharacter.h"
+#include "FreetypeChar.h"
 #include "ResourceManager.h"
 #include "MeshData.h"
 #include "opengl/VertexQuadBuilder.h"
 
 namespace core::ui {
-    FreetypeCharacter::FreetypeCharacter(core::opengl::Texture texture, GLuint advance, const glm::ivec2 &size,
+    FreetypeChar::FreetypeChar(core::opengl::Texture texture, GLuint advance, const glm::ivec2 &size,
                                          const glm::ivec2 &bearing)
                                          : m_texture(std::move(texture))
                                          , m_advance(advance)
@@ -38,7 +38,7 @@ namespace core::ui {
         m_vertexArray.unbind();
     }
 
-    void FreetypeCharacter::render(const core::Camera &camera, const glm::vec3& color, float x, float y) {
+    void FreetypeChar::render(const core::Camera &camera, const glm::vec3& color, float x, float y) {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -58,11 +58,11 @@ namespace core::ui {
         glDisable(GL_BLEND);
     }
 
-    GLuint FreetypeCharacter::getAdvance() const {
+    GLuint FreetypeChar::getAdvance() const {
         return m_advance;
     }
 
-    int FreetypeCharacter::getHeight() const {
+    int FreetypeChar::getHeight() const {
         return m_height;
     }
 }

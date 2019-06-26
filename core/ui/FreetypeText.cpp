@@ -7,8 +7,8 @@ namespace core::ui {
             : m_charMap(charMap)
             , m_x(0.0f)
             , m_y(0.0f)
-            , m_color(0.0f, 0.0f, 0.0f)
-            , m_text("") {}
+            , m_update(true)
+            , m_color(0.0f, 0.0f, 0.0f) {}
 
     float FreetypeText::getWidth() const {
         auto width = 0.0f;
@@ -33,11 +33,15 @@ namespace core::ui {
         m_text = text;
     }
 
+    void FreetypeText::update() {
+        m_textBuffer = m_text;
+    }
+
     void FreetypeText::render(const Camera &camera) {
         float x = m_x;
         float y = m_y;
 
-        for (char c : m_text) {
+        for (char c : m_textBuffer) {
             auto ch = m_charMap.getChar(c);
 
             if (c == '\n') {
@@ -47,7 +51,6 @@ namespace core::ui {
             }
 
             ch->render(camera, m_color, x, y);
-
             x += ch->getAdvance() >> 6;
         }
     }

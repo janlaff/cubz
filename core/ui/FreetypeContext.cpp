@@ -55,7 +55,7 @@ namespace core::ui {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-            result.addChar(c, std::make_shared<FreetypeCharacter>(
+            result.addChar(c, std::make_shared<FreetypeChar>(
                     opengl::Texture(texture, font->glyph->bitmap.width, font->glyph->bitmap.rows),
                     font->glyph->advance.x,
                     glm::ivec2(font->glyph->bitmap.width, font->glyph->bitmap.rows),

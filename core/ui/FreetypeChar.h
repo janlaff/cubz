@@ -10,9 +10,9 @@
 #include "Camera.h"
 
 namespace core::ui {
-    class FreetypeCharacter {
+    class FreetypeChar {
     public:
-        FreetypeCharacter(opengl::Texture texture, GLuint advance, const glm::ivec2& size, const glm::ivec2& bearing);
+        FreetypeChar(opengl::Texture texture, GLuint advance, const glm::ivec2& size, const glm::ivec2& bearing);
 
         void render(const Camera &camera, const glm::vec3& color, float x, float y);
 
