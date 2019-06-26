@@ -30,6 +30,7 @@ namespace core::opengl {
         }
 
         glfwMakeContextCurrent(m_window);
+        glfwSwapInterval(0);
 
         glewExperimental = GL_TRUE;
         if (glewInit() != GLEW_OK) {

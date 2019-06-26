@@ -28,7 +28,6 @@ namespace core::ui {
         FreetypeCharMap& m_charMap;
         std::string m_text;
         std::string m_textBuffer;
-        int m_skipFrames;
         float m_x;
         float m_y;
         bool m_update;

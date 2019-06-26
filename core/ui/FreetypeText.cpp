@@ -7,7 +7,6 @@ namespace core::ui {
             : m_charMap(charMap)
             , m_x(0.0f)
             , m_y(0.0f)
-            , m_update(true)
             , m_color(0.0f, 0.0f, 0.0f) {}
 
     float FreetypeText::getWidth() const {

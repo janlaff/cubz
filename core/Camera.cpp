@@ -28,6 +28,14 @@ namespace core {
 
         m_pitch = glm::clamp(m_pitch, -89.0f, 89.0f);
 
+        if (m_yaw > 180.0f) {
+            m_yaw = -360.0f + m_yaw;
+        }
+
+        if (m_yaw < -180.0f) {
+            m_yaw = 360.0f - m_yaw;
+        }
+
         m_direction = glm::vec3(
                 cos(glm::radians(m_pitch)) * cos(glm::radians(m_yaw)),
                 sin(glm::radians(m_pitch)),
