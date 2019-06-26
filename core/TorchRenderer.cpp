@@ -9,7 +9,7 @@ namespace core {
         m_shader.setInt("disableLights", true);
         m_shader.unbind();
 
-        Renderer::render(camera, position);
+        MeshRenderer::render(camera, position);
         glEnable(GL_CULL_FACE);
 
         m_shader.bind();

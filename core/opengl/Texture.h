@@ -11,6 +11,8 @@ namespace core::opengl {
             int comp;
         };
 
+        static const char* textureDir;
+
         Texture(GLuint id, int width, int height);
         Texture(const std::string& name);
 
@@ -27,6 +29,7 @@ namespace core::opengl {
         void destroyImage(ImageData data);
 
         GLuint m_id;
+        GLint m_type;
         int m_width;
         int m_height;
     };

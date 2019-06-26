@@ -2,12 +2,12 @@
 
 #include <unordered_map>
 
-#include "Renderer.h"
+#include "MeshRenderer.h"
 #include "WorldPos.h"
 #include "opengl/PointLight.h"
 
 namespace core {
-    class TorchRenderer : public Renderer {
+    class TorchRenderer : public MeshRenderer {
     public:
         void render(const Camera& camera, const glm::vec3& position) override;
     };

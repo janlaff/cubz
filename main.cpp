@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <core/opengl/PointLight.h>
 #include <core/DirtBlock.h>
+#include <core/Skybox.h>
 #include "core/opengl/DirectionalLight.h"
 #include "core/opengl/Material.h"
 
@@ -28,8 +29,8 @@ int main() {
         screen.getCamera().setPosition({ 0.0f, 1.0f, -2.0f });
 
         auto world = core::World();
-        world.setBlock(core::BlockType::torch, 0, 0, 0);
-        world.update();
+        //world.setBlock(core::BlockType::torch, 0, 0, 0);
+        world.setBlock(core::BlockType::dirt, 2, 0, 1);
 
         auto font = core::ResourceManager::getInstance().generateFont("OpenSans-Regular.ttf", 24);
         auto debugView = core::ui::DebugView(font);
@@ -37,14 +38,16 @@ int main() {
         auto chunkShader = core::ResourceManager::getInstance().getShader("chunk");
 
         auto dirLight = core::opengl::DirectionalLight {
-            { 1.0f, -1.0f, -0.5f },
+            { 1.0f, -1.0f, 1.0f },
             glm::vec3(0.2f),
             glm::vec3(1.0f),
             glm::vec3(1.0f)
         };
 
+        auto skybox = core::Skybox(1.0f);
+
         chunkShader.bind();
-        //dirLight.bind(chunkShader);
+        dirLight.bind(chunkShader);
         chunkShader.unbind();
 
         while (!screen.shouldQuit()) {
@@ -54,6 +57,10 @@ int main() {
 
             screen.clear();
             world.update();
+
+            skybox.setPosition(screen.getCamera().getPosition());
+            skybox.render(screen.getCamera());
+
             world.render(screen.getCamera());
             debugView.render(screen.getCamera());
             screen.render();

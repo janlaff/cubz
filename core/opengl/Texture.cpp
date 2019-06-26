@@ -1,17 +1,19 @@
 #include "Texture.h"
+#include "Log.h"
+
+#include <stdexcept>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
-#include <stdexcept>
-
 namespace core::opengl {
-    static const auto textureDir = "./assets/textures/";
+    const char* Texture::textureDir = "./assets/textures/";
 
     Texture::Texture(GLuint id, int width, int height)
         : m_id(id)
         , m_width(width)
-        , m_height(height) {}
+        , m_height(height)
+        , m_type(GL_TEXTURE_2D) {}
 
     Texture::Texture(const std::string &name) {
         load(name);
@@ -28,7 +30,6 @@ namespace core::opengl {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data);
         }
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -46,11 +47,11 @@ namespace core::opengl {
     }
 
     void Texture::bind() const {
-        glBindTexture(GL_TEXTURE_2D, m_id);
+        glBindTexture(m_type, m_id);
     }
 
     void Texture::unbind() const {
-        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindTexture(m_type, 0);
     }
 
     Texture::ImageData Texture::loadImage(const std::string &filename) {
@@ -59,7 +60,7 @@ namespace core::opengl {
         unsigned char* image = stbi_load(filename.c_str(), &m_width, &m_height, &comp, STBI_rgb_alpha);
 
         if (!image) {
-            throw std::runtime_error("Failed to load image");
+            throw std::runtime_error("Failed to load image: " + filename);
         }
 
         return { image, comp };

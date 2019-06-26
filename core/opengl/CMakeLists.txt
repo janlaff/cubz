@@ -19,6 +19,8 @@ set(
         DirectionalLight.cpp
         PointLight.cpp
         Material.cpp
+        CubeMap.cpp
+        VertexQuadBuilder.cpp
 )
 
 add_library(opengl STATIC ${OPENGL_SOURCE_FILES})

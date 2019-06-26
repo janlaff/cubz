@@ -9,7 +9,7 @@ set(
         MeshData.cpp
         Screen.cpp
         Camera.cpp
-        Renderer.cpp
+        MeshRenderer.cpp
         ResourceManager.cpp
         Block.cpp
         AirBlock.cpp
@@ -20,6 +20,7 @@ set(
         World.cpp
         WorldPos.cpp
         TorchRenderer.cpp
+        Skybox.cpp
 )
 
 add_library(core STATIC ${CORE_SOURCE_FILES})

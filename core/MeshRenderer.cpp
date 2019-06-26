@@ -1,11 +1,11 @@
-#include "Renderer.h"
+#include "MeshRenderer.h"
 #include "ResourceManager.h"
 #include "Log.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace core {
-    Renderer::Renderer()
+    MeshRenderer::MeshRenderer()
         : m_shader(ResourceManager::getInstance().getShader("chunk"))
         , m_material {
             ResourceManager::getInstance().getTexture("terrain.png"),
@@ -25,11 +25,11 @@ namespace core {
         m_vertexArray.unbind();
     }
 
-    MeshData& Renderer::getMeshData() {
+    MeshData& MeshRenderer::getMeshData() {
         return m_meshData;
     }
 
-    void Renderer::update() {
+    void MeshRenderer::update() {
         if (m_meshData.normals.size() != m_meshData.vertices.size()) {
             utility::Log::warning("Incorrect normals");
         }
@@ -54,7 +54,7 @@ namespace core {
         m_vertexArray.unbind();
     }
 
-    void Renderer::render(const Camera& camera, const glm::vec3& position) {
+    void MeshRenderer::render(const Camera& camera, const glm::vec3& position) {
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
@@ -76,7 +76,7 @@ namespace core {
         glDisable(GL_DEPTH_TEST);
     }
 
-    void Renderer::updateLights(const WorldPosMap<opengl::PointLight> &lights) {
+    void MeshRenderer::updateLights(const WorldPosMap<opengl::PointLight> &lights) {
         m_shader.bind();
         auto i = 0;
         for (auto [pos, light] : lights) {

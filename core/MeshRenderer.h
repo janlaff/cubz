@@ -14,9 +14,9 @@
 #include "Camera.h"
 
 namespace core {
-    class Renderer {
+    class MeshRenderer {
     public:
-        Renderer();
+        MeshRenderer();
 
         MeshData& getMeshData();
         void update();
