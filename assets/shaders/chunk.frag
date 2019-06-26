@@ -66,7 +66,11 @@ void main() {
             PointLight light = pointLights[i];
 
             if (light.isActive && length(light.position - fragPos) <= 16.0) {
-                result += calculatePointLight(light, norm, viewDir);
+                vec4 intensity = calculatePointLight(light, norm, viewDir);
+                intensity.x = max(intensity.x, result.x);
+                intensity.y = max(intensity.y, result.y);
+                intensity.z = max(intensity.z, result.z);
+                result = intensity;
             }
         }
 

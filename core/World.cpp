@@ -110,12 +110,12 @@ namespace core {
     void World::addLight(const core::WorldPos &position) {
         m_lights.insert({position, opengl::PointLight {
             position.toVec(),
-            2.0f,//1.0f,
-            0.8f,//0.09f,
-            2.0f,//0.032f,
+            1.0f,//1.0f, 2.0f
+            0.7f,//0.09f, 0.8f
+            1.8f,//0.032f, 2.0f
             glm::vec3(0.1f),
-            { 10.0f, 1.0f, 1.0f },
-            { 1.0f, 1.0f, 1.0f },
+            { 5.0f, 1.0f, 1.0f },
+            { 5.0f, 1.0f, 1.0f },
             true
         }});
         utility::Log::debug("Spawned light at position: " + position.toStr());
