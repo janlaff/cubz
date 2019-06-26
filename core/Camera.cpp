@@ -18,10 +18,10 @@ namespace core {
         m_firstMouse = true;
     }
 
-    void Camera::changeDirection(int deltaX, int deltaY, float deltaTime) {
+    void Camera::changeDirection(int deltaX, int deltaY) {
         if (!m_firstMouse) {
-            m_yaw += mouseSpeed * deltaTime * deltaX;
-            m_pitch += mouseSpeed * deltaTime * deltaY;
+            m_yaw += mouseSpeed * m_deltaTime * deltaX;
+            m_pitch += mouseSpeed * m_deltaTime * deltaY;
         } else {
             m_firstMouse = false;
         }
@@ -36,24 +36,28 @@ namespace core {
         m_right = glm::normalize(glm::cross(glm::vec3(0, 1, 0), m_direction));
     }
 
-    void Camera::moveForward(float deltaTime) {
-        m_position += m_direction * moveSpeed * deltaTime;
+    void Camera::moveForward() {
+        m_position += m_direction * moveSpeed * m_deltaTime;
     }
 
-    void Camera::moveBackward(float deltaTime) {
-        m_position -= m_direction * moveSpeed * deltaTime;
+    void Camera::moveBackward() {
+        m_position -= m_direction * moveSpeed * m_deltaTime;
     }
 
-    void Camera::moveLeft(float deltaTime) {
-        m_position += m_right * moveSpeed * deltaTime;
+    void Camera::moveLeft() {
+        m_position += m_right * moveSpeed * m_deltaTime;
     }
 
-    void Camera::moveRight(float deltaTime) {
-        m_position -= m_right * moveSpeed * deltaTime;
+    void Camera::moveRight() {
+        m_position -= m_right * moveSpeed * m_deltaTime;
     }
 
     void Camera::setPosition(const glm::vec3 &position) {
         m_position = position;
+    }
+
+    void Camera::setDeltaTime(float deltaTime) {
+        m_deltaTime = deltaTime;
     }
 
     glm::mat4 Camera::getModelViewProjection(const glm::mat4 &model) const {
@@ -80,5 +84,9 @@ namespace core {
 
     float Camera::getPitch() const {
         return m_pitch;
+    }
+
+    float Camera::getDeltaTime() const {
+        return m_deltaTime;
     }
 }

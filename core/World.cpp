@@ -4,11 +4,11 @@
 
 namespace core {
     World::World() : m_playerPosition(0, 0, 0) {
-        for (int x = -16; x < 16; x += 16) {
-            for (int y = -16; y < 16; y += 16) {
-                for (int z = -16; z < 16; z += 16) {
-                    createChunk(x, y, z);
-                }
+        const auto numChunks = 2;
+
+        for (int x = -numChunks / 2; x < numChunks; ++x) {
+            for (int z = -numChunks / 2; z < numChunks; ++z) {
+                createChunk(x * chunkSize, -chunkSize, z * chunkSize);
             }
         }
     }

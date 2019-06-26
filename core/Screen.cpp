@@ -34,19 +34,21 @@ namespace core::opengl {
         double xPos;
         double yPos;
         glfwGetCursorPos(m_context.getWindow(), &xPos, &yPos);
-        m_camera.changeDirection(xPos - m_context.getWindowWidth() / 2.0, m_context.getWindowHeight() / 2.0 - yPos, m_deltaTime);
+        m_camera.changeDirection(xPos - m_context.getWindowWidth() / 2.0, m_context.getWindowHeight() / 2.0 - yPos);
         glfwSetCursorPos(m_context.getWindow(), m_context.getWindowWidth() / 2.0, m_context.getWindowHeight() / 2.0);
 
+        m_camera.setDeltaTime(m_deltaTime);
+
         if (glfwGetKey(m_context.getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
-            m_camera.moveForward(m_deltaTime);
+            m_camera.moveForward();
         } else if (glfwGetKey(m_context.getWindow(), GLFW_KEY_S) == GLFW_PRESS) {
-            m_camera.moveBackward(m_deltaTime);
+            m_camera.moveBackward();
         }
 
         if (glfwGetKey(m_context.getWindow(), GLFW_KEY_A) == GLFW_PRESS) {
-            m_camera.moveLeft(m_deltaTime);
+            m_camera.moveLeft();
         } else if (glfwGetKey(m_context.getWindow(), GLFW_KEY_D) == GLFW_PRESS) {
-            m_camera.moveRight(m_deltaTime);
+            m_camera.moveRight();
         }
     }
 

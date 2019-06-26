@@ -32,7 +32,7 @@ int main() {
         world.setBlock(core::BlockType::torch, 0, 0, 0);
         world.setBlock(core::BlockType::dirt, 2, 0, 1);
 
-        auto font = core::ResourceManager::getInstance().generateFont("OpenSans-Regular.ttf", 24);
+        auto font = core::ResourceManager::getInstance().generateFont("Minecraftia_Regular.ttf", 24);
         auto debugView = core::ui::DebugView(font);
 
         auto chunkShader = core::ResourceManager::getInstance().getShader("chunk");
@@ -57,6 +57,7 @@ int main() {
             world.update();
             world.setPlayerPosition(screen.getCamera().getPosition());
             world.render(screen.getCamera());
+
             debugView.render(screen.getCamera());
             screen.render();
             screen.processInput();
