@@ -3,7 +3,7 @@
 #include "AirBlock.h"
 
 namespace core {
-    World::World() {
+    World::World() : m_playerPosition(0, 0, 0) {
         for (int x = -16; x < 16; x += 16) {
             for (int y = -16; y < 16; y += 16) {
                 for (int z = -16; z < 16; z += 16) {
@@ -11,6 +11,10 @@ namespace core {
                 }
             }
         }
+    }
+
+    void World::setPlayerPosition(const glm::vec3 &position) {
+        m_playerPosition = position;
     }
 
     std::shared_ptr<Chunk> World::createChunk(int x, int y, int z) {
@@ -50,6 +54,9 @@ namespace core {
     }
 
     void World::render(const Camera &camera) {
+        // Render skybox
+        m_skybox.render(camera, m_playerPosition, 0.2f);
+        // Render chunks
         for (auto&[pos, chunk] : m_chunks) {
             chunk->render(camera);
         }

@@ -44,10 +44,8 @@ int main() {
             glm::vec3(1.0f)
         };
 
-        auto skybox = core::Skybox(1.0f);
-
         chunkShader.bind();
-        dirLight.bind(chunkShader);
+        //dirLight.bind(chunkShader);
         chunkShader.unbind();
 
         while (!screen.shouldQuit()) {
@@ -57,10 +55,7 @@ int main() {
 
             screen.clear();
             world.update();
-
-            skybox.setPosition(screen.getCamera().getPosition());
-            skybox.render(screen.getCamera());
-
+            world.setPlayerPosition(screen.getCamera().getPosition());
             world.render(screen.getCamera());
             debugView.render(screen.getCamera());
             screen.render();

@@ -9,16 +9,14 @@
 namespace core {
     class Skybox {
     public:
-        Skybox(float scale);
+        Skybox();
 
-        void render(const Camera& camera);
-        void setPosition(const glm::vec3& position);
+        void render(const Camera& camera, const glm::vec3& position, float ambient);
 
     private:
         opengl::CubeMap m_cubeMap;
         opengl::Shader m_shader;
         opengl::VertexArray m_vertexArray;
         opengl::VertexBuffer m_vertexBuffer;
-        glm::vec3 m_position;
     };
 }

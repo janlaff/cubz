@@ -5,7 +5,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace core {
-    Skybox::Skybox(float scale)
+    const float skyboxSize = 1.0f;
+
+    Skybox::Skybox()
         : m_cubeMap("skybox")
         , m_shader(ResourceManager::getInstance().getShader("skybox")) {
         m_vertexArray.bind();
@@ -14,45 +16,45 @@ namespace core {
         auto quadBuilder = opengl::VertexQuadBuilder();
 
         // North
-        quadBuilder.addVertex({ -scale, scale, -scale });
-        quadBuilder.addVertex({ scale, scale, -scale });
-        quadBuilder.addVertex({ scale, -scale, -scale });
-        quadBuilder.addVertex({ -scale, -scale, -scale });
+        quadBuilder.addVertex({ -skyboxSize, skyboxSize, -skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, skyboxSize, -skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, -skyboxSize, -skyboxSize });
+        quadBuilder.addVertex({ -skyboxSize, -skyboxSize, -skyboxSize });
         quadBuilder.addQuadVertices();
 
         // South
-        quadBuilder.addVertex({ scale, scale, scale });
-        quadBuilder.addVertex({ -scale, scale, scale });
-        quadBuilder.addVertex({ -scale, -scale, scale });
-        quadBuilder.addVertex({ scale, -scale, scale });
+        quadBuilder.addVertex({ skyboxSize, skyboxSize, skyboxSize });
+        quadBuilder.addVertex({ -skyboxSize, skyboxSize, skyboxSize });
+        quadBuilder.addVertex({ -skyboxSize, -skyboxSize, skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, -skyboxSize, skyboxSize });
         quadBuilder.addQuadVertices();
 
         // East
-        quadBuilder.addVertex({ scale, scale, -scale });
-        quadBuilder.addVertex({ scale, scale, scale });
-        quadBuilder.addVertex({ scale, -scale, scale });
-        quadBuilder.addVertex({ scale, -scale, -scale });
+        quadBuilder.addVertex({ skyboxSize, skyboxSize, -skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, skyboxSize, skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, -skyboxSize, skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, -skyboxSize, -skyboxSize });
         quadBuilder.addQuadVertices();
 
         // West
-        quadBuilder.addVertex({ -scale, scale, scale });
-        quadBuilder.addVertex({ -scale, scale, -scale });
-        quadBuilder.addVertex({ -scale, -scale, -scale });
-        quadBuilder.addVertex({ -scale, -scale, scale });
+        quadBuilder.addVertex({ -skyboxSize, skyboxSize, skyboxSize });
+        quadBuilder.addVertex({ -skyboxSize, skyboxSize, -skyboxSize });
+        quadBuilder.addVertex({ -skyboxSize, -skyboxSize, -skyboxSize });
+        quadBuilder.addVertex({ -skyboxSize, -skyboxSize, skyboxSize });
         quadBuilder.addQuadVertices();
 
         // Bottom
-        quadBuilder.addVertex({ -scale, -scale, -scale });
-        quadBuilder.addVertex({ scale, -scale, -scale });
-        quadBuilder.addVertex({ scale, -scale, scale });
-        quadBuilder.addVertex({ -scale, -scale, scale });
+        quadBuilder.addVertex({ -skyboxSize, -skyboxSize, -skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, -skyboxSize, -skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, -skyboxSize, skyboxSize });
+        quadBuilder.addVertex({ -skyboxSize, -skyboxSize, skyboxSize });
         quadBuilder.addQuadVertices();
 
         // Top
-        quadBuilder.addVertex({ -scale, scale, scale });
-        quadBuilder.addVertex({ scale, scale, scale });
-        quadBuilder.addVertex({ scale, scale, -scale });
-        quadBuilder.addVertex({ -scale, scale, -scale });
+        quadBuilder.addVertex({ -skyboxSize, skyboxSize, skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, skyboxSize, skyboxSize });
+        quadBuilder.addVertex({ skyboxSize, skyboxSize, -skyboxSize });
+        quadBuilder.addVertex({ -skyboxSize, skyboxSize, -skyboxSize });
         quadBuilder.addQuadVertices();
 
         m_vertexBuffer.update(quadBuilder.getQuadVertices(), false);
@@ -62,12 +64,13 @@ namespace core {
         m_vertexArray.unbind();
     }
 
-    void Skybox::render(const core::Camera& camera) {
+    void Skybox::render(const core::Camera& camera, const glm::vec3& position, float ambient) {
         glDepthMask(GL_FALSE);
 
         m_vertexArray.bind();
         m_shader.bind();
-        m_shader.setMat4("mvp", camera.getModelViewProjection(glm::translate(glm::mat4(1.0f), m_position)));
+        m_shader.setMat4("mvp", camera.getModelViewProjection(glm::translate(glm::mat4(1.0f), position)));
+        m_shader.setFloat("ambient", ambient);
         m_cubeMap.bind();
         m_vertexBuffer.draw();
         m_cubeMap.unbind();
@@ -75,9 +78,5 @@ namespace core {
         m_vertexArray.unbind();
 
         glDepthMask(GL_TRUE);
-    }
-
-    void Skybox::setPosition(const glm::vec3 &position) {
-        m_position = position;
     }
 }
