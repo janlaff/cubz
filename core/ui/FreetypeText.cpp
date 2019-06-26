@@ -56,6 +56,8 @@ namespace core::ui {
     }
 
     void FreetypeText::render(const Camera &camera) {
+        // TODO: replace this with a better function that stores individual characters
+
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
