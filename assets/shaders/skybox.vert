@@ -8,5 +8,5 @@ uniform mat4 mvp;
 
 void main() {
     uv = vertexPosition;
-    gl_Position = mvp * vec4(vertexPosition, 1.0);
+    gl_Position = (mvp * vec4(vertexPosition, 1.0)).xyww; // Depth optimation
 }

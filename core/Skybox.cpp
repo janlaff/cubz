@@ -66,6 +66,8 @@ namespace core {
 
     void Skybox::render(const core::Camera& camera, const glm::vec3& position, float ambient) {
         glDepthMask(GL_FALSE);
+        glDepthFunc(GL_LEQUAL);
+        glEnable(GL_DEPTH_TEST);
 
         m_vertexArray.bind();
         m_shader.bind();
@@ -77,6 +79,8 @@ namespace core {
         m_shader.unbind();
         m_vertexArray.unbind();
 
+        glDisable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
         glDepthMask(GL_TRUE);
     }
 }

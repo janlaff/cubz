@@ -29,7 +29,7 @@ int main() {
         screen.getCamera().setPosition({ 0.0f, 1.0f, -2.0f });
 
         auto world = core::World();
-        //world.setBlock(core::BlockType::torch, 0, 0, 0);
+        world.setBlock(core::BlockType::torch, 0, 0, 0);
         world.setBlock(core::BlockType::dirt, 2, 0, 1);
 
         auto font = core::ResourceManager::getInstance().generateFont("OpenSans-Regular.ttf", 24);
@@ -45,7 +45,7 @@ int main() {
         };
 
         chunkShader.bind();
-        //dirLight.bind(chunkShader);
+        dirLight.bind(chunkShader);
         chunkShader.unbind();
 
         while (!screen.shouldQuit()) {
