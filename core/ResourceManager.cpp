@@ -27,7 +27,7 @@ namespace core {
         }
     }
 
-    ui::FreetypeFont ResourceManager::generateFont(const std::string &name, int size) {
-        return m_freetypeContext.generateFont(name, size);
+    ui::FreetypeCharMap ResourceManager::generateCharMap(const std::string &name, int size) {
+        return m_freetypeContext.generateCharMap(name, size);
     }
 }

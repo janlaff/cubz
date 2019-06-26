@@ -17,7 +17,7 @@ namespace core::ui {
         FT_Done_FreeType(m_library);
     }
 
-    FreetypeFont FreetypeContext::generateFont(const std::string &name, int size) {
+    FreetypeCharMap FreetypeContext::generateCharMap(const std::string &name, int size) {
         FT_Face font;
 
         if (FT_New_Face(m_library, (std::string(fontsDir) + name).c_str(), 0, &font)) {
@@ -26,7 +26,7 @@ namespace core::ui {
 
         FT_Set_Pixel_Sizes(font, 0, size);
 
-        auto result = FreetypeFont();
+        auto result = FreetypeCharMap();
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -55,12 +55,12 @@ namespace core::ui {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-            result.addCharacter(c, FreetypeCharacter{
+            result.addChar(c, std::make_shared<FreetypeCharacter>(
                     opengl::Texture(texture, font->glyph->bitmap.width, font->glyph->bitmap.rows),
                     font->glyph->advance.x,
                     glm::ivec2(font->glyph->bitmap.width, font->glyph->bitmap.rows),
                     glm::ivec2(font->glyph->bitmap_left, font->glyph->bitmap_top)
-            });
+            ));
         }
 
         FT_Done_Face(font);

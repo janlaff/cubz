@@ -4,11 +4,11 @@
 #include <sstream>
 
 namespace core::ui {
-    DebugView::DebugView(const FreetypeFont &font)
-        : m_positionText(font, core::ResourceManager::getInstance().getShader("text"))
-        , m_directionText(font, core::ResourceManager::getInstance().getShader("text"))
-        , m_fpsText(font, core::ResourceManager::getInstance().getShader("text"))
-        , m_textGrid(font.getHeight()) {
+    DebugView::DebugView(FreetypeCharMap &charMap)
+        : m_positionText(charMap)
+        , m_directionText(charMap)
+        , m_fpsText(charMap)
+        , m_textGrid(charMap.getChar('X')->getHeight()) {
         m_fpsText.setPosition(m_textGrid.getTextPosition());
         m_fpsText.setColor({ 1, 0, 0 });
         m_positionText.setPosition(m_textGrid.getTextPosition(3));

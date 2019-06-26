@@ -7,7 +7,7 @@
 namespace core::ui {
     class DebugView {
     public:
-        DebugView(const FreetypeFont& font);
+        DebugView(FreetypeCharMap& font);
 
         void render(const Camera& camera);
 

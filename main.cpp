@@ -32,8 +32,8 @@ int main() {
         world.setBlock(core::BlockType::torch, 0, 0, 0);
         world.setBlock(core::BlockType::dirt, 2, 0, 1);
 
-        auto font = core::ResourceManager::getInstance().generateFont("Minecraftia_Regular.ttf", 24);
-        auto debugView = core::ui::DebugView(font);
+        auto charMap = core::ResourceManager::getInstance().generateCharMap("OpenSans-Regular.ttf", 24);
+        auto debugView = core::ui::DebugView(charMap);
 
         auto chunkShader = core::ResourceManager::getInstance().getShader("chunk");
 

@@ -14,6 +14,7 @@ namespace core {
         std::vector<GLuint> triangles;
         std::vector<glm::vec2> uvs;
 
+        void addVertex(const glm::vec3& vertex);
         void addQuadTriangles();
         void addQuadNormals(const glm::vec3& normal);
     };

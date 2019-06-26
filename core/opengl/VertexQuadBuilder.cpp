@@ -15,6 +15,20 @@ namespace core::opengl {
         m_quadVertices.push_back(m_vertices[m_vertices.size() - 2]);
     }
 
+    void VertexQuadBuilder::addQuadUVs() {
+        m_quadUVs.emplace_back(0.0f, 0.0f);
+        m_quadUVs.emplace_back(1.0f, 1.0f);
+        m_quadUVs.emplace_back(0.0f, 1.0f);
+
+        m_quadUVs.emplace_back(0.0f, 0.0f);
+        m_quadUVs.emplace_back(1.0f, 0.0f);
+        m_quadUVs.emplace_back(1.0f, 1.0f);
+    }
+
+    std::vector<glm::vec2> VertexQuadBuilder::getQuadUVs() const {
+        return m_quadUVs;
+    }
+
     std::vector<glm::vec3> VertexQuadBuilder::getQuadVertices() const {
         return m_quadVertices;
     }

@@ -1,6 +1,10 @@
 #include "MeshData.h"
 
 namespace core {
+    void MeshData::addVertex(const glm::vec3 &vertex) {
+        vertices.push_back(vertex);
+    }
+
     void MeshData::addQuadTriangles() {
         // Triangle 1
         triangles.push_back(vertices.size() - 4);

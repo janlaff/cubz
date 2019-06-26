@@ -5,10 +5,11 @@ find_package(freetype CONFIG REQUIRED)
 set(
         UI_SOURCE_FILES
         FreetypeContext.cpp
-        FreetypeFont.cpp
         FreetypeText.cpp
         DebugView.cpp
         TextGrid.cpp
+        FreetypeCharacter.cpp
+        FreetypeCharMap.cpp
 )
 
 add_library(ui STATIC ${UI_SOURCE_FILES})

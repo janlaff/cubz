@@ -5,9 +5,9 @@ layout(location = 1) in vec2 vertexUv;
 
 out vec2 uv;
 
-uniform mat4 projection;
+uniform mat4 modelProjection;
 
 void main() {
-    gl_Position = projection * vec4(vertexPosition, 1.0);
+    gl_Position = modelProjection * vec4(vertexPosition, 1.0);
     uv = vertexUv;
 }
