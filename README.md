@@ -2,6 +2,7 @@
 Currently under development!!
 ![Alt text](assets/textures/example.png)
 ![Alt text](assets/textures/example2.png)
+![Alt text](assets/textures/example3.png)
 
 ## Supported Features
 - Simple Mesh Rendering
