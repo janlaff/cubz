@@ -8,7 +8,7 @@ uniform mat4 mvp;
 uniform mat4 model;
 
 out vec2 uv;
-out vec3 normal;
+//out vec3 normal;
 out vec3 fragPos;
 
 void main() {
@@ -17,5 +17,5 @@ void main() {
     fragPos = vec3(model * vec4(vertexPosition, 1.0));
     uv = vertexUv;
     // Transform normal to world space
-    normal = mat3(transpose(inverse(model))) * vertexNormal;
+    //normal = mat3(transpose(inverse(model))) * vertexNormal;
 }

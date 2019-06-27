@@ -29,21 +29,21 @@ struct PointLight {
 out vec4 color;
 
 in vec2 uv;
-in vec3 normal;
-in vec3 fragPos;
+//in vec3 normal;
+//in vec3 fragPos;
 
-#define MAX_POINT_LIGHTS 128
+//#define MAX_POINT_LIGHTS 128
 
-uniform PointLight pointLights[MAX_POINT_LIGHTS];
-uniform int lightCount;
-uniform DirectionalLight dirLight;
+//uniform PointLight pointLights[MAX_POINT_LIGHTS];
+//uniform int lightCount;
+//uniform DirectionalLight dirLight;
 uniform Material material;
-uniform vec3 playerPosition;
+//uniform vec3 playerPosition;
 uniform bool disableLights;
-uniform bool blinn;
+//uniform bool blinn;
 
-vec4 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir);
-vec4 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
+//vec4 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir);
+//vec4 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
 
 void main() {
     vec4 texColor = texture2D(material.texture, uv);
@@ -52,7 +52,9 @@ void main() {
         discard;
     }
 
-    if (disableLights) {
+    color = texColor;
+
+    /*if (disableLights) {
         color = texColor;
     } else {
         vec3 norm = normalize(normal);
@@ -76,7 +78,7 @@ void main() {
         }
 
         color = result;
-    }
+    }*/
 }
 
 vec4 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir) {

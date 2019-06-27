@@ -61,7 +61,7 @@ namespace cubz::game {
 
         // Render skybox
         // Rendered last to fill remaining free pixels in z buffer
-        m_skybox.render(camera, m_playerPosition, 1.0f);
+        //m_skybox.render(camera, m_playerPosition, 1.0f);
     }
 
     void World::setBlock(BlockType block, int x, int y, int z) {

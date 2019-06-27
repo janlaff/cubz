@@ -10,9 +10,8 @@
 namespace cubz::graphics {
     class ResourceManager {
     public:
-        ResourceManager();
+        ResourceManager(const std::string& assetsDir);
 
-        void setAssetsDir(const std::string& dir);
         std::string getAssetsDir() const;
         opengl::Shader getShader(const std::string& name);
         opengl::Texture getTexture(const std::string& texture);

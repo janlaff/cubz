@@ -1,11 +1,10 @@
 #include "ResourceManager.h"
 
 namespace cubz::graphics {
-    ResourceManager::ResourceManager() : m_freetypeContext(getShader("text")), m_assetsDir("./assets") {}
+    ResourceManager::ResourceManager(const std::string &assetsDir)
+            : m_assetsDir(assetsDir)
+            , m_freetypeContext(getShader("text")) {}
 
-    void ResourceManager::setAssetsDir(const std::string &dir) {
-        m_assetsDir = dir;
-    }
 
     std::string ResourceManager::getAssetsDir() const {
         return m_assetsDir;

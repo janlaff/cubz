@@ -19,6 +19,7 @@ namespace cubz::game {
             float pxHeight = 15.9f;
         };
 
+        void addSomeStuff(graphics::Mesh& meshData);
         virtual void addToMesh(const Chunk& chunk, int x, int y, int z, graphics::Mesh& meshData);
         virtual bool isSolid(Direction direction);
 

@@ -18,8 +18,8 @@ namespace cubz::graphics::ui {
     }
 
     void DebugView::update(float deltaTime) {
-        m_positionText.setText(getPositionText(m_position));
-        m_directionText.setText(getDirectionText(m_yaw, m_pitch));
+        m_positionText.setText(getVecText(m_position));
+        m_directionText.setText(getVecText(m_direction));
         m_fpsText.setText(getFpsText(deltaTime));
 
         m_fpsText.update();
@@ -29,8 +29,7 @@ namespace cubz::graphics::ui {
 
     void DebugView::render(const cubz::graphics::Camera &camera) {
         m_position = camera.getPosition();
-        m_yaw = camera.getYaw();
-        m_pitch = camera.getPitch();
+        m_direction = camera.getDirection();
 
         m_fpsText.render(camera);
         m_positionText.render(camera);
@@ -42,19 +41,11 @@ namespace cubz::graphics::ui {
         return "Fps: " + std::to_string(fps);
     }
 
-    std::string DebugView::getPositionText(const glm::vec3 &position) {
+    std::string DebugView::getVecText(const glm::vec3 &position) {
         auto ss = std::ostringstream();
         ss << "x: " << position.x << "\n";
         ss << "y: " << position.y << "\n";
         ss << "z: " << position.z;
-
-        return ss.str();
-    }
-
-    std::string DebugView::getDirectionText(float yaw, float pitch) {
-        auto ss = std::ostringstream();
-        ss << "yaw: " << yaw << "\n";
-        ss << "pitch: " << pitch;
 
         return ss.str();
     }

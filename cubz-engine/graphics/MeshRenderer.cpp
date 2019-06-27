@@ -8,6 +8,8 @@ namespace cubz::graphics {
     MeshRenderer::MeshRenderer(cubz::graphics::opengl::Shader shader, cubz::graphics::opengl::Material material) {
         data = std::make_shared<Data>();
 
+        data->shader = shader;
+        data->material = material;
         data->vertexArray.bind();
         data->vertexBuffer.bind();
         data->vertexBuffer.setAttribPointer();
@@ -27,6 +29,10 @@ namespace cubz::graphics {
         data->vertexBuffer.bind();
         data->vertexBuffer.update(mesh.vertices, false);
         data->vertexBuffer.setAttribPointer();
+        // Update uvs
+        data->uvBuffer.bind();
+        data->uvBuffer.update(mesh.uvs);
+        data->uvBuffer.setAttribPointer();
         // Update normals
         data->normalBuffer.bind();
         data->normalBuffer.update(mesh.normals, false);
@@ -34,10 +40,6 @@ namespace cubz::graphics {
         // Update triangles
         data->elementBuffer.bind();
         data->elementBuffer.update(mesh.triangles);
-        // Update uvs
-        data->uvBuffer.bind();
-        data->uvBuffer.update(mesh.uvs);
-        data->uvBuffer.setAttribPointer();
 
         data->vertexArray.unbind();
 
@@ -52,18 +54,18 @@ namespace cubz::graphics {
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
-        data->shader.bind();
-        data->shader.setMat4("mvp", camera.getModelViewProjection(data->model));
-        data->shader.setMat4("model", data->model);
-        data->shader.setInt("disableLights", true);
-        data->material.bind(data->shader);
-
         data->vertexArray.bind();
+        data->shader.bind();
+        //data->shader.setMat4("mvp", data->model);
+        //data->shader.setMat4("mvp", camera.getModelViewProjection(data->model));
+        data->shader.setMat4("mvp", camera.getModelViewProjection(glm::mat4(1.0f)));
+        data->shader.setMat4("model", data->model);
+        //data->shader.setInt("disableLights", true);
+        data->material.bind(data->shader);
         data->elementBuffer.draw();
-        data->vertexArray.unbind();
-
         data->material.unbind(data->shader);
-        data->shader.unbind();
+        //data->shader.unbind();
+        data->vertexArray.unbind();
 
         glDisable(GL_DEPTH_TEST);
     }

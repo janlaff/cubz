@@ -3,6 +3,15 @@
 namespace cubz::game {
     const float Block::tileSize = 1.0f / 16.0f;
 
+    void Block::addSomeStuff(cubz::graphics::Mesh &meshData) {
+        faceDataUp(0, 0, 0, meshData);
+        faceDataDown(0, 0, 0, meshData);
+        faceDataNorth(0, 0, 0, meshData);
+        faceDataSouth(0, 0, 0, meshData);
+        faceDataEast(0, 0, 0, meshData);
+        faceDataWest(0, 0, 0, meshData);
+    }
+
     void Block::addToMesh(const Chunk &chunk, int x, int y, int z, graphics::Mesh &meshData) {
         if (!chunk.getBlock(x, y + 1, z)->isSolid(Direction::down)) {
             faceDataUp(x, y, z, meshData);

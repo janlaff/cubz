@@ -88,7 +88,7 @@ namespace cubz::game {
                 case BlockType::dirt:
                     return std::make_shared<DirtBlock>();
                 case BlockType::torch:
-                    return std::make_shared<TorchBlock>();
+                    //return std::make_shared<TorchBlock>();
                 default:
                     return std::make_shared<AirBlock>();
             }

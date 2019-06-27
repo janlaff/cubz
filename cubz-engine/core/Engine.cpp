@@ -29,8 +29,7 @@ namespace cubz::core {
     }
 
     std::shared_ptr<graphics::ResourceManager> Engine::createResourceManager(const std::string &assetsDir) {
-        m_resourceManager = std::make_shared<graphics::ResourceManager>();
-        m_resourceManager->setAssetsDir(assetsDir);
+        m_resourceManager = std::make_shared<graphics::ResourceManager>(assetsDir);
         return m_resourceManager;
     }
 

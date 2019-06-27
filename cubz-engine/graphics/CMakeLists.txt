@@ -6,7 +6,7 @@ add_subdirectory(ui)
 set(
         GRAPHICS_SOURCE_FILES
         Mesh.cpp
-        #Screen.cpp
+        Screen.cpp
         Camera.cpp
         MeshRenderer.cpp
         ResourceManager.cpp

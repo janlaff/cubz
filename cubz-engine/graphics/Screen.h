@@ -18,7 +18,8 @@ namespace cubz::graphics::opengl {
     private:
         Context m_context;
         Camera m_camera;
-        float m_deltaTime;
-        float m_lastFrame;
+        float m_yaw;
+        float m_pitch;
+        bool m_firstMouse;
     };
 }

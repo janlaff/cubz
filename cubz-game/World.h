@@ -27,7 +27,7 @@ namespace cubz::game {
 
         WorldPosMap<std::shared_ptr<Chunk>> m_chunks;
         WorldPosMap<graphics::opengl::PointLight> m_lights;
-        Skybox m_skybox;
+        //Skybox m_skybox;
         glm::vec3 m_playerPosition;
     };
 }

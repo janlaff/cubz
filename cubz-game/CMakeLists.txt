@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 3.10)
 
 set(
         CUBZ_GAME_SOURCE_FILES
-        #Block.cpp
-        #AirBlock.cpp
-        #GrassBlock.cpp
-        #DirtBlock.cpp
+        Block.cpp
+        AirBlock.cpp
+        GrassBlock.cpp
+        DirtBlock.cpp
         #TorchBlock.cpp
-        #Chunk.cpp
-        #World.cpp
-        #WorldPos.cpp
+        Chunk.cpp
+        World.cpp
+        WorldPos.cpp
         #TorchRenderer.cpp
         #Skybox.cpp
         main.cpp
