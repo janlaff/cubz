@@ -15,8 +15,8 @@ namespace cubz::graphics {
         m_textProjection = glm::ortho(0.0f, float(screenWidth), 0.0f, float(screenHeight));
     }
 
-    void Camera::lookAt(const glm::vec3 &position) {
-        m_direction = m_position - position;
+    void Camera::lookAt(const glm::vec3& target) {
+        m_direction = glm::normalize(m_position - target);
     }
 
     void Camera::setPosition(const glm::vec3 &position) {
@@ -28,16 +28,18 @@ namespace cubz::graphics {
         m_right = glm::normalize(glm::cross(glm::vec3(0, 1, 0), m_direction));
     }
 
-    glm::mat4 Camera::getModelViewProjection(const glm::mat4 &model) const {
-        /*auto view = glm::lookAt(
-                m_position,
-                m_position + m_direction,
-                glm::vec3(0, 1, 0)
-        );*/
+    void Camera::setRotation(float yaw, float pitch) {
+        m_direction = glm::vec3 {
+            cos(glm::radians(pitch)) * cos(glm::radians(yaw)),
+            sin(glm::radians(pitch)),
+            cos(glm::radians(pitch)) * sin(glm::radians(yaw))
+        };
+    }
 
+    glm::mat4 Camera::getModelViewProjection(const glm::mat4 &model) const {
         auto view = glm::lookAt(
-                glm::vec3 { 4, 3, 3 },
-                glm::vec3 { 0, 0, 0 },
+                m_position,
+                m_position - m_direction,
                 glm::vec3 { 0, 1, 0 }
         );
 

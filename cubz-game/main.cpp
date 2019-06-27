@@ -47,6 +47,11 @@ int main(int argc, char **argv) {
 
         context->setClearColor({0, 0, 0});
 
+        camera->setPosition({ 4, 3, 4 });
+        camera->lookAt({ 0, 0, 0 });
+
+        int i = 0;
+
         while (!context->windowClosed()) {
             context->clear();
             meshRenderSystem->update(context->getDeltaTime());

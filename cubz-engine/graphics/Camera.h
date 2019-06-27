@@ -7,9 +7,10 @@ namespace cubz::graphics {
     public:
         Camera(int screenWidth, int screenHeight);
 
-        void lookAt(const glm::vec3& position);
+        void lookAt(const glm::vec3& target);
         void setPosition(const glm::vec3& position);
         void setDirection(const glm::vec3& direction);
+        void setRotation(float yaw, float pitch);
 
         glm::mat4 getModelViewProjection(const glm::mat4& model) const;
         glm::mat4 getTextProjection() const;
