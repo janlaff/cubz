@@ -3,16 +3,16 @@
 namespace cubz::game {
     const float Block::tileSize = 1.0f / 16.0f;
 
-    void Block::addSomeStuff(cubz::graphics::Mesh &meshData) {
-        faceDataUp(0, 0, 0, meshData);
-        faceDataDown(0, 0, 0, meshData);
-        faceDataNorth(0, 0, 0, meshData);
-        faceDataSouth(0, 0, 0, meshData);
-        faceDataEast(0, 0, 0, meshData);
-        faceDataWest(0, 0, 0, meshData);
+    void Block::addSolid(cubz::graphics::Mesh &meshData, int x, int y, int z) {
+        faceDataUp(x, y, z, meshData);
+        faceDataDown(x, y, z, meshData);
+        faceDataNorth(x, y, z, meshData);
+        faceDataSouth(x, y, z, meshData);
+        faceDataEast(x, y, z, meshData);
+        faceDataWest(x, y, z, meshData);
     }
 
-    void Block::addToMesh(const Chunk &chunk, int x, int y, int z, graphics::Mesh &meshData) {
+    /*void Block::addToMesh(const Chunk &chunk, int x, int y, int z, graphics::Mesh &meshData) {
         if (!chunk.getBlock(x, y + 1, z)->isSolid(Direction::down)) {
             faceDataUp(x, y, z, meshData);
         }
@@ -36,7 +36,7 @@ namespace cubz::game {
         if (!chunk.getBlock(x - 1, y, z)->isSolid(Direction::east)) {
             faceDataWest(x, y, z, meshData);
         }
-    }
+    }*/
 
     bool Block::isSolid(Block::Direction direction) {
         // Every side is solid

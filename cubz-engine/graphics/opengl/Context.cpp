@@ -23,7 +23,7 @@ namespace cubz::graphics::opengl {
         }
 
         glfwMakeContextCurrent(m_window);
-        //glfwSwapInterval(0);
+        glfwSwapInterval(0);
 
         glfwWindowHint(GLFW_SAMPLES, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);

@@ -1,14 +1,6 @@
 #pragma once
 
-#include <array>
-#include <memory>
-
-#include "Mesh.h"
-#include "Camera.h"
-#include "MeshRenderer.h"
-#include "WorldPos.h"
-//#include "TorchRenderer.h"
-#include "opengl/Texture.h"
+#include <ecs/Entity.h>
 
 namespace cubz::game {
     class World;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Chunk.h"
 #include "Mesh.h"
 
 namespace cubz::game {
@@ -19,8 +18,8 @@ namespace cubz::game {
             float pxHeight = 15.9f;
         };
 
-        void addSomeStuff(graphics::Mesh& meshData);
-        virtual void addToMesh(const Chunk& chunk, int x, int y, int z, graphics::Mesh& meshData);
+        void addSolid(graphics::Mesh& meshData, int x, int y, int z);
+        //virtual void addToMesh(const Chunk& chunk, int x, int y, int z, graphics::Mesh& meshData);
         virtual bool isSolid(Direction direction);
 
     protected:

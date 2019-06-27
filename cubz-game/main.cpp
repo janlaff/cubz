@@ -6,57 +6,71 @@
 #include <graphics/ui/DebugView.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Block.h"
-
+#include "ChunkRenderSystem.h"
+#include "World.h"
 
 int main(int argc, char **argv) {
-    auto engine = cubz::core::Engine();
-
     try {
-        auto context = engine.createContext(800, 600, "Test Window");
-        auto ecs = engine.createEntityComponentSystem();
-        auto camera = engine.createCamera();
-        auto resourceManager = engine.createResourceManager("./assets");
-        auto meshRenderSystem = engine.createMeshRenderSystem();
+        auto engine = cubz::core::Engine(800, 600, "Test Window", "./assets");
 
-        auto cube = ecs->createEntity();
-        auto transform = cubz::graphics::Transform {
-                { 0, 0, 0 },
-                glm::mat4(1.0f),
-                { 1, 1, 1 },
-        };
+        auto& context = engine.getContext();
+        auto& ecs = engine.getECS();
+        auto& camera = engine.getCamera();
+        auto& resourceManager = engine.getResourceManager();
 
-        camera->setPosition({ 0, 2, 0 });
-        camera->setDirection({ 0, -1, 0 });
+        // Register chunk components
+        ecs.registerComponent<cubz::game::ChunkData>();
+        ecs.registerComponent<cubz::graphics::MeshRenderer>();
+        ecs.registerComponent<cubz::graphics::Mesh>();
 
+        // Register chunk rendering system
+        auto chunkRenderSystem = ecs.registerSystem<cubz::game::ChunkRenderSystem>();
+        auto signature = cubz::ecs::Signature();
+        signature.set(ecs.getComponentType<cubz::game::ChunkData>());
+        signature.set(ecs.getComponentType<cubz::graphics::MeshRenderer>());
+        signature.set(ecs.getComponentType<cubz::graphics::Mesh>());
+        ecs.setSystemSignature<cubz::game::ChunkRenderSystem>(signature);
+
+        /*auto chunk = ecs.createEntity();
+        auto meshRenderer = cubz::graphics::MeshRenderer(
+                resourceManager.getShader("mesh"),
+                cubz::graphics::opengl::Material{
+                        resourceManager.getTexture("terrain.png"),
+                        { 1, 1, 1 },
+                        32
+                });
         auto mesh = cubz::graphics::Mesh();
-        cubz::game::Block block;
-        block.addSomeStuff(mesh);
+        auto chunkData = cubz::game::ChunkData();
+        chunkData.
 
-        auto renderer = cubz::graphics::MeshRenderer(
-            resourceManager->getShader("mesh"),
-            cubz::graphics::opengl::Material{
-                resourceManager->getTexture("terrain.png"),
-                { 1, 1, 1 },
-                32
-            });
+        ecs.addComponent<cubz::graphics::Mesh>(chunk, mesh);
+        ecs.addComponent<cubz::graphics::MeshRenderer>(chunk, meshRenderer);
+        ecs.addComponent<cubz::game::ChunkData>(chunk, chunkData);*/
 
-        ecs->addComponent<cubz::graphics::Mesh>(cube, mesh);
-        ecs->addComponent<cubz::graphics::Transform>(cube, transform);
-        ecs->addComponent<cubz::graphics::MeshRenderer>(cube, renderer);
 
-        context->setClearColor({0, 0, 0});
+        cubz::game::World world(&engine);
 
-        camera->setPosition({ 4, 3, 4 });
-        camera->lookAt({ 0, 0, 0 });
+        context.setClearColor({0, 0, 0});
+
+        camera.setPosition(glm::vec3 { 4, 3, 4 } * 10.0f);
+        camera.lookAt({ 0, 0, 0 });
 
         int i = 0;
 
-        while (!context->windowClosed()) {
-            context->clear();
-            meshRenderSystem->update(context->getDeltaTime());
-            meshRenderSystem->render(*camera);
-            context->render();
+        while (!context.windowClosed()) {
+            float deltaTime = context.getDeltaTime();
+            int fps = 1.0f / deltaTime;
+
+            if (i++ == 10) {
+                i = 0;
+
+                cubz::utility::Log::debug("Fps: " + std::to_string(fps));
+            }
+
+            context.clear();
+            chunkRenderSystem->update(deltaTime);
+            chunkRenderSystem->render(camera);
+            context.render();
         }
     } catch (std::exception& e) {
         cubz::utility::Log::error(e);

@@ -2,13 +2,14 @@
 
 #include "SystemManager.h"
 #include "Camera.h"
+#include "EntityComponentSystem.h"
 
 namespace cubz::core {
     class MeshRenderSystem : public cubz::ecs::System {
     public:
         using ecs::System::System;
 
-        void update(float deltaTime);
-        void render(const cubz::graphics::Camera& camera);
+        virtual void update(float deltaTime);
+        virtual void render(const cubz::graphics::Camera& camera);
     };
 }

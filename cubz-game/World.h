@@ -1,12 +1,28 @@
 #pragma once
 
-#include <graphics/opengl/PointLight.h>
+#include <core/Engine.h>
 
-#include "Chunk.h"
-#include "Skybox.h"
+#include "ChunkData.h"
+#include "WorldPos.h"
 
 namespace cubz::game {
     class World {
+    public:
+        explicit World(core::Engine* engine);
+
+        void createChunk(int x, int y, int z);
+        void destroyChunk(int x, int y, int z);
+        ChunkData* getChunkData(const WorldPos& position);
+        BlockType getBlock(int x, int y, int z);
+        void setBlock(BlockType blockType, int x, int y, int z);
+        WorldPos getChunkPos(int x, int y, int z);
+
+    private:
+        core::Engine* m_engine;
+        WorldPosMap<ecs::Entity> m_chunkEntities;
+    };
+
+    /*class World {
     public:
         World();
 
@@ -29,5 +45,5 @@ namespace cubz::game {
         WorldPosMap<graphics::opengl::PointLight> m_lights;
         //Skybox m_skybox;
         glm::vec3 m_playerPosition;
-    };
+    };*/
 }

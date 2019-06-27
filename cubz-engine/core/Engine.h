@@ -11,22 +11,18 @@
 namespace cubz::core {
     class Engine {
     public:
-        Engine();
+        Engine(int width, int height, std::string title, std::string assetsDir);
 
-        std::shared_ptr<MeshRenderSystem> createMeshRenderSystem();
-        std::shared_ptr<graphics::ResourceManager> createResourceManager(const std::string& assetsDir);
-        std::shared_ptr<ecs::EntityComponentSystem> createEntityComponentSystem();
-        std::shared_ptr<graphics::Camera> createCamera();
-        std::shared_ptr<graphics::opengl::Context> createContext(int width, int height, std::string title);
-        std::shared_ptr<graphics::opengl::Context> getContext();
-        std::shared_ptr<ecs::EntityComponentSystem> getEntityComponentSystem();
+        graphics::Camera& getCamera();
+        graphics::ResourceManager& getResourceManager();
+        graphics::opengl::Context& getContext();
+        ecs::EntityComponentSystem& getECS();
 
     private:
-        std::shared_ptr<ecs::EntityComponentSystem> m_ecs;
-        std::shared_ptr<graphics::opengl::Context> m_context;
-        std::shared_ptr<graphics::Camera> m_camera;
-        std::shared_ptr<graphics::ResourceManager> m_resourceManager;
-        std::shared_ptr<MeshRenderSystem> m_meshRenderSystem;
+        ecs::EntityComponentSystem m_ecs;
+        graphics::opengl::Context m_context;
+        graphics::Camera m_camera;
+        graphics::ResourceManager m_resourceManager;
         float m_deltaTime;
         float m_lastFrame;
     };

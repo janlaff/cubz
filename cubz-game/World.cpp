@@ -2,8 +2,103 @@
 #include "Log.h"
 #include "AirBlock.h"
 
+#include <graphics/MeshRenderer.h>
+
 namespace cubz::game {
-    World::World() : m_playerPosition(0, 0, 0) {
+    World::World(core::Engine *engine) : m_engine(engine) {
+        const auto numChunks = 8;
+
+        for (int x = -numChunks / 2; x < numChunks; ++x) {
+            for (int z = -numChunks / 2; z < numChunks; ++z) {
+                createChunk(x * CHUNK_SIZE, -CHUNK_SIZE, z * CHUNK_SIZE);
+            }
+        }
+    }
+
+    void World::createChunk(int x, int y, int z) {
+        utility::Log::debug("Created chunk");
+
+        static int yMax = 0;
+
+        auto chunk = m_engine->getECS().createEntity();
+        auto meshRenderer = cubz::graphics::MeshRenderer(
+                m_engine->getResourceManager().getShader("mesh"),
+                cubz::graphics::opengl::Material{
+                        m_engine->getResourceManager().getTexture("terrain.png"),
+                        { 1, 1, 1 },
+                        32
+                });
+        auto mesh = cubz::graphics::Mesh();
+        auto chunkData = ChunkData(this, WorldPos { x, y, z });
+
+        for (int x = 0; x < CHUNK_SIZE; ++x) {
+            for (int y = 0; y < CHUNK_SIZE; ++y) {
+                for (int z = 0; z < CHUNK_SIZE; ++z) {
+                    if (y == yMax) {
+                        chunkData.setBlock(BlockType::dirt, x, y, z);
+                    } else {
+                        chunkData.setBlock(BlockType::air, x, y, z);
+                    };
+                }
+            }
+        }
+
+        m_engine->getECS().addComponent<cubz::graphics::Mesh>(chunk, mesh);
+        m_engine->getECS().addComponent<cubz::graphics::MeshRenderer>(chunk, meshRenderer);
+        m_engine->getECS().addComponent<cubz::game::ChunkData>(chunk, chunkData);
+
+        m_chunkEntities.insert({ WorldPos { x, y, z }, chunk });
+    }
+
+    void World::destroyChunk(int x, int y, int z) {
+        if (auto it = m_chunkEntities.find(WorldPos { x, y, z }); it != m_chunkEntities.end()) {
+            m_engine->getECS().destroyEntity(it->second);
+            m_chunkEntities.erase(it);
+        }
+    }
+
+    ChunkData* World::getChunkData(const WorldPos& position) {
+        if (auto it = m_chunkEntities.find(position); it != m_chunkEntities.end()) {
+            return &m_engine->getECS().getComponent<ChunkData>(it->second);
+        } else {
+            return nullptr;
+        }
+    }
+
+    BlockType World::getBlock(int x, int y, int z) {
+        auto chunkPos = getChunkPos(x, y, z);
+        auto chunkData = getChunkData(chunkPos);
+
+        if (chunkData) {
+            return chunkData->getBlock(x - chunkPos.x, y - chunkPos.y, z - chunkPos.z);
+        } else {
+            return BlockType::air;
+        }
+    }
+
+    void World::setBlock(cubz::game::BlockType blockType, int x, int y, int z) {
+        auto chunkPos = getChunkPos(x, y, z);
+        auto chunkData = getChunkData(chunkPos);
+
+        if (chunkData) {
+            chunkData->setBlock(blockType, x - chunkPos.x, y - chunkPos.y, z - chunkPos.z);
+        } else {
+            createChunk(chunkPos.x, chunkPos.y, chunkPos.z);
+            setBlock(blockType, x, y, z);
+        }
+    }
+
+    WorldPos World::getChunkPos(int x, int y, int z) {
+        auto div = float(CHUNK_SIZE);
+
+        return {
+                static_cast<int>(std::floor(x / div) * div),
+                static_cast<int>(std::floor(y / div) * div),
+                static_cast<int>(std::floor(z / div) * div)
+        };
+    }
+
+    /*World::World() : m_playerPosition(0, 0, 0) {
         const auto numChunks = 2;
 
         for (int x = -numChunks / 2; x < numChunks; ++x) {
@@ -108,7 +203,7 @@ namespace cubz::game {
     }
 
     void World::addLight(const WorldPos &position) {
-        /*m_lights.insert({position, opengl::PointLight {
+        m_lights.insert({position, opengl::PointLight {
             position.toVec(),
             1.0f,//1.0f, 2.0f
             0.7f,//0.09f, 0.8f
@@ -118,19 +213,19 @@ namespace cubz::game {
             { 5.0f, 1.0f, 1.0f },
             true
         }});
-        utility::Log::debug("Spawned light at position: " + position.toStr());*/
+        utility::Log::debug("Spawned light at position: " + position.toStr());
     }
 
     void World::removeLight(const WorldPos &position) {
-        /*if (auto light = m_lights.find(position); light != m_lights.end()) {
+        if (auto light = m_lights.find(position); light != m_lights.end()) {
             m_lights.erase(light);
         } else {
             utility::Log::warning("Failed to remove light");
         }
-        utility::Log::debug("Removed light");*/
+        utility::Log::debug("Removed light");
     }
 
     const WorldPosMap<graphics::opengl::PointLight>& World::getLights() const {
         return m_lights;
-    }
+    }*/
 }

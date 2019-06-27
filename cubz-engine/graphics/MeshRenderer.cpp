@@ -56,27 +56,14 @@ namespace cubz::graphics {
 
         data->vertexArray.bind();
         data->shader.bind();
-        //data->shader.setMat4("mvp", data->model);
-        //data->shader.setMat4("mvp", camera.getModelViewProjection(data->model));
-        data->shader.setMat4("mvp", camera.getModelViewProjection(glm::mat4(1.0f)));
+        data->shader.setMat4("mvp", camera.getModelViewProjection(data->model));
         data->shader.setMat4("model", data->model);
-        //data->shader.setInt("disableLights", true);
         data->material.bind(data->shader);
         data->elementBuffer.draw();
         data->material.unbind(data->shader);
-        //data->shader.unbind();
+        data->shader.unbind();
         data->vertexArray.unbind();
 
         glDisable(GL_DEPTH_TEST);
     }
-
-    /*void MeshRenderer::updateLights(const WorldPosMap<opengl::PointLight> &lights) {
-        m_shader.bind();
-        auto i = 0;
-        for (auto [pos, light] : lights) {
-            light.bind(m_shader, i++);
-        }
-        m_shader.setInt("lightCount", i);
-        m_shader.unbind();
-    }*/
 }
