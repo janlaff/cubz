@@ -20,7 +20,8 @@ namespace cubz::game {
 
         static int yMax = 0;
 
-        auto chunk = m_engine->instantiate<ChunkEntity>();
+        auto chunkData = ChunkData(this, WorldPos { x, y, z });
+        auto chunk = m_engine->instantiate<ChunkEntity>(chunkData);
         chunk->updateEntity();
         m_chunkEntities.insert({ WorldPos { x, y, z }, chunk });
 

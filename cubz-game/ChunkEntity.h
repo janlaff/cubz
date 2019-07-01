@@ -6,7 +6,7 @@
 namespace cubz::game {
     class ChunkEntity : public core::GameObject {
     public:
-        ChunkEntity(core::Engine* engine);
+        ChunkEntity(core::Engine* engine, ChunkData data);
 
         void update(float deltaTime) override;
     };

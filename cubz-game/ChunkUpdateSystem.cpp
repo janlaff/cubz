@@ -9,8 +9,9 @@
 namespace cubz::game {
     void ChunkUpdateSystem::updateChunks() {
         for (const auto& entity : m_updatedEntities) {
-            auto& mesh = m_ecs->getComponent<cubz::graphics::Mesh>(entity);
+            auto& mesh = m_ecs->getComponent<graphics::Mesh>(entity);
             auto& chunkData = m_ecs->getComponent<ChunkData>(entity);
+            auto& transform = m_ecs->getComponent<graphics::Transform>(entity);
 
             mesh.vertices.clear();
             mesh.triangles.clear();
@@ -30,6 +31,10 @@ namespace cubz::game {
                     }
                 }
             }
+
+            transform.position = chunkData.getPosition().toVec();
         }
+
+        m_updatedEntities.clear();
     }
 }

@@ -5,9 +5,9 @@
 #include "Block.h"
 
 namespace cubz::game {
-    ChunkEntity::ChunkEntity(cubz::core::Engine *engine) : GameObject(engine) {
+    ChunkEntity::ChunkEntity(cubz::core::Engine *engine, ChunkData data) : GameObject(engine) {
         addComponent<graphics::Mesh>(graphics::Mesh());
-        addComponent<ChunkData>(ChunkData());
+        addComponent<ChunkData>(data);
 
         addComponent<graphics::MeshRenderer>(graphics::MeshRenderer(
                 getResourceManager().getShader("mesh"),
@@ -18,7 +18,7 @@ namespace cubz::game {
                 }));
 
         addComponent<graphics::Transform>(graphics::Transform {
-            { 0, 0, 0 },
+            data.getPosition().toVec(),
             glm::mat4(1.0f),
             { 1, 1, 1 }
         });
