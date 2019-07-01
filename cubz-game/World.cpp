@@ -6,7 +6,7 @@
 
 namespace cubz::game {
     World::World(core::Engine *engine) : m_engine(engine) {
-        const auto numChunks = 1;
+        const auto numChunks = 4;
 
         for (int x = -numChunks / 2; x < numChunks; ++x) {
             for (int z = -numChunks / 2; z < numChunks; ++z) {
@@ -21,6 +21,15 @@ namespace cubz::game {
         static int yMax = 0;
 
         auto chunkData = ChunkData(this, WorldPos { x, y, z });
+
+        for (auto xPos = 0; xPos < CHUNK_SIZE; ++xPos) {
+            for (auto yPos = 0; yPos < CHUNK_SIZE; ++yPos) {
+                for (auto zPos = 0; zPos < CHUNK_SIZE; ++zPos) {
+                    chunkData.setBlock(BlockType::dirt, xPos, yPos, zPos);
+                }
+            }
+        }
+
         auto chunk = m_engine->instantiate<ChunkEntity>(chunkData);
         chunk->updateEntity();
         m_chunkEntities.insert({ WorldPos { x, y, z }, chunk });
@@ -58,7 +67,7 @@ namespace cubz::game {
         auto chunkEntity = getChunkEntity(chunkPos);
 
         if (chunkEntity) {
-            auto chunkData = chunkEntity->getComponent<ChunkData>();
+            auto& chunkData = chunkEntity->getComponent<ChunkData>();
             chunkData.setBlock(blockType, x - chunkPos.x, y - chunkPos.y, z - chunkPos.z);
             chunkEntity->updateEntity();
         } else {

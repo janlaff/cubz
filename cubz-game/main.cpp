@@ -43,19 +43,26 @@ int main(int argc, char **argv) {
 
         context.setClearColor({0, 0, 0});
 
-        camera.setPosition(glm::vec3 { 4, 3, 4 } * 10.0f);
-        camera.lookAt({ 0, 0, 0 });
+        camera.setPosition(glm::vec3 { 1, 0, 0 } * 10.0f);
+        camera.lookAt({ 0, -16, 0 });
 
         int i = 0;
+        float deltaSum = 0;
+        int fpsFrequency = 500;
 
         while (!context.windowClosed()) {
             float deltaTime = context.getDeltaTime();
-            int fps = 1.0f / deltaTime;
 
-            if (i++ == 10) {
-                i = 0;
+            deltaSum += deltaTime;
+
+            if (i++ == fpsFrequency) {
+                float averageDeltaTime = deltaSum / fpsFrequency;
+                int fps = 1.0f / averageDeltaTime;
 
                 cubz::utility::Log::debug("Fps: " + std::to_string(fps));
+
+                i = 0;
+                deltaSum = 0;
             }
 
             context.clear();
