@@ -4,6 +4,7 @@ set(
         CORE_SOURCE_FILES
         Engine.cpp
         MeshRenderSystem.cpp
+        GameObject.cpp
 )
 
 add_library(core STATIC ${CORE_SOURCE_FILES})
