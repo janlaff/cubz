@@ -33,7 +33,7 @@ namespace cubz::graphics {
         MeshRenderer() = default;
         MeshRenderer(opengl::Shader shader, opengl::Material material);
 
-        void update(const Transform& transform, const Mesh& mesh);
-        void render(const Camera& camera);
+        virtual void update(const Transform& transform, const Mesh& mesh);
+        virtual void render(const Camera& camera);
     };
 }

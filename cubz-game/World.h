@@ -5,6 +5,7 @@
 #include "ChunkData.h"
 #include "WorldPos.h"
 #include "ChunkEntity.h"
+#include "TorchEntity.h"
 
 namespace cubz::game {
     class World {
@@ -17,10 +18,13 @@ namespace cubz::game {
         BlockType getBlock(int x, int y, int z);
         void setBlock(BlockType blockType, int x, int y, int z);
         WorldPos getChunkPos(int x, int y, int z);
+        void createTorch(int x, int y, int z);
+        void destroyTorch(int x, int y, int z);
 
     private:
         core::Engine* m_engine;
         WorldPosMap<std::shared_ptr<ChunkEntity>> m_chunkEntities;
+        WorldPosMap<std::shared_ptr<TorchEntity>> m_torchEntities;
     };
 
     /*class World {

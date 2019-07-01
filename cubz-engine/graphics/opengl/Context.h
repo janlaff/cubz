@@ -21,6 +21,8 @@ namespace cubz::graphics::opengl {
         const std::string& getWindowTitle() const;
         GLFWwindow* getWindow() const;
         float getDeltaTime() const;
+        std::pair<float, float> getMouseMovement() const;
+        std::pair<float, float> getPlayerMovement() const;
 
     private:
         int m_windowWidth;

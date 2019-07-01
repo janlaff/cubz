@@ -2,18 +2,18 @@
 #include "TorchRenderer.h"
 
 namespace cubz::game {
-    void TorchRenderer::render(const graphics::Camera &camera, const glm::vec3 &position) {
+    void TorchRenderer::render(const graphics::Camera &camera) {
         glDisable(GL_CULL_FACE);
 
-        m_shader.bind();
-        m_shader.setInt("disableLights", true);
-        m_shader.unbind();
+        data->shader.bind();
+        data->shader.setInt("disableLights", true);
+        data->shader.unbind();
 
-        MeshRenderer::render(camera, position);
+        MeshRenderer::render(camera);
         glEnable(GL_CULL_FACE);
 
-        m_shader.bind();
-        m_shader.setInt("disableLights", false);
-        m_shader.unbind();
+        data->shader.bind();
+        data->shader.setInt("disableLights", false);
+        data->shader.unbind();
     }
 }

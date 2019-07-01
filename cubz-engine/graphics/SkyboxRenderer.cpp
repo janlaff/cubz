@@ -3,7 +3,7 @@
 #include "opengl/VertexQuadBuilder.h"
 
 namespace cubz::graphics {
-    SkyboxRenderer::SkyboxRenderer(cubz::graphics::opengl::CubeMap cubeMap, cubz::graphics::opengl::Shader shader) {
+    SkyboxRenderer::SkyboxRenderer(opengl::CubeMap cubeMap, opengl::Shader shader) {
         data = std::make_shared<Data>();
 
         data->cubeMap = cubeMap;
@@ -13,7 +13,7 @@ namespace cubz::graphics {
         data->vertexBuffer.bind();
 
         auto quadBuilder = opengl::VertexQuadBuilder();
-        auto skyboxSize = 1.0f;
+        auto skyboxSize = 10.0f;
 
         // North
         quadBuilder.addVertex({ -skyboxSize, skyboxSize, -skyboxSize });
@@ -64,14 +64,14 @@ namespace cubz::graphics {
         data->vertexArray.unbind();
     }
 
-    void SkyboxRenderer::render(const cubz::graphics::Camera &camera) {
+    void SkyboxRenderer::render(const Camera &camera, const glm::vec3& playerPosition) {
         glDepthMask(GL_FALSE);
         glDepthFunc(GL_LEQUAL);
         glEnable(GL_DEPTH_TEST);
 
         data->vertexArray.bind();
         data->shader.bind();
-        data->shader.setMat4("mvp", camera.getModelViewProjection(glm::translate(glm::mat4(1.0f), camera.getPosition())));
+        data->shader.setMat4("mvp", camera.getModelViewProjection(glm::translate(glm::mat4(1.0f), playerPosition)));
         data->shader.setFloat("ambient", 1.0f);
         data->cubeMap.bind();
         data->vertexBuffer.draw();

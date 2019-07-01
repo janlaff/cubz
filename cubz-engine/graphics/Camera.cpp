@@ -9,52 +9,23 @@ namespace cubz::graphics {
 
     Camera::Camera(int screenWidth, int screenHeight) {
         m_projection = glm::perspective(glm::radians(45.0f), float(screenWidth) / float(screenHeight), 0.1f, 100.0f);
-        m_position = glm::vec3(0.0f, 0.0, 0.0f);
-        m_right = glm::vec3(0.0f, 1.0f, 0.0f);
-        m_direction = glm::vec3(0, 0, 0);
         m_textProjection = glm::ortho(0.0f, float(screenWidth), 0.0f, float(screenHeight));
-    }
-
-    void Camera::lookAt(const glm::vec3& target) {
-        m_direction = glm::normalize(m_position - target);
-    }
-
-    void Camera::setPosition(const glm::vec3 &position) {
-        m_position = position;
-    }
-
-    void Camera::setDirection(const glm::vec3& direction) {
-        m_direction = direction;
-        m_right = glm::normalize(glm::cross(glm::vec3(0, 1, 0), m_direction));
-    }
-
-    void Camera::setRotation(float yaw, float pitch) {
-        m_direction = glm::vec3 {
-            cos(glm::radians(pitch)) * cos(glm::radians(yaw)),
-            sin(glm::radians(pitch)),
-            cos(glm::radians(pitch)) * sin(glm::radians(yaw))
+        m_transform = Transform {
+            { 0, 0, 0 },
+            glm::mat4(1.0f),
+            glm::vec3(1.0f),
         };
     }
 
-    glm::mat4 Camera::getModelViewProjection(const glm::mat4 &model) const {
-        auto view = glm::lookAt(
-                m_position,
-                m_position - m_direction,
-                glm::vec3 { 0, 1, 0 }
-        );
+    void Camera::setTransform(const cubz::graphics::Transform &transform) {
+        m_transform = transform;
+    }
 
-        return m_projection * view * model;
+    glm::mat4 Camera::getModelViewProjection(const glm::mat4 &model) const {
+        return m_projection * m_transform.rotation * model;
     }
 
     glm::mat4 Camera::getTextProjection() const {
         return m_textProjection;
-    }
-
-    glm::vec3 Camera::getPosition() const {
-        return m_position;
-    }
-
-    glm::vec3 Camera::getDirection() const {
-        return m_direction;
     }
 }

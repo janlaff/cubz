@@ -55,11 +55,11 @@ namespace cubz::graphics::opengl {
             m_yaw = 360.0f - m_yaw;
         }
 
-        m_camera.setDirection({
+        /*m_camera.setDirection({
                 cos(glm::radians(m_pitch)) * cos(glm::radians(m_yaw)),
                 sin(glm::radians(m_pitch)),
                 cos(glm::radians(m_pitch)) * sin(glm::radians(m_yaw))
-        });
+        });*/
 
         glfwSetCursorPos(m_context.getWindow(), m_context.getWindowWidth() / 2.0, m_context.getWindowHeight() / 2.0);
 

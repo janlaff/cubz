@@ -18,14 +18,16 @@ namespace cubz::game {
     void World::createChunk(int x, int y, int z) {
         utility::Log::debug("Created chunk");
 
-        static int yMax = 0;
-
         auto chunkData = ChunkData(this, WorldPos { x, y, z });
 
         for (auto xPos = 0; xPos < CHUNK_SIZE; ++xPos) {
             for (auto yPos = 0; yPos < CHUNK_SIZE; ++yPos) {
                 for (auto zPos = 0; zPos < CHUNK_SIZE; ++zPos) {
-                    chunkData.setBlock(BlockType::dirt, xPos, yPos, zPos);
+                    if (yPos + 1 == CHUNK_SIZE) {
+                        chunkData.setBlock(BlockType::grass, xPos, yPos, zPos);
+                    } else {
+                        chunkData.setBlock(BlockType::dirt, xPos, yPos, zPos);
+                    }
                 }
             }
         }
@@ -84,5 +86,18 @@ namespace cubz::game {
                 static_cast<int>(std::floor(y / div) * div),
                 static_cast<int>(std::floor(z / div) * div)
         };
+    }
+
+    void World::createTorch(int x, int y, int z) {
+        auto pos = WorldPos { x, y, z };
+        auto torchEntity = m_engine->instantiate<TorchEntity>(pos);
+        torchEntity->updateEntity();
+        m_torchEntities.insert({ pos, torchEntity });
+    }
+
+    void World::destroyTorch(int x, int y, int z) {
+        if (auto it = m_torchEntities.find(WorldPos { x, y, z }); it != m_torchEntities.end()) {
+            m_torchEntities.erase(it);
+        }
     }
 }

@@ -3,19 +3,19 @@ cmake_minimum_required(VERSION 3.10)
 set(
         CUBZ_GAME_SOURCE_FILES
         Block.cpp
-        #AirBlock.cpp
-        #GrassBlock.cpp
-        #DirtBlock.cpp
-        #TorchBlock.cpp
-        #Chunk.cpp
+        AirBlock.cpp
+        GrassBlock.cpp
+        DirtBlock.cpp
+        TorchBlock.cpp
         World.cpp
         WorldPos.cpp
-        #TorchRenderer.cpp
-        #Skybox.cpp
         main.cpp
         ChunkUpdateSystem.cpp
         ChunkData.cpp
         ChunkEntity.cpp
+        ChunkMeshBuilder.cpp
+        TorchRenderer.cpp
+        TorchEntity.cpp
 )
 
 add_executable(cubz-game ${CUBZ_GAME_SOURCE_FILES})

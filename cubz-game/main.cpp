@@ -8,14 +8,16 @@
 #include <core/LightRenderSystem.h>
 #include <core/SkyboxRenderSystem.h>
 #include <graphics/SkyboxRenderer.h>
+#include <core/Player.h>
 
 #include "ChunkUpdateSystem.h"
 #include "World.h"
 #include "ChunkEntity.h"
+#include "TorchRenderer.h"
 
 int main(int argc, char **argv) {
     try {
-        auto engine = cubz::core::Engine(800, 600, "Test Window", "./assets");
+        auto engine = cubz::core::Engine(1280, 800, "Test Window", "./assets");
 
         auto& context = engine.getContext();
         auto& ecs = engine.getECS();
@@ -28,6 +30,7 @@ int main(int argc, char **argv) {
         ecs.registerComponent<cubz::graphics::Mesh>();
         ecs.registerComponent<cubz::graphics::SkyboxRenderer>();
         ecs.registerComponent<cubz::game::ChunkData>();
+        ecs.registerComponent<cubz::game::TorchRenderer>();
 
         // Register chunk update system
         auto chunkUpdateSystem = ecs.registerSystem<cubz::game::ChunkUpdateSystem>();
@@ -63,6 +66,7 @@ int main(int argc, char **argv) {
         auto lightRenderSystem = ecs.registerSystem<cubz::core::LightRenderSystem>(&resourceManager, &sun);
         signature = cubz::ecs::Signature();
         signature.set(ecs.getComponentType<cubz::graphics::PointLight>());
+        signature.set(ecs.getComponentType<cubz::graphics::Transform>());
         ecs.setSystemSignature<cubz::core::LightRenderSystem>(signature);
 
         // Create skybox
@@ -72,16 +76,20 @@ int main(int argc, char **argv) {
             resourceManager.getShader("skybox")
         });
 
+        // Create player
+        auto player = engine.instantiate<cubz::core::Player>();
+
         cubz::game::World world(&engine);
 
         context.setClearColor({0, 0, 0});
+        context.setMouseEnabled(false);
 
-        camera.setPosition(glm::vec3 { 4, 1, 3 } * 10.0f);
-        camera.lookAt({ 0, 0, 0 });
+        player->setPosition(glm::vec3 { 4, 1, 3 });
+        player->lookAt({ 0, 0, 0 });
 
         // Test light
         // TODO: add torches
-        auto testLight = ecs.createEntity();
+        /*auto testLight = ecs.createEntity();
         ecs.addComponent<cubz::graphics::PointLight>(testLight, cubz::graphics::PointLight {
             { 0, 0, 0 },
             1.0f,//1.0f, 2.0f
@@ -92,11 +100,13 @@ int main(int argc, char **argv) {
             { 5.0f, 1.0f, 1.0f },
             true
         });
-        ecs.updateEntity(testLight);
+        ecs.updateEntity(testLight);*/
 
         int i = 0;
         float deltaSum = 0;
         int fpsFrequency = 250;
+
+        world.setBlock(cubz::game::BlockType::torch, 0, 0, 0);
 
         while (!context.windowClosed()) {
             float deltaTime = context.getDeltaTime();
@@ -114,11 +124,20 @@ int main(int argc, char **argv) {
             }
 
             context.clear();
-            lightRenderSystem->update(camera.getPosition(), true);
+            auto [deltaX, deltaY] = context.getMouseMovement();
+            auto [forward, side] = context.getPlayerMovement();
+            player->updateView(deltaX, deltaY, deltaTime);
+            player->updatePosition(forward, side, deltaTime);
+
+            auto playerTransform = player->getComponent<cubz::graphics::Transform>();
+
+            camera.setTransform(playerTransform);
+
+            lightRenderSystem->update(playerTransform.position, true);
             chunkUpdateSystem->updateChunks();
             meshRenderSystem->update(deltaTime);
             meshRenderSystem->render(camera);
-            skyboxRenderSystem->render(camera);
+            skyboxRenderSystem->render(camera, playerTransform.position);
             context.render();
         }
     } catch (std::exception& e) {

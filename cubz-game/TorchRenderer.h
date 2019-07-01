@@ -6,9 +6,10 @@
 #include "WorldPos.h"
 #include "graphics/PointLight.h"
 
-namespace cubz::graphics {
-    class TorchRenderer : public MeshRenderer {
-    public:
-        void render(const Camera& camera, const glm::vec3& position) override;
+namespace cubz::game {
+    struct TorchRenderer : graphics::MeshRenderer {
+        using MeshRenderer::MeshRenderer;
+
+        void render(const graphics::Camera& camera) override;
     };
 }

@@ -18,27 +18,25 @@ namespace cubz::core {
         std::vector<graphics::PointLight> pointLights;
 
         for (const auto& entity : m_updatedEntities) {
-            const auto& light = m_ecs->getComponent<graphics::PointLight>(entity);
-            pointLights.push_back(light);
+            auto light = m_ecs->getComponent<graphics::PointLight>(entity);
+            light.position = m_ecs->getComponent<graphics::Transform>(entity).position;
+            pointLights.push_back(std::move(light));
         }
 
-        if (!pointLights.empty()) {
-            // TODO: optimize this to only use light using shaders
-            for (auto [name, shader] : m_rsc->getShaders()) {
-                shader.bind();
+        for (auto [name, shader] : m_rsc->getShaders()) {
+            shader.bind();
 
-                int lightIndex = 0;
+            int lightIndex = 0;
 
-                for (auto& pointLight : pointLights) {
-                    pointLight.bind(shader, lightIndex++);
-                }
-
-                shader.setInt("lightCount", lightIndex);
-                shader.setVec3("playerPosition", playerPosition);
-                shader.setInt("sunLight.isActive", sunOn);
-
-                shader.unbind();
+            for (auto& pointLight : pointLights) {
+                pointLight.bind(shader, lightIndex++);
             }
+
+            shader.setInt("lightCount", lightIndex);
+            shader.setVec3("playerPosition", playerPosition);
+            shader.setInt("dirLight.isActive", sunOn);
+
+            shader.unbind();
         }
 
         m_updatedEntities.clear();

@@ -18,8 +18,6 @@ namespace cubz::game {
         WorldPos getPosition() const;
         BlockType getBlock(int x, int y, int z) const;
         void setBlock(BlockType block, int x, int y, int z);
-        bool needsUpdate();
-        void afterUpdate();
 
     private:
         bool inRange(int index) const;
@@ -27,6 +25,5 @@ namespace cubz::game {
         std::array<std::array<std::array<BlockType, CHUNK_SIZE>, CHUNK_SIZE>, CHUNK_SIZE> m_blocks;
         WorldPos m_position;
         World* m_world;
-        bool m_update;
     };
 }

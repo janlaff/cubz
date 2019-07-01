@@ -1,9 +1,13 @@
 #include "TorchBlock.h"
 
 namespace cubz::game {
-    void TorchBlock::addToMesh(const Chunk &chunk, int x, int y, int z, graphics::Mesh &meshData) {
-        faceDataNorth(x, y, z, meshData);
-        faceDataEast(x, y, z, meshData);
+    void TorchBlock::addSolidToMesh(graphics::Mesh &mesh) {
+        faceDataNorth(0, 0, 0, mesh);
+        faceDataEast(0, 0, 0, mesh);
+    }
+
+    void TorchBlock::addToMesh(ChunkMeshBuilder& meshBuilder, int x, int y, int z) {
+        // Dont render together with chunks
     }
 
     bool TorchBlock::isSolid(Block::Direction direction) {

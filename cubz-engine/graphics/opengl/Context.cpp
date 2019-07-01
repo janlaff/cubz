@@ -95,4 +95,40 @@ namespace cubz::graphics::opengl {
     float Context::getDeltaTime() const {
         return m_deltaTime;
     }
+
+    std::pair<float, float> Context::getMouseMovement() const {
+        double xPos;
+        double yPos;
+        // fetch movement
+        glfwGetCursorPos(m_window, &xPos, &yPos);
+
+        float deltaX = xPos - getWindowWidth() / 2.0;
+        float deltaY = yPos - getWindowHeight() / 2.0;
+
+        // Reset mouse
+        glfwSetCursorPos(m_window, getWindowWidth() / 2.0, getWindowHeight() / 2.0);
+
+        return { deltaX, deltaY };
+    }
+
+    std::pair<float, float> Context::getPlayerMovement() const {
+        auto forward = 0.0f;
+        auto side = 0.0;
+
+        if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) {
+            forward = 1.0f;
+        }
+        else if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS) {
+            forward = -1.0f;
+        }
+
+        if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS) {
+            side = 1.0f;
+        }
+        else if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS) {
+            side = -1.0f;
+        }
+
+        return { forward, side };
+    }
 }

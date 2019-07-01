@@ -7,6 +7,7 @@ set(
         LightRenderSystem.cpp
         SkyboxRenderSystem.cpp
         GameObject.cpp
+        Player.cpp
 )
 
 add_library(core STATIC ${CORE_SOURCE_FILES})

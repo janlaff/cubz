@@ -3,40 +3,31 @@
 namespace cubz::game {
     const float Block::tileSize = 1.0f / 16.0f;
 
-    void Block::addSolid(cubz::graphics::Mesh &meshData, int x, int y, int z) {
-        faceDataUp(x, y, z, meshData);
-        faceDataDown(x, y, z, meshData);
-        faceDataNorth(x, y, z, meshData);
-        faceDataSouth(x, y, z, meshData);
-        faceDataEast(x, y, z, meshData);
-        faceDataWest(x, y, z, meshData);
+    void Block::addToMesh(ChunkMeshBuilder& meshBuilder, int x, int y, int z) {
+        if (!meshBuilder.getBlock(x, y + 1, z)->isSolid(Direction::down)) {
+            faceDataUp(x, y, z, meshBuilder.getMesh());
+        }
+
+        if (!meshBuilder.getBlock(x, y - 1, z)->isSolid(Direction::up)) {
+            faceDataDown(x, y, z, meshBuilder.getMesh());
+        }
+
+        if (!meshBuilder.getBlock(x, y, z + 1)->isSolid(Direction::south)) {
+            faceDataNorth(x, y, z, meshBuilder.getMesh());
+        }
+
+        if (!meshBuilder.getBlock(x, y, z - 1)->isSolid(Direction::north)) {
+            faceDataSouth(x, y, z, meshBuilder.getMesh());
+        }
+
+        if (!meshBuilder.getBlock(x + 1, y, z)->isSolid(Direction::west)) {
+            faceDataEast(x, y, z, meshBuilder.getMesh());
+        }
+
+        if (!meshBuilder.getBlock(x - 1, y, z)->isSolid(Direction::east)) {
+            faceDataWest(x, y, z, meshBuilder.getMesh());
+        }
     }
-
-    /*void Block::addToMesh(const Chunk &chunk, int x, int y, int z, graphics::Mesh &meshData) {
-        if (!chunk.getBlock(x, y + 1, z)->isSolid(Direction::down)) {
-            faceDataUp(x, y, z, meshData);
-        }
-
-        if (!chunk.getBlock(x, y - 1, z)->isSolid(Direction::up)) {
-            faceDataDown(x, y, z, meshData);
-        }
-
-        if (!chunk.getBlock(x, y, z + 1)->isSolid(Direction::south)) {
-            faceDataNorth(x, y, z, meshData);
-        }
-
-        if (!chunk.getBlock(x, y, z - 1)->isSolid(Direction::north)) {
-            faceDataSouth(x, y, z, meshData);
-        }
-
-        if (!chunk.getBlock(x + 1, y, z)->isSolid(Direction::west)) {
-            faceDataEast(x, y, z, meshData);
-        }
-
-        if (!chunk.getBlock(x - 1, y, z)->isSolid(Direction::east)) {
-            faceDataWest(x, y, z, meshData);
-        }
-    }*/
 
     bool Block::isSolid(Block::Direction direction) {
         // Every side is solid

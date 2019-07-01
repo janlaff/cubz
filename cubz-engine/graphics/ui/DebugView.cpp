@@ -29,7 +29,7 @@ namespace cubz::graphics::ui {
 
     void DebugView::render(const cubz::graphics::Camera &camera) {
         m_position = camera.getPosition();
-        m_direction = camera.getDirection();
+        //m_direction = camera.getDirection();
 
         m_fpsText.render(camera);
         m_positionText.render(camera);
