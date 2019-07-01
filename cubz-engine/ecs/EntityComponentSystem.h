@@ -14,6 +14,7 @@ namespace cubz::ecs {
 
         Entity createEntity();
         void destroyEntity(Entity entity);
+        void updateEntity(Entity entity);
 
         template<typename T> void registerComponent();
         template<typename T> void addComponent(Entity entity, T component);

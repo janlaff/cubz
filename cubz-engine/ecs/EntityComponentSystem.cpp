@@ -16,4 +16,8 @@ namespace cubz::ecs {
         m_componentManager->entityDestroyed(entity);
         m_systemManager->entityDestroyed(entity);
     }
+
+    void EntityComponentSystem::updateEntity(Entity entity) {
+        m_systemManager->entityUpdated(entity);
+    }
 }

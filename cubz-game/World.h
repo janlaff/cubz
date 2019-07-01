@@ -4,6 +4,7 @@
 
 #include "ChunkData.h"
 #include "WorldPos.h"
+#include "ChunkEntity.h"
 
 namespace cubz::game {
     class World {
@@ -12,14 +13,14 @@ namespace cubz::game {
 
         void createChunk(int x, int y, int z);
         void destroyChunk(int x, int y, int z);
-        ChunkData* getChunkData(const WorldPos& position);
+        ChunkEntity* getChunkEntity(const WorldPos& position);
         BlockType getBlock(int x, int y, int z);
         void setBlock(BlockType blockType, int x, int y, int z);
         WorldPos getChunkPos(int x, int y, int z);
 
     private:
         core::Engine* m_engine;
-        WorldPosMap<ecs::Entity> m_chunkEntities;
+        WorldPosMap<std::shared_ptr<ChunkEntity>> m_chunkEntities;
     };
 
     /*class World {

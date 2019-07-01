@@ -1,16 +1,13 @@
-//
-// Created by jan on 6/28/19.
-//
+#pragma once
 
-#ifndef CUBZ_CHUNKENTITY_H
-#define CUBZ_CHUNKENTITY_H
+#include <core/GameObject.h>
+#include "ChunkData.h"
 
+namespace cubz::game {
+    class ChunkEntity : public core::GameObject {
+    public:
+        ChunkEntity(core::Engine* engine);
 
-
-class ChunkEntity {
-
-};
-
-
-
-#endif //CUBZ_CHUNKENTITY_H
+        void update(float deltaTime) override;
+    };
+}

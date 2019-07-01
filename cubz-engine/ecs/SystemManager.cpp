@@ -9,6 +9,11 @@ namespace cubz::ecs {
 
     void System::removeEntity(Entity entity) {
         m_entities.erase(entity);
+        m_updatedEntities.erase(entity);
+    }
+
+    void System::updateEntity(Entity entity) {
+        m_updatedEntities.insert(entity);
     }
 
     void SystemManager::entityDestroyed(Entity entity) {
@@ -27,6 +32,12 @@ namespace cubz::ecs {
             } else {
                 system->removeEntity(entity);
             }
+        }
+    }
+
+    void SystemManager::entityUpdated(Entity entity) {
+        for (const auto& [typeName, system] : m_systems) {
+            system->updateEntity(entity);
         }
     }
 }

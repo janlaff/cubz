@@ -8,7 +8,6 @@ namespace cubz::core {
         explicit GameObject(Engine* engine);
         ~GameObject();
 
-        virtual void start();
         virtual void update(float deltaTime);
 
         template<typename T>
@@ -19,6 +18,8 @@ namespace cubz::core {
 
         template<typename T>
         T& getComponent();
+
+        void updateEntity();
 
         graphics::ResourceManager& getResourceManager();
 

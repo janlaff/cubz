@@ -18,6 +18,9 @@ namespace cubz::core {
         graphics::opengl::Context& getContext();
         ecs::EntityComponentSystem& getECS();
 
+        template<typename T, typename ... Args>
+        std::shared_ptr<T> instantiate(Args&&... args);
+
     private:
         ecs::EntityComponentSystem m_ecs;
         graphics::opengl::Context m_context;
@@ -27,3 +30,5 @@ namespace cubz::core {
         float m_lastFrame;
     };
 }
+
+#include "Engine.impl.h"

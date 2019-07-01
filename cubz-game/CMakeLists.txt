@@ -13,8 +13,9 @@ set(
         #TorchRenderer.cpp
         #Skybox.cpp
         main.cpp
-        ChunkRenderSystem.cpp
+        ChunkUpdateSystem.cpp
         ChunkData.cpp
+        ChunkEntity.cpp
 )
 
 add_executable(cubz-game ${CUBZ_GAME_SOURCE_FILES})

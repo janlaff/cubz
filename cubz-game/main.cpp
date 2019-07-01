@@ -6,8 +6,9 @@
 #include <graphics/ui/DebugView.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "ChunkRenderSystem.h"
+#include "ChunkUpdateSystem.h"
 #include "World.h"
+#include "ChunkEntity.h"
 
 int main(int argc, char **argv) {
     try {
@@ -18,35 +19,25 @@ int main(int argc, char **argv) {
         auto& camera = engine.getCamera();
         auto& resourceManager = engine.getResourceManager();
 
-        // Register chunk components
-        ecs.registerComponent<cubz::game::ChunkData>();
+        ecs.registerComponent<cubz::graphics::Transform>();
         ecs.registerComponent<cubz::graphics::MeshRenderer>();
         ecs.registerComponent<cubz::graphics::Mesh>();
+        ecs.registerComponent<cubz::game::ChunkData>();
 
-        // Register chunk rendering system
-        auto chunkRenderSystem = ecs.registerSystem<cubz::game::ChunkRenderSystem>();
+        // Register chunk update system
+        auto chunkUpdateSystem = ecs.registerSystem<cubz::game::ChunkUpdateSystem>();
         auto signature = cubz::ecs::Signature();
         signature.set(ecs.getComponentType<cubz::game::ChunkData>());
+        signature.set(ecs.getComponentType<cubz::graphics::Mesh>());
+        signature.set(ecs.getComponentType<cubz::graphics::Transform>());
+        ecs.setSystemSignature<cubz::game::ChunkUpdateSystem>(signature);
+
+        auto meshRenderSystem = ecs.registerSystem<cubz::core::MeshRenderSystem>();
+        signature = cubz::ecs::Signature();
+        signature.set(ecs.getComponentType<cubz::graphics::Transform>());
         signature.set(ecs.getComponentType<cubz::graphics::MeshRenderer>());
         signature.set(ecs.getComponentType<cubz::graphics::Mesh>());
-        ecs.setSystemSignature<cubz::game::ChunkRenderSystem>(signature);
-
-        /*auto chunk = ecs.createEntity();
-        auto meshRenderer = cubz::graphics::MeshRenderer(
-                resourceManager.getShader("mesh"),
-                cubz::graphics::opengl::Material{
-                        resourceManager.getTexture("terrain.png"),
-                        { 1, 1, 1 },
-                        32
-                });
-        auto mesh = cubz::graphics::Mesh();
-        auto chunkData = cubz::game::ChunkData();
-        chunkData.
-
-        ecs.addComponent<cubz::graphics::Mesh>(chunk, mesh);
-        ecs.addComponent<cubz::graphics::MeshRenderer>(chunk, meshRenderer);
-        ecs.addComponent<cubz::game::ChunkData>(chunk, chunkData);*/
-
+        ecs.setSystemSignature<cubz::core::MeshRenderSystem>(signature);
 
         cubz::game::World world(&engine);
 
@@ -68,8 +59,9 @@ int main(int argc, char **argv) {
             }
 
             context.clear();
-            chunkRenderSystem->update(deltaTime);
-            chunkRenderSystem->render(camera);
+            chunkUpdateSystem->updateChunks();
+            meshRenderSystem->update(deltaTime);
+            meshRenderSystem->render(camera);
             context.render();
         }
     } catch (std::exception& e) {

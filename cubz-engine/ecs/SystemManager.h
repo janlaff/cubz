@@ -17,9 +17,11 @@ namespace cubz::ecs {
 
         void addEntity(Entity entity);
         void removeEntity(Entity entity);
+        void updateEntity(Entity entity);
 
     protected:
         std::set<Entity> m_entities;
+        std::set<Entity> m_updatedEntities;
         EntityComponentSystem* m_ecs;
     };
 
@@ -30,6 +32,7 @@ namespace cubz::ecs {
 
         void entityDestroyed(Entity entity);
         void entitySignatureChanged(Entity entity, Signature entitySignature);
+        void entityUpdated(Entity entity);
 
     private:
         std::unordered_map<const char*, Signature> m_signatures;
