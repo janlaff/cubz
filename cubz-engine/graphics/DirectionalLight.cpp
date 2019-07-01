@@ -1,7 +1,7 @@
 #include "DirectionalLight.h"
 
-namespace cubz::graphics::opengl {
-    void DirectionalLight::bind(cubz::graphics::opengl::Shader &shader) {
+namespace cubz::graphics {
+    void DirectionalLight::bind(opengl::Shader &shader) {
         shader.setVec3("dirLight.direction", direction);
         shader.setVec3("dirLight.ambient", ambient);
         shader.setVec3("dirLight.diffuse", diffuse);
@@ -9,7 +9,7 @@ namespace cubz::graphics::opengl {
         shader.setInt("dirLight.isActive", true);
     }
 
-    void DirectionalLight::unbind(cubz::graphics::opengl::Shader &shader) {
+    void DirectionalLight::unbind(opengl::Shader &shader) {
         shader.setInt("dirLight.isActive", false);
     }
 }

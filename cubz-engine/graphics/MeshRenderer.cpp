@@ -10,6 +10,7 @@ namespace cubz::graphics {
 
         data->shader = shader;
         data->material = material;
+
         data->vertexArray.bind();
         data->vertexBuffer.bind();
         data->vertexBuffer.setAttribPointer();

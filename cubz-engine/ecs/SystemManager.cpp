@@ -13,7 +13,9 @@ namespace cubz::ecs {
     }
 
     void System::updateEntity(Entity entity) {
-        m_updatedEntities.insert(entity);
+        if (m_entities.find(entity) != m_entities.end()) {
+            m_updatedEntities.insert(entity);
+        }
     }
 
     void SystemManager::entityDestroyed(Entity entity) {

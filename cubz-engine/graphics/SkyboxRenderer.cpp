@@ -1,19 +1,19 @@
-#include "Skybox.h"
-#include "ResourceManager.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include "SkyboxRenderer.h"
 #include "opengl/VertexQuadBuilder.h"
 
-#include <glm/gtc/matrix_transform.hpp>
+namespace cubz::graphics {
+    SkyboxRenderer::SkyboxRenderer(cubz::graphics::opengl::CubeMap cubeMap, cubz::graphics::opengl::Shader shader) {
+        data = std::make_shared<Data>();
 
-namespace cubz::game {
-    const float skyboxSize = 1.0f;
+        data->cubeMap = cubeMap;
+        data->shader = shader;
 
-    Skybox::Skybox()
-        : m_cubeMap("skybox")
-        , m_shader(graphics::ResourceManager::getInstance().getShader("skybox")) {
-        m_vertexArray.bind();
-        m_vertexBuffer.bind();
+        data->vertexArray.bind();
+        data->vertexBuffer.bind();
 
-        auto quadBuilder = graphics::opengl::VertexQuadBuilder();
+        auto quadBuilder = opengl::VertexQuadBuilder();
+        auto skyboxSize = 1.0f;
 
         // North
         quadBuilder.addVertex({ -skyboxSize, skyboxSize, -skyboxSize });
@@ -57,27 +57,27 @@ namespace cubz::game {
         quadBuilder.addVertex({ -skyboxSize, skyboxSize, -skyboxSize });
         quadBuilder.addQuadVertices();
 
-        m_vertexBuffer.update(quadBuilder.getQuadVertices(), false);
+        data->vertexBuffer.update(quadBuilder.getQuadVertices(), false);
 
-        m_vertexBuffer.setAttribPointer();
-        m_vertexArray.enableAttrib(0);
-        m_vertexArray.unbind();
+        data->vertexBuffer.setAttribPointer();
+        data->vertexArray.enableAttrib(0);
+        data->vertexArray.unbind();
     }
 
-    void Skybox::render(const graphics::Camera& camera, const glm::vec3& position, float ambient) {
+    void SkyboxRenderer::render(const cubz::graphics::Camera &camera) {
         glDepthMask(GL_FALSE);
         glDepthFunc(GL_LEQUAL);
         glEnable(GL_DEPTH_TEST);
 
-        m_vertexArray.bind();
-        m_shader.bind();
-        m_shader.setMat4("mvp", camera.getModelViewProjection(glm::translate(glm::mat4(1.0f), position)));
-        m_shader.setFloat("ambient", ambient);
-        m_cubeMap.bind();
-        m_vertexBuffer.draw();
-        m_cubeMap.unbind();
-        m_shader.unbind();
-        m_vertexArray.unbind();
+        data->vertexArray.bind();
+        data->shader.bind();
+        data->shader.setMat4("mvp", camera.getModelViewProjection(glm::translate(glm::mat4(1.0f), camera.getPosition())));
+        data->shader.setFloat("ambient", 1.0f);
+        data->cubeMap.bind();
+        data->vertexBuffer.draw();
+        data->cubeMap.unbind();
+        data->shader.unbind();
+        data->vertexArray.unbind();
 
         glDisable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);

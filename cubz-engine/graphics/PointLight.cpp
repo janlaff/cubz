@@ -1,7 +1,7 @@
 #include "PointLight.h"
 
-namespace cubz::graphics::opengl {
-    void PointLight::bind(cubz::graphics::opengl::Shader &shader, int idx) {
+namespace cubz::graphics {
+    void PointLight::bind(opengl::Shader &shader, int idx) {
         index = "pointLights[" + std::to_string(idx) + "].";
         shader.setVec3(index + "position", position);
         shader.setFloat(index + "constant", constant);
@@ -13,7 +13,7 @@ namespace cubz::graphics::opengl {
         shader.setInt(index + "isActive", true);
     }
 
-    void PointLight::unbind(cubz::graphics::opengl::Shader &shader) {
+    void PointLight::unbind(opengl::Shader &shader) {
         shader.setInt(index + "isActive", false);
     }
 }

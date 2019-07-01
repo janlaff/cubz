@@ -4,7 +4,7 @@
 
 #include "MeshRenderer.h"
 #include "WorldPos.h"
-#include "opengl/PointLight.h"
+#include "graphics/PointLight.h"
 
 namespace cubz::graphics {
     class TorchRenderer : public MeshRenderer {

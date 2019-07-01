@@ -38,9 +38,9 @@ namespace cubz::ecs {
         return m_componentManager->getComponentType<T>();
     }
 
-    template<typename T>
-    std::shared_ptr<T> EntityComponentSystem::registerSystem() {
-        return m_systemManager->registerSystem<T>(this);
+    template<typename T, typename ... Args>
+    std::shared_ptr<T> EntityComponentSystem::registerSystem(Args&&... args) {
+        return m_systemManager->registerSystem<T>(this, std::forward<Args>(args)...);
     }
 
     template<typename T>

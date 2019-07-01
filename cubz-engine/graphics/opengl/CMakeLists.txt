@@ -16,8 +16,6 @@ set(
         UVBuffer.cpp
         AbstractBuffer.cpp
         NormalBuffer.cpp
-        DirectionalLight.cpp
-        PointLight.cpp
         Material.cpp
         CubeMap.cpp
         VertexQuadBuilder.cpp

@@ -3,7 +3,10 @@
 namespace cubz::graphics {
     ResourceManager::ResourceManager(const std::string &assetsDir)
             : m_assetsDir(assetsDir)
-            , m_freetypeContext(getShader("text")) {}
+            , m_freetypeContext(getShader("text")) {
+        // Early load mesh shader
+        getShader("mesh");
+    }
 
 
     std::string ResourceManager::getAssetsDir() const {
@@ -28,7 +31,20 @@ namespace cubz::graphics {
         }
     }
 
+    opengl::CubeMap ResourceManager::getCubeMap(const std::string &dir) {
+        if (auto it = m_cubeMaps.find(dir); it != m_cubeMaps.end()) {
+            return it->second;
+        } else {
+            auto tmp = m_cubeMaps.insert({dir, opengl::CubeMap(m_assetsDir + "/textures/" + dir + "/")}).first;
+            return tmp->second;
+        }
+    }
+
     ui::FreetypeCharMap ResourceManager::generateCharMap(const std::string &name, int size) {
         return m_freetypeContext.generateCharMap(m_assetsDir + "/fonts/" + name, size);
+    }
+
+    std::map<std::string, opengl::Shader> ResourceManager::getShaders() {
+        return m_shaders;
     }
 }

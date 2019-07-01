@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Shader.h"
+#include "opengl/Shader.h"
 
-namespace cubz::graphics::opengl {
+namespace cubz::graphics {
     struct PointLight {
         glm::vec3 position;
         GLfloat constant;
@@ -14,7 +14,7 @@ namespace cubz::graphics::opengl {
         GLboolean isActive = true;
         std::string index = "";
 
-        void bind(Shader &shader, int idx);
-        void unbind(Shader& shader);
+        void bind(opengl::Shader &shader, int idx);
+        void unbind(opengl::Shader& shader);
     };
 }

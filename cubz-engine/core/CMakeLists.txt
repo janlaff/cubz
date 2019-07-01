@@ -4,6 +4,8 @@ set(
         CORE_SOURCE_FILES
         Engine.cpp
         MeshRenderSystem.cpp
+        LightRenderSystem.cpp
+        SkyboxRenderSystem.cpp
         GameObject.cpp
 )
 

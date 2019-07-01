@@ -1,5 +1,4 @@
 #include "MeshRenderSystem.h"
-#include "EntityComponentSystem.h"
 #include "Mesh.h"
 #include "BasicComponents.h"
 #include "MeshRenderer.h"

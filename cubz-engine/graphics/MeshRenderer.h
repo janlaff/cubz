@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "opengl/PointLight.h"
+#include "PointLight.h"
 #include "opengl/VertexBuffer.h"
 #include "opengl/NormalBuffer.h"
 #include "opengl/UVBuffer.h"
@@ -12,7 +12,6 @@
 #include "opengl/Texture.h"
 #include "opengl/Material.h"
 #include "Mesh.h"
-#include "../../cubz-game/WorldPos.h"
 #include "Camera.h"
 #include "BasicComponents.h"
 
@@ -36,7 +35,5 @@ namespace cubz::graphics {
 
         void update(const Transform& transform, const Mesh& mesh);
         void render(const Camera& camera);
-        //void updateLights(const WorldPosMap<opengl::PointLight>& lights);
-        //virtual void render(const Camera& camera, const glm::vec3& position);
     };
 }

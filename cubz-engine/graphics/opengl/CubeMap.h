@@ -8,6 +8,7 @@
 namespace cubz::graphics::opengl {
     class CubeMap : public Texture {
     public:
+        CubeMap() = default;
         CubeMap(const std::string& name);
 
         void load(const std::string& name) override;

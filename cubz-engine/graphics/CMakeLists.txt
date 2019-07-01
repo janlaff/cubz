@@ -9,7 +9,10 @@ set(
         Screen.cpp
         Camera.cpp
         MeshRenderer.cpp
+        SkyboxRenderer.cpp
         ResourceManager.cpp
+        PointLight.cpp
+        DirectionalLight.cpp
 )
 
 add_library(graphics STATIC ${GRAPHICS_SOURCE_FILES})

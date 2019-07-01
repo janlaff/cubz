@@ -21,7 +21,7 @@ namespace cubz::ecs {
         template<typename T> void removeComponent(Entity entity);
         template<typename T> T& getComponent(Entity entity);
         template<typename T> ComponentType getComponentType();
-        template<typename T> std::shared_ptr<T> registerSystem();
+        template<typename T, typename ... Args> std::shared_ptr<T> registerSystem(Args&&... args);
         template<typename T> void setSystemSignature(Signature signature);
 
     private:

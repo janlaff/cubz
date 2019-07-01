@@ -16,3 +16,5 @@ add_subdirectory(utility)
 add_library(cubz-engine INTERFACE)
 target_link_libraries(cubz-engine INTERFACE core ecs graphics physics utility)
 target_include_directories(cubz-engine INTERFACE .)
+
+file(COPY assets DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

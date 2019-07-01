@@ -27,7 +27,7 @@ namespace cubz::ecs {
 
     class SystemManager {
     public:
-        template<typename T> std::shared_ptr<T> registerSystem(EntityComponentSystem* ecs);
+        template<typename T, typename ... Args> std::shared_ptr<T> registerSystem(EntityComponentSystem* ecs, Args&&... args);
         template<typename T> void setSignature(Signature signature);
 
         void entityDestroyed(Entity entity);

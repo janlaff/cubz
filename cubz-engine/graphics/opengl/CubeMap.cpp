@@ -8,8 +8,6 @@ namespace cubz::graphics::opengl {
     }
 
     void CubeMap::load(const std::string& name) {
-        auto dir = std::string(textureDir) + name + "/";
-
         bind();
 
         std::string files[] = {
@@ -22,7 +20,7 @@ namespace cubz::graphics::opengl {
         };
 
         for (GLuint i = 0; i < 6; ++i) {
-            auto filename = dir + files[i];
+            auto filename = name + files[i];
             auto image = loadImage(filename);
 
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data);
