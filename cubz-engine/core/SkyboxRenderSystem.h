@@ -8,6 +8,6 @@ namespace cubz::core {
     public:
         using System::System;
 
-        virtual void render(const graphics::Camera& camera, const glm::vec3& playerPosition);
+        virtual void render(const graphics::Camera& camera, const glm::vec3& playerPosition, float ambient);
     };
 }

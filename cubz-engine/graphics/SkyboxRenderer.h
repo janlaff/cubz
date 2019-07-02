@@ -23,6 +23,6 @@ namespace cubz::graphics {
         SkyboxRenderer() = default;
         SkyboxRenderer(opengl::CubeMap cubeMap, opengl::Shader shader);
 
-        void render(const Camera& camera, const glm::vec3& playerPosition);
+        void render(const Camera& camera, const glm::vec3& playerPosition, float ambient);
     };
 }

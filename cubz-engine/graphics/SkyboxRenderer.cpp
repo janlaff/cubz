@@ -64,7 +64,7 @@ namespace cubz::graphics {
         data->vertexArray.unbind();
     }
 
-    void SkyboxRenderer::render(const Camera &camera, const glm::vec3& playerPosition) {
+    void SkyboxRenderer::render(const Camera &camera, const glm::vec3& playerPosition, float ambient) {
         glDepthMask(GL_FALSE);
         glDepthFunc(GL_LEQUAL);
         glEnable(GL_DEPTH_TEST);
@@ -72,7 +72,7 @@ namespace cubz::graphics {
         data->vertexArray.bind();
         data->shader.bind();
         data->shader.setMat4("mvp", camera.getModelViewProjection(glm::translate(glm::mat4(1.0f), playerPosition)));
-        data->shader.setFloat("ambient", 1.0f);
+        data->shader.setFloat("ambient", ambient);
         data->cubeMap.bind();
         data->vertexBuffer.draw();
         data->cubeMap.unbind();
