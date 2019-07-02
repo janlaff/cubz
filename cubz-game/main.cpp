@@ -3,12 +3,15 @@
 #include <graphics/Mesh.h>
 #include <graphics/MeshRenderer.h>
 #include <graphics/BasicComponents.h>
-#include <graphics/ui/DebugView.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <core/LightRenderSystem.h>
 #include <core/SkyboxRenderSystem.h>
 #include <graphics/SkyboxRenderer.h>
 #include <core/Player.h>
+#include <core/TextRenderSystem.h>
+#include <core/Text.h>
+#include <graphics/ui/TextData.h>
+#include <graphics/ui/TextRenderer.h>
 
 #include "ChunkUpdateSystem.h"
 #include "World.h"
@@ -32,6 +35,8 @@ int main(int argc, char **argv) {
         ecs.registerComponent<cubz::graphics::SkyboxRenderer>();
         ecs.registerComponent<cubz::game::ChunkData>();
         ecs.registerComponent<cubz::game::TorchRenderer>();
+        ecs.registerComponent<cubz::graphics::ui::TextData>();
+        ecs.registerComponent<cubz::graphics::ui::TextRenderer>();
 
         // Register chunk update system
         auto chunkUpdateSystem = ecs.registerSystem<cubz::game::ChunkUpdateSystem>();
@@ -62,6 +67,13 @@ int main(int argc, char **argv) {
         signature.set(ecs.getComponentType<cubz::graphics::Transform>());
         signature.set(ecs.getComponentType<cubz::game::TorchRenderer>());
         ecs.setSystemSignature<cubz::game::TorchRenderSystem>(signature);
+
+        // Text rendering system
+        auto textRenderSystem = ecs.registerSystem<cubz::core::TextRenderSystem>();
+        signature = cubz::ecs::Signature();
+        signature.set(ecs.getComponentType<cubz::graphics::ui::TextData>());
+        signature.set(ecs.getComponentType<cubz::graphics::ui::TextRenderer>());
+        ecs.setSystemSignature<cubz::core::TextRenderSystem>(signature);
 
         // Light rendering system
         // Create sun
@@ -116,10 +128,11 @@ int main(int argc, char **argv) {
         int fpsFrequency = 250;
 
 
-        for (auto xPos = 0; xPos < cubz::game::CHUNK_SIZE; ++xPos) {
-            for (auto yPos = 0; yPos < cubz::game::CHUNK_SIZE; ++yPos) {
-                for (auto zPos = 0; zPos < cubz::game::CHUNK_SIZE; ++zPos) {
-                    if (yPos + 1 == cubz::game::CHUNK_SIZE) {
+        int miniWorldSize = 16;
+        for (auto xPos = -miniWorldSize; xPos < miniWorldSize; ++xPos) {
+            for (auto yPos = 0; yPos < miniWorldSize; ++yPos) {
+                for (auto zPos = -miniWorldSize; zPos < miniWorldSize; ++zPos) {
+                    if (yPos + 1 == miniWorldSize) {
                         world.setBlock(cubz::game::BlockType::grass, xPos, yPos, zPos);
                     } else {
                         world.setBlock(cubz::game::BlockType::dirt, xPos, yPos, zPos);
@@ -129,6 +142,11 @@ int main(int argc, char **argv) {
         }
 
         world.setBlock(cubz::game::BlockType::torch, 0, 16, 0);
+        world.setBlock(cubz::game::BlockType::dirt, 2, 16, 0);
+        world.setBlock(cubz::game::BlockType::grass, 4, 16, 0);
+
+        auto charMap = resourceManager.generateCharMap("OpenSans-Regular.ttf", 24);
+        auto text = engine.instantiate<cubz::core::Text>();
 
         while (!context.windowClosed()) {
             float deltaTime = context.getDeltaTime();
@@ -139,7 +157,7 @@ int main(int argc, char **argv) {
                 float averageDeltaTime = deltaSum / fpsFrequency;
                 int fps = 1.0f / averageDeltaTime;
 
-                cubz::utility::Log::debug("Fps: " + std::to_string(fps));
+                text->setText("Fps: " + std::to_string(fps));
 
                 i = 0;
                 deltaSum = 0;
@@ -159,9 +177,13 @@ int main(int argc, char **argv) {
             chunkUpdateSystem->updateChunks();
             torchRenderSystem->update();
             meshRenderSystem->update(deltaTime);
+            textRenderSystem->update();
+
+
             meshRenderSystem->render(camera);
             skyboxRenderSystem->render(camera, playerTransform.position);
             torchRenderSystem->render(camera);
+            textRenderSystem->render(camera, charMap);
             context.render();
         }
     } catch (std::exception& e) {

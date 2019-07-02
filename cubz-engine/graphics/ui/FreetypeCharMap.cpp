@@ -9,7 +9,7 @@ namespace cubz::graphics::ui {
         return bool(m_chars[value]);
     }
 
-    std::shared_ptr<FreetypeChar> FreetypeCharMap::getChar(char value) {
+    std::shared_ptr<FreetypeChar> FreetypeCharMap::getChar(char value) const {
         return m_chars[value];
     }
 }

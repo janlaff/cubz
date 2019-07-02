@@ -6,8 +6,10 @@ set(
         MeshRenderSystem.cpp
         LightRenderSystem.cpp
         SkyboxRenderSystem.cpp
+        TextRenderSystem.cpp
         GameObject.cpp
         Player.cpp
+        Text.cpp
 )
 
 add_library(core STATIC ${CORE_SOURCE_FILES})

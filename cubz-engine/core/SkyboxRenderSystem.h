@@ -6,7 +6,7 @@
 namespace cubz::core {
     class SkyboxRenderSystem : public ecs::System {
     public:
-        using ecs::System::System;
+        using System::System;
 
         virtual void render(const graphics::Camera& camera, const glm::vec3& playerPosition);
     };
