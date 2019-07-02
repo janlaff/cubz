@@ -5,6 +5,7 @@ namespace cubz::game {
         air = 0,
         grass,
         dirt,
+        stone,
         torch,
     };
 }

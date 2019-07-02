@@ -100,6 +100,7 @@ int main(int argc, char **argv) {
         world.setBlock(cubz::game::BlockType::torch, 0, 16, 0);
         world.setBlock(cubz::game::BlockType::dirt, 2, 16, 0);
         world.setBlock(cubz::game::BlockType::grass, 4, 16, 0);
+        world.setBlock(cubz::game::BlockType::stone, 6, 16, 0);
 
         auto charMap = resourceManager.generateCharMap("OpenSans-Regular.ttf", 24);
         auto fpsText = engine.instantiate<cubz::core::Text>();

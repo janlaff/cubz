@@ -7,6 +7,7 @@ set(
         GrassBlock.cpp
         DirtBlock.cpp
         TorchBlock.cpp
+        StoneBlock.cpp
         World.cpp
         WorldPos.cpp
         main.cpp

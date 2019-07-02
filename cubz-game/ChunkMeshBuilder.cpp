@@ -5,6 +5,7 @@
 #include "AirBlock.h"
 #include "DirtBlock.h"
 #include "GrassBlock.h"
+#include "StoneBlock.h"
 #include "TorchBlock.h"
 
 namespace cubz::game {
@@ -13,6 +14,7 @@ namespace cubz::game {
         m_blockRenderers.insert({ BlockType::air, std::make_shared<AirBlock>() });
         m_blockRenderers.insert({ BlockType::dirt, std::make_shared<DirtBlock>() });
         m_blockRenderers.insert({ BlockType::grass, std::make_shared<GrassBlock>() });
+        m_blockRenderers.insert({ BlockType::stone, std::make_shared<StoneBlock>() });
         m_blockRenderers.insert({ BlockType::torch, std::make_shared<TorchBlock>() });
 
         for (auto x = 0; x < CHUNK_SIZE; ++x) {
