@@ -4,10 +4,11 @@
 #include <core/Player.h>
 #include <core/Text.h>
 #include <core/DefaultSystems.h>
-#include <graphics/SkyboxRenderer.h>
 #include <graphics/BasicComponents.h>
 #include <utility/Helpers.h>
 #include <graphics/Mesh.h>
+
+#include <core/Skybox.h>
 
 #include "ChunkUpdateSystem.h"
 #include "World.h"
@@ -47,12 +48,7 @@ int main(int argc, char **argv) {
         ecs.setSystemSignature<cubz::game::ChunkUpdateSystem>(signature);
 
         // Create skybox
-        auto skybox = ecs.createEntity();
-        ecs.addComponent<cubz::graphics::SkyboxRenderer>(skybox, cubz::graphics::SkyboxRenderer {
-            resourceManager.getCubeMap("skybox"),
-            resourceManager.getShader("skybox")
-        });
-
+        auto skybox = engine.instantiate<cubz::core::Skybox>();
         // Create player
         auto player = engine.instantiate<cubz::core::Player>();
 

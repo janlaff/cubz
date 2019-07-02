@@ -9,6 +9,7 @@ set(
         TextRenderSystem.cpp
         GameObject.cpp
         Player.cpp
+        Skybox.cpp
         Text.cpp
         DefaultSystems.cpp
 )
