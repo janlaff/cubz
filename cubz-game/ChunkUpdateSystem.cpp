@@ -5,7 +5,6 @@
 
 #include <graphics/BasicComponents.h>
 #include <graphics/MeshRenderer.h>
-#include <ecs/EntityComponentSystem.h>
 
 namespace cubz::game {
     void ChunkUpdateSystem::updateChunks() {

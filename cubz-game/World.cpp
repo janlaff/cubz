@@ -6,31 +6,19 @@
 
 namespace cubz::game {
     World::World(core::Engine *engine) : m_engine(engine) {
-        const auto numChunks = 2;
+        /*const auto numChunks = 2;
 
         for (int x = -numChunks / 2; x < numChunks; ++x) {
             for (int z = -numChunks / 2; z < numChunks; ++z) {
                 createChunk(x * CHUNK_SIZE, -CHUNK_SIZE, z * CHUNK_SIZE);
             }
-        }
+        }*/
     }
 
     void World::createChunk(int x, int y, int z) {
         utility::Log::debug("Created chunk");
 
         auto chunkData = ChunkData(this, WorldPos { x, y, z });
-
-        for (auto xPos = 0; xPos < CHUNK_SIZE; ++xPos) {
-            for (auto yPos = 0; yPos < CHUNK_SIZE; ++yPos) {
-                for (auto zPos = 0; zPos < CHUNK_SIZE; ++zPos) {
-                    if (yPos + 1 == CHUNK_SIZE) {
-                        chunkData.setBlock(BlockType::grass, xPos, yPos, zPos);
-                    } else {
-                        chunkData.setBlock(BlockType::dirt, xPos, yPos, zPos);
-                    }
-                }
-            }
-        }
 
         auto chunk = m_engine->instantiate<ChunkEntity>(chunkData);
         chunk->updateEntity();

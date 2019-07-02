@@ -32,7 +32,7 @@ namespace cubz::core {
                 pointLight.bind(shader, lightIndex++);
             }
 
-            shader.setInt("lightCount", lightIndex);
+            shader.setInt("lightCount", lightIndex + 1);
             shader.setVec3("playerPosition", playerPosition);
             shader.setInt("dirLight.isActive", sunOn);
 

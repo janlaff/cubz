@@ -16,6 +16,7 @@ set(
         ChunkMeshBuilder.cpp
         TorchRenderer.cpp
         TorchEntity.cpp
+        TorchRenderSystem.cpp
 )
 
 add_executable(cubz-game ${CUBZ_GAME_SOURCE_FILES})

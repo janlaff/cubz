@@ -29,7 +29,7 @@ namespace cubz::game {
         });
 
         addComponent<graphics::PointLight>(graphics::PointLight {
-                glm::vec3(0), // Not really used
+                glm::vec3(0), // Overwritten by transform
                 1.0f,//1.0f, 2.0f
                 0.7f,//0.09f, 0.8f
                 1.8f,//0.032f, 2.0f

@@ -14,6 +14,7 @@
 #include "World.h"
 #include "ChunkEntity.h"
 #include "TorchRenderer.h"
+#include "TorchRenderSystem.h"
 
 int main(int argc, char **argv) {
     try {
@@ -54,6 +55,14 @@ int main(int argc, char **argv) {
         signature.set(ecs.getComponentType<cubz::graphics::SkyboxRenderer>());
         ecs.setSystemSignature<cubz::core::SkyboxRenderSystem>(signature);
 
+        // Torch rendering system
+        auto torchRenderSystem = ecs.registerSystem<cubz::game::TorchRenderSystem>();
+        signature = cubz::ecs::Signature();
+        signature.set(ecs.getComponentType<cubz::graphics::Mesh>());
+        signature.set(ecs.getComponentType<cubz::graphics::Transform>());
+        signature.set(ecs.getComponentType<cubz::game::TorchRenderer>());
+        ecs.setSystemSignature<cubz::game::TorchRenderSystem>(signature);
+
         // Light rendering system
         // Create sun
         auto sun = cubz::graphics::DirectionalLight {
@@ -84,7 +93,7 @@ int main(int argc, char **argv) {
         context.setClearColor({0, 0, 0});
         context.setMouseEnabled(false);
 
-        player->setPosition(glm::vec3 { 4, 1, 3 });
+        player->setPosition(glm::vec3 { 40, 30, 30 });
         player->lookAt({ 0, 0, 0 });
 
         // Test light
@@ -106,7 +115,20 @@ int main(int argc, char **argv) {
         float deltaSum = 0;
         int fpsFrequency = 250;
 
-        world.setBlock(cubz::game::BlockType::torch, 0, 0, 0);
+
+        for (auto xPos = 0; xPos < cubz::game::CHUNK_SIZE; ++xPos) {
+            for (auto yPos = 0; yPos < cubz::game::CHUNK_SIZE; ++yPos) {
+                for (auto zPos = 0; zPos < cubz::game::CHUNK_SIZE; ++zPos) {
+                    if (yPos + 1 == cubz::game::CHUNK_SIZE) {
+                        world.setBlock(cubz::game::BlockType::grass, xPos, yPos, zPos);
+                    } else {
+                        world.setBlock(cubz::game::BlockType::dirt, xPos, yPos, zPos);
+                    }
+                }
+            }
+        }
+
+        world.setBlock(cubz::game::BlockType::torch, 0, 16, 0);
 
         while (!context.windowClosed()) {
             float deltaTime = context.getDeltaTime();
@@ -135,9 +157,11 @@ int main(int argc, char **argv) {
 
             lightRenderSystem->update(playerTransform.position, true);
             chunkUpdateSystem->updateChunks();
+            torchRenderSystem->update();
             meshRenderSystem->update(deltaTime);
             meshRenderSystem->render(camera);
             skyboxRenderSystem->render(camera, playerTransform.position);
+            torchRenderSystem->render(camera);
             context.render();
         }
     } catch (std::exception& e) {

@@ -33,14 +33,14 @@ namespace cubz::game {
 
     void ChunkData::setBlock(BlockType block, int x, int y, int z) {
         if (inRange(x) && inRange(y) && inRange(z)) {
-            if (block == BlockType::torch) {
-                m_world->destroyTorch(x, y, z);
+            if (m_blocks[x][y][z] == BlockType::torch) {
+                m_world->destroyTorch(m_position.x + x, m_position.y + y, m_position.z + z);
             }
 
             m_blocks[x][y][z] = block;
 
             if (block == BlockType::torch) {
-                m_world->createTorch(x, y, z);
+                m_world->createTorch(m_position.x + x, m_position.y + y, m_position.z + z);
             }
         } else {
             return m_world->setBlock(block, m_position.x + x, m_position.y + y, m_position.z + z);

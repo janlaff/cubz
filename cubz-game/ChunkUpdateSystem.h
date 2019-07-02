@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ecs/SystemManager.h>
+#include <ecs/EntityComponentSystem.h>
 #include <graphics/Camera.h>
 
 

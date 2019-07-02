@@ -39,6 +39,7 @@ uniform DirectionalLight dirLight;
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform int lightCount;
 uniform vec3 playerPosition;
+uniform bool disableLights;
 
 vec4 calculatePointLight(PointLight light, vec3 normal, vec3 viewDir);
 vec4 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
@@ -47,6 +48,17 @@ void main() {
     vec3 norm = normalize(normal);
     vec3 viewDir = normalize(playerPosition - fragPos);
     vec4 result = vec4(0.0, 0.0, 0.0, 0.0);
+
+    vec4 texColor = texture2D(material.texture, uv);
+
+    if (texColor.a < 0.1) {
+        discard;
+    }
+
+    if (disableLights) {
+        color = texColor;
+        return;
+    }
 
     // Directional light
     if (dirLight.isActive) {
