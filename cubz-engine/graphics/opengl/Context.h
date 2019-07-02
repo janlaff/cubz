@@ -20,7 +20,6 @@ namespace cubz::graphics::opengl {
         int getWindowHeight() const;
         const std::string& getWindowTitle() const;
         GLFWwindow* getWindow() const;
-        float getDeltaTime() const;
         std::pair<float, float> getMouseMovement() const;
         std::pair<float, float> getPlayerMovement() const;
 
@@ -29,7 +28,5 @@ namespace cubz::graphics::opengl {
         int m_windowHeight;
         std::string m_windowTitle;
         GLFWwindow* m_window;
-        float m_deltaTime;
-        float m_lastFrame;
     };
 }

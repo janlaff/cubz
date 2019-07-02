@@ -58,10 +58,6 @@ namespace cubz::graphics::opengl {
     void Context::render() {
         glfwSwapBuffers(m_window);
         glfwPollEvents();
-
-        float currentFrame = glfwGetTime();
-        m_deltaTime = currentFrame - m_lastFrame;
-        m_lastFrame = currentFrame;
     }
 
     bool Context::windowClosed() const {
@@ -90,10 +86,6 @@ namespace cubz::graphics::opengl {
 
     GLFWwindow* Context::getWindow() const {
         return m_window;
-    }
-
-    float Context::getDeltaTime() const {
-        return m_deltaTime;
     }
 
     std::pair<float, float> Context::getMouseMovement() const {

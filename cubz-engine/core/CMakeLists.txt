@@ -12,6 +12,7 @@ set(
         Skybox.cpp
         Text.cpp
         DefaultSystems.cpp
+        Timer.cpp
 )
 
 add_library(core STATIC ${CORE_SOURCE_FILES})

@@ -9,6 +9,7 @@
 #include <graphics/Mesh.h>
 
 #include <core/Skybox.h>
+#include <core/Timer.h>
 
 #include "ChunkUpdateSystem.h"
 #include "World.h"
@@ -51,35 +52,11 @@ int main(int argc, char **argv) {
         auto skybox = engine.instantiate<cubz::core::Skybox>();
         // Create player
         auto player = engine.instantiate<cubz::core::Player>();
-
-        cubz::game::World world(&engine);
-
-        context.setClearColor({0, 0, 0});
-        context.setMouseEnabled(false);
-
         player->setPosition(glm::vec3 { 40, 30, 30 });
         player->lookAt({ 0, 0, 0 });
 
-        // Test light
-        // TODO: add torches
-        /*auto testLight = ecs.createEntity();
-        ecs.addComponent<cubz::graphics::PointLight>(testLight, cubz::graphics::PointLight {
-            { 0, 0, 0 },
-            1.0f,//1.0f, 2.0f
-            0.7f,//0.09f, 0.8f
-            1.8f,//0.032f, 2.0f
-            glm::vec3(0.1f),
-            { 5.0f, 1.0f, 1.0f },
-            { 5.0f, 1.0f, 1.0f },
-            true
-        });
-        ecs.updateEntity(testLight);*/
-
-        int i = 0;
-        float deltaSum = 0;
-        int textUpdateFrequency = 250;
-
-
+        // Create world
+        cubz::game::World world(&engine);
         int miniWorldSize = 32;
         for (auto xPos = -miniWorldSize; xPos < miniWorldSize; ++xPos) {
             for (auto yPos = 0; yPos < 16; ++yPos) {
@@ -98,6 +75,11 @@ int main(int argc, char **argv) {
         world.setBlock(cubz::game::BlockType::grass, 4, 16, 0);
         world.setBlock(cubz::game::BlockType::stone, 6, 16, 0);
 
+        // Context properties
+        context.setClearColor({0, 0, 0});
+        context.setMouseEnabled(false);
+
+        // Create texts
         auto charMap = resourceManager.generateCharMap("OpenSans-Regular.ttf", 24);
         auto fpsText = engine.instantiate<cubz::core::Text>();
         auto positionText = engine.instantiate<cubz::core::Text>();
@@ -105,9 +87,11 @@ int main(int argc, char **argv) {
         positionText->setPosition({ 10, 40 });
 
         int frames = 0;
+        float deltaSum = 0;
+        auto timer = cubz::core::Timer();
 
         while (!context.windowClosed()) {
-            float deltaTime = context.getDeltaTime();
+            float deltaTime = timer.getDeltaTime();
 
             deltaSum += deltaTime;
             ++frames;
@@ -121,14 +105,13 @@ int main(int argc, char **argv) {
 
             camera.setTransform(playerTransform);
 
-            if (deltaSum >= 0.5f) {
+            if (deltaSum >= 0.25f) {
                 float averageDeltaTime = deltaSum / frames;
                 int fps = 1.0f / averageDeltaTime;
 
                 fpsText->setText("Fps: " + std::to_string(fps));
                 positionText->setText("Position: " + cubz::utility::vectorToString(playerTransform.position));
 
-                i = 0;
                 deltaSum = 0;
                 frames = 0;
             }
@@ -143,6 +126,9 @@ int main(int argc, char **argv) {
             skyboxRenderSystem->render(camera, playerTransform.position, 1.0f);
             textRenderSystem->render(camera, charMap);
             context.render();
+
+            // Update timer after all the main code has run
+            timer.update();
         }
     } catch (std::exception& e) {
         cubz::utility::Log::error(e);
