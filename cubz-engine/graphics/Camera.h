@@ -13,7 +13,8 @@ namespace cubz::graphics {
 
         glm::mat4 getModelViewProjection(const glm::mat4& model) const;
         glm::mat4 getTextProjection() const;
-        glm::vec3 getPosition() const;
+        glm::mat4 getView() const;
+        glm::mat4 getProjection() const;
 
     private:
         glm::mat4 m_textProjection;

@@ -28,4 +28,12 @@ namespace cubz::graphics {
     glm::mat4 Camera::getTextProjection() const {
         return m_textProjection;
     }
+
+    glm::mat4 Camera::getView() const {
+        return m_transform.rotation;
+    }
+
+    glm::mat4 Camera::getProjection() const {
+        return m_projection;
+    }
 }

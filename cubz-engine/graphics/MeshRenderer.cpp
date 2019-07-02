@@ -5,11 +5,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace cubz::graphics {
-    MeshRenderer::MeshRenderer(cubz::graphics::opengl::Shader shader, cubz::graphics::opengl::Material material) {
+    MeshRenderer::MeshRenderer(opengl::Shader shader, opengl::Material material, bool disableLights, bool disableCullFaces) {
         data = std::make_shared<Data>();
 
         data->shader = shader;
         data->material = material;
+        data->disableLights = disableLights;
+        data->disableCullFaces = disableCullFaces;
 
         data->vertexArray.bind();
         data->vertexBuffer.bind();
@@ -52,19 +54,30 @@ namespace cubz::graphics {
     }
 
     void MeshRenderer::render(const Camera& camera) {
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS);
+        auto doRender = [&]() {
+            glEnable(GL_DEPTH_TEST);
+            glDepthFunc(GL_LESS);
 
-        data->vertexArray.bind();
-        data->shader.bind();
-        data->shader.setMat4("mvp", camera.getModelViewProjection(data->model));
-        data->shader.setMat4("model", data->model);
-        data->material.bind(data->shader);
-        data->elementBuffer.draw();
-        data->material.unbind(data->shader);
-        data->shader.unbind();
-        data->vertexArray.unbind();
+            data->vertexArray.bind();
+            data->shader.bind();
+            data->shader.setMat4("mvp", camera.getModelViewProjection(data->model));
+            data->shader.setMat4("model", data->model);
+            data->shader.setInt("disableLights", data->disableLights);
+            data->material.bind(data->shader);
+            data->elementBuffer.draw();
+            data->material.unbind(data->shader);
+            data->shader.unbind();
+            data->vertexArray.unbind();
 
-        glDisable(GL_DEPTH_TEST);
+            glDisable(GL_DEPTH_TEST);
+        };
+
+        if (data->disableCullFaces) {
+            glDisable(GL_CULL_FACE);
+            doRender();
+            glEnable(GL_CULL_FACE);
+        } else {
+            doRender();
+        }
     }
 }

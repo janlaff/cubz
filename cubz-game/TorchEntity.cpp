@@ -1,8 +1,8 @@
 #include "TorchEntity.h"
-#include "TorchRenderer.h"
 #include "TorchBlock.h"
 
 #include <graphics/Mesh.h>
+#include <graphics/MeshRenderer.h>
 #include <graphics/BasicComponents.h>
 
 
@@ -14,13 +14,13 @@ namespace cubz::game {
 
         addComponent<graphics::Mesh>(mesh);
 
-        addComponent<TorchRenderer>(TorchRenderer(
+        addComponent<graphics::MeshRenderer>(graphics::MeshRenderer(
                 getResourceManager().getShader("mesh"),
                 graphics::opengl::Material{
                         getResourceManager().getTexture("terrain.png"),
                         { 1, 1, 1 },
                         32
-                }));
+                }, true, true));
 
         addComponent<graphics::Transform>(graphics::Transform {
                 position.toVec(),

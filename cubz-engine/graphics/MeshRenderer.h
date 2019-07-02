@@ -26,12 +26,14 @@ namespace cubz::graphics {
             opengl::Shader shader;
             opengl::Material material;
             glm::mat4 model;
+            bool disableLights;
+            bool disableCullFaces;
         };
 
         std::shared_ptr<Data> data;
 
         MeshRenderer() = default;
-        MeshRenderer(opengl::Shader shader, opengl::Material material);
+        MeshRenderer(opengl::Shader shader, opengl::Material material, bool disableLights = false, bool disableCullFaces = false);
 
         virtual void update(const Transform& transform, const Mesh& mesh);
         virtual void render(const Camera& camera);

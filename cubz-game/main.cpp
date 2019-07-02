@@ -5,17 +5,17 @@
 #include <core/Text.h>
 #include <core/DefaultSystems.h>
 #include <graphics/SkyboxRenderer.h>
+#include <graphics/BasicComponents.h>
 #include <utility/Helpers.h>
+#include <graphics/Mesh.h>
 
 #include "ChunkUpdateSystem.h"
 #include "World.h"
 #include "ChunkEntity.h"
-#include "TorchRenderer.h"
-#include "TorchRenderSystem.h"
 
 int main(int argc, char **argv) {
     try {
-        auto engine = cubz::core::Engine(1280, 800, "Cubz Game - Experimental Version", "./assets");
+        auto engine = cubz::core::Engine(1920, 1080, "Cubz Game - Experimental Version", "./assets");
 
         auto& context = engine.getContext();
         auto& ecs = engine.getECS();
@@ -37,7 +37,6 @@ int main(int argc, char **argv) {
 
         // Create custom components
         ecs.registerComponent<cubz::game::ChunkData>();
-        ecs.registerComponent<cubz::game::TorchRenderer>();
 
         // Register chunk update system
         auto chunkUpdateSystem = ecs.registerSystem<cubz::game::ChunkUpdateSystem>();
@@ -46,14 +45,6 @@ int main(int argc, char **argv) {
         signature.set(ecs.getComponentType<cubz::graphics::Mesh>());
         signature.set(ecs.getComponentType<cubz::graphics::Transform>());
         ecs.setSystemSignature<cubz::game::ChunkUpdateSystem>(signature);
-
-        // Torch rendering system
-        auto torchRenderSystem = ecs.registerSystem<cubz::game::TorchRenderSystem>();
-        signature = cubz::ecs::Signature();
-        signature.set(ecs.getComponentType<cubz::graphics::Mesh>());
-        signature.set(ecs.getComponentType<cubz::graphics::Transform>());
-        signature.set(ecs.getComponentType<cubz::game::TorchRenderer>());
-        ecs.setSystemSignature<cubz::game::TorchRenderSystem>(signature);
 
         // Create skybox
         auto skybox = ecs.createEntity();
@@ -148,13 +139,11 @@ int main(int argc, char **argv) {
             context.clear();
             lightRenderSystem->update(playerTransform.position, true);
             chunkUpdateSystem->updateChunks();
-            torchRenderSystem->update();
             meshRenderSystem->update(deltaTime);
             textRenderSystem->update();
 
             meshRenderSystem->render(camera);
             skyboxRenderSystem->render(camera, playerTransform.position, 1.0f);
-            torchRenderSystem->render(camera);
             textRenderSystem->render(camera, charMap);
             context.render();
         }

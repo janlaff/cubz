@@ -13,7 +13,7 @@ namespace cubz::graphics {
         data->vertexBuffer.bind();
 
         auto quadBuilder = opengl::VertexQuadBuilder();
-        auto skyboxSize = 10.0f;
+        auto skyboxSize = 1.0f;
 
         // North
         quadBuilder.addVertex({ -skyboxSize, skyboxSize, -skyboxSize });
@@ -71,7 +71,10 @@ namespace cubz::graphics {
 
         data->vertexArray.bind();
         data->shader.bind();
-        data->shader.setMat4("mvp", camera.getModelViewProjection(glm::translate(glm::mat4(1.0f), playerPosition)));
+        // Remove position data
+        auto view = glm::mat4(glm::mat3(camera.getView()));
+        auto projection = camera.getProjection();
+        data->shader.setMat4("viewProjection", projection * view);
         data->shader.setFloat("ambient", ambient);
         data->cubeMap.bind();
         data->vertexBuffer.draw();
