@@ -1,7 +1,7 @@
-# Cubz - ECS Game Engine
+# Cubz - High Performance ECS Game Engine
 
 ## Features:
-- Render systems
+- Fast Render systems
 - Entity component system
 - OpenGL wrapper
 - Higher Level Graphics Abstractions
@@ -36,7 +36,10 @@ int main(int argc, char **argv) {
 }
 ```
 
-Older samples:
+Cubz-Game Sample Pictures:
+Note:
+Those fps numbers are actually achieved by my integrated notebook graphics chip.
+If you have a reak graphics card, expect the framerate to be much higher
 ![Alt text](cubz-game/assets/textures/1.png)
 ![Alt text](cubz-game/assets/textures/2.png)
 ![Alt text](cubz-game/assets/textures/3.png)
