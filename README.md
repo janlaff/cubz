@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 ```
 
 Cubz-Game Sample Pictures:
-Note:
+
 Those fps numbers are actually achieved by my integrated notebook graphics chip.
 If you have a reak graphics card, expect the framerate to be much higher
 ![Alt text](cubz-game/assets/textures/1.png)
