@@ -5,6 +5,6 @@
 namespace cubz::core {
     class Skybox : public GameObject {
     public:
-        Skybox(Engine* engine);
+        Skybox(Engine* engine, std::string cubeMap = "skybox");
     };
 }
