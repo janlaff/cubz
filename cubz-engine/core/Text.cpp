@@ -5,7 +5,7 @@
 namespace cubz::core {
     Text::Text(cubz::core::Engine *engine) : GameObject(engine) {
         addComponent<graphics::ui::TextData>(graphics::ui::TextData {
-            "Sample Text",
+            "",
             { 10, 10 },
             { 1, 1, 1 }
         });
