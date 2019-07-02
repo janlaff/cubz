@@ -1,17 +1,10 @@
 #include <core/Engine.h>
 #include <utility/Log.h>
-#include <graphics/Mesh.h>
-#include <graphics/MeshRenderer.h>
-#include <graphics/BasicComponents.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include <core/LightRenderSystem.h>
-#include <core/SkyboxRenderSystem.h>
-#include <graphics/SkyboxRenderer.h>
 #include <core/Player.h>
-#include <core/TextRenderSystem.h>
 #include <core/Text.h>
-#include <graphics/ui/TextData.h>
-#include <graphics/ui/TextRenderer.h>
+#include <core/DefaultSystems.h>
+#include <graphics/SkyboxRenderer.h>
 
 #include "ChunkUpdateSystem.h"
 #include "World.h"
@@ -27,16 +20,23 @@ int main(int argc, char **argv) {
         auto& ecs = engine.getECS();
         auto& camera = engine.getCamera();
         auto& resourceManager = engine.getResourceManager();
+        auto defaultSystems = cubz::core::DefaultSystems(&engine);
 
-        ecs.registerComponent<cubz::graphics::Transform>();
-        ecs.registerComponent<cubz::graphics::MeshRenderer>();
-        ecs.registerComponent<cubz::graphics::PointLight>();
-        ecs.registerComponent<cubz::graphics::Mesh>();
-        ecs.registerComponent<cubz::graphics::SkyboxRenderer>();
+        auto sun = cubz::graphics::DirectionalLight {
+                { 1.0f, -1.0f, 1.0f },
+                glm::vec3(0.2f),
+                glm::vec3(1.0f),
+                glm::vec3(1.0f)
+        };
+
+        auto lightRenderSystem = defaultSystems.createLightRenderSystem(sun);
+        auto meshRenderSystem = defaultSystems.createMeshRenderSystem();
+        auto skyboxRenderSystem = defaultSystems.createSkyboxRenderSystem();
+        auto textRenderSystem = defaultSystems.createTextRenderSystem();
+
+        // Create custom components
         ecs.registerComponent<cubz::game::ChunkData>();
         ecs.registerComponent<cubz::game::TorchRenderer>();
-        ecs.registerComponent<cubz::graphics::ui::TextData>();
-        ecs.registerComponent<cubz::graphics::ui::TextRenderer>();
 
         // Register chunk update system
         auto chunkUpdateSystem = ecs.registerSystem<cubz::game::ChunkUpdateSystem>();
@@ -46,20 +46,6 @@ int main(int argc, char **argv) {
         signature.set(ecs.getComponentType<cubz::graphics::Transform>());
         ecs.setSystemSignature<cubz::game::ChunkUpdateSystem>(signature);
 
-        // Mesh rendering system
-        auto meshRenderSystem = ecs.registerSystem<cubz::core::MeshRenderSystem>();
-        signature = cubz::ecs::Signature();
-        signature.set(ecs.getComponentType<cubz::graphics::Transform>());
-        signature.set(ecs.getComponentType<cubz::graphics::MeshRenderer>());
-        signature.set(ecs.getComponentType<cubz::graphics::Mesh>());
-        ecs.setSystemSignature<cubz::core::MeshRenderSystem>(signature);
-
-        // Skybox rendering system
-        auto skyboxRenderSystem = ecs.registerSystem<cubz::core::SkyboxRenderSystem>();
-        signature = cubz::ecs::Signature();
-        signature.set(ecs.getComponentType<cubz::graphics::SkyboxRenderer>());
-        ecs.setSystemSignature<cubz::core::SkyboxRenderSystem>(signature);
-
         // Torch rendering system
         auto torchRenderSystem = ecs.registerSystem<cubz::game::TorchRenderSystem>();
         signature = cubz::ecs::Signature();
@@ -67,28 +53,6 @@ int main(int argc, char **argv) {
         signature.set(ecs.getComponentType<cubz::graphics::Transform>());
         signature.set(ecs.getComponentType<cubz::game::TorchRenderer>());
         ecs.setSystemSignature<cubz::game::TorchRenderSystem>(signature);
-
-        // Text rendering system
-        auto textRenderSystem = ecs.registerSystem<cubz::core::TextRenderSystem>();
-        signature = cubz::ecs::Signature();
-        signature.set(ecs.getComponentType<cubz::graphics::ui::TextData>());
-        signature.set(ecs.getComponentType<cubz::graphics::ui::TextRenderer>());
-        ecs.setSystemSignature<cubz::core::TextRenderSystem>(signature);
-
-        // Light rendering system
-        // Create sun
-        auto sun = cubz::graphics::DirectionalLight {
-            { 1.0f, -1.0f, 1.0f },
-            glm::vec3(0.2f),
-            glm::vec3(1.0f),
-            glm::vec3(1.0f)
-        };
-
-        auto lightRenderSystem = ecs.registerSystem<cubz::core::LightRenderSystem>(&resourceManager, &sun);
-        signature = cubz::ecs::Signature();
-        signature.set(ecs.getComponentType<cubz::graphics::PointLight>());
-        signature.set(ecs.getComponentType<cubz::graphics::Transform>());
-        ecs.setSystemSignature<cubz::core::LightRenderSystem>(signature);
 
         // Create skybox
         auto skybox = ecs.createEntity();

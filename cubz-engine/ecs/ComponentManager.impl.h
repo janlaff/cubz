@@ -1,11 +1,14 @@
 //#include "ComponentManager.h"
 
+#include "Log.h"
+
 namespace cubz::ecs {
     template<typename T>
     void ComponentManager::registerComponent() {
         auto typeName = typeid(T).name();
         if (m_componentTypes.find(typeName) != m_componentTypes.end()) {
-            throw std::runtime_error("Component " + std::string(typeName) + " already registered");
+            utility::Log::warning("Component " + std::string(typeName) + " is already registered");
+            return;
         }
 
         m_componentTypes.insert({ typeName, m_nextComponentType });

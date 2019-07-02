@@ -10,6 +10,7 @@ set(
         GameObject.cpp
         Player.cpp
         Text.cpp
+        DefaultSystems.cpp
 )
 
 add_library(core STATIC ${CORE_SOURCE_FILES})

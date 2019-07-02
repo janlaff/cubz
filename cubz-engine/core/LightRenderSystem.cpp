@@ -3,13 +3,13 @@
 #include "PointLight.h"
 
 namespace cubz::core {
-    LightRenderSystem::LightRenderSystem(cubz::ecs::EntityComponentSystem *ecs, cubz::graphics::ResourceManager *rsc, graphics::DirectionalLight* sunLight)
+    LightRenderSystem::LightRenderSystem(cubz::ecs::EntityComponentSystem *ecs, cubz::graphics::ResourceManager *rsc, graphics::DirectionalLight sunLight)
             : ecs::System(ecs)
             , m_rsc(rsc)
-            , m_sunLight(sunLight) {
+            , m_sunLight(std::move(sunLight)) {
         for (auto [name, shader] : m_rsc->getShaders()) {
             shader.bind();
-            m_sunLight->bind(shader);
+            m_sunLight.bind(shader);
             shader.unbind();
         }
     }

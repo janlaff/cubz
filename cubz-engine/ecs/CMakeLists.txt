@@ -9,4 +9,5 @@ set(
 )
 
 add_library(ecs STATIC ${ECS_SOURCE_FILES})
+target_link_libraries(ecs utility)
 target_include_directories(ecs PUBLIC .)
