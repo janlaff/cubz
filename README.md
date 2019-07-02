@@ -1,22 +1,20 @@
-# Cubz - Game Engine
-Currently under development!!
-Currently broken
+# Cubz - ECS Game Engine
 
 ## Features:
 - Render systems
-- Entity component systems
+- Entity component system
 - OpenGL wrapper
 - Higher Level Graphics Abstractions
+- Shaders
+- Textures
+- Text Rendering
+- and more...
 
 ## Example usage
 
 ```
 #include <core/Engine.h>
 #include <utility/Log.h>
-#include <graphics/Mesh.h>
-#include <graphics/MeshRenderer.h>
-#include <graphics/BasicComponents.h>
-#include <graphics/ui/DebugView.h>
 
 
 int main(int argc, char **argv) {
@@ -24,45 +22,9 @@ int main(int argc, char **argv) {
 
     try {
         auto context = engine.createContext(800, 600, "Test Window");
-        auto ecs = engine.createEntityComponentSystem();
-        auto camera = engine.createCamera();
-        auto resourceManager = engine.createResourceManager("./assets");
-        auto meshRenderSystem = engine.createMeshRenderSystem();
-
-        auto cube = ecs->createEntity();
-        auto transform = cubz::graphics::Transform {
-                { 0, 0, -1 },
-                glm::mat4(1.0),
-                { 1, 1, 1 },
-        };
-
-        auto mesh = cubz::graphics::Mesh();
-        const auto size = 10;
-        mesh.addVertex({ -size, size, -size });
-        mesh.addVertex({ size, size, -size });
-        mesh.addVertex({ size, -size, -size });
-        mesh.addVertex({ -size, -size, -size });
-        mesh.addQuadTriangles();
-
-        auto renderer = cubz::graphics::MeshRenderer(
-            resourceManager->getShader("cube"),
-            cubz::graphics::opengl::Material{
-                resourceManager->getTexture("terrain.png"),
-                { 1, 1, 1 },
-                32
-            });
-
-        ecs->addComponent<cubz::graphics::Mesh>(cube, mesh);
-        ecs->addComponent<cubz::graphics::Transform>(cube, transform);
-        ecs->addComponent<cubz::graphics::MeshRenderer>(cube, renderer);
-
-        context->setClearColor({ 1, 1, 1 });
-
 
         while (!context->windowClosed()) {
             context->clear();
-            meshRenderSystem->update(context->getDeltaTime());
-            meshRenderSystem->render(*camera);
             context->render();
         }
     } catch (std::exception& e) {
@@ -75,9 +37,9 @@ int main(int argc, char **argv) {
 ```
 
 Older samples:
-![Alt text](cubz-game/assets/textures/example.png)
-![Alt text](cubz-game/assets/textures/example2.png)
-![Alt text](cubz-game/assets/textures/example3.png)
+![Alt text](cubz-game/assets/textures/1.png)
+![Alt text](cubz-game/assets/textures/2.png)
+![Alt text](cubz-game/assets/textures/3.png)
 
 ## Build Instructions
 This project uses hunter, an open-source cmake package manager.
@@ -97,9 +59,9 @@ Please be patient if you load the cmake file the first time; many libraries need
 $ make cubz
 ```
 
-### 3rd Step - Run cubz
+### 3rd Step - Run cubz demo game
 ```
 $ cd ..
 $ cd cubz-build
-$ ./cubz
+$ ./cubz-game
 ```
