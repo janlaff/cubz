@@ -5,6 +5,7 @@
 #include <core/Text.h>
 #include <core/DefaultSystems.h>
 #include <graphics/SkyboxRenderer.h>
+#include <utility/Helpers.h>
 
 #include "ChunkUpdateSystem.h"
 #include "World.h"
@@ -14,7 +15,7 @@
 
 int main(int argc, char **argv) {
     try {
-        auto engine = cubz::core::Engine(1280, 800, "Test Window", "./assets");
+        auto engine = cubz::core::Engine(1280, 800, "Cubz Game - Experimental Version", "./assets");
 
         auto& context = engine.getContext();
         auto& ecs = engine.getECS();
