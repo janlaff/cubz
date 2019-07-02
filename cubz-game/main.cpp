@@ -90,14 +90,14 @@ int main(int argc, char **argv) {
 
         int i = 0;
         float deltaSum = 0;
-        int fpsFrequency = 250;
+        int textUpdateFrequency = 250;
 
 
-        int miniWorldSize = 16;
+        int miniWorldSize = 32;
         for (auto xPos = -miniWorldSize; xPos < miniWorldSize; ++xPos) {
-            for (auto yPos = 0; yPos < miniWorldSize; ++yPos) {
+            for (auto yPos = 0; yPos < 16; ++yPos) {
                 for (auto zPos = -miniWorldSize; zPos < miniWorldSize; ++zPos) {
-                    if (yPos + 1 == miniWorldSize) {
+                    if (yPos + 1 == 16) {
                         world.setBlock(cubz::game::BlockType::grass, xPos, yPos, zPos);
                     } else {
                         world.setBlock(cubz::game::BlockType::dirt, xPos, yPos, zPos);
@@ -111,24 +111,19 @@ int main(int argc, char **argv) {
         world.setBlock(cubz::game::BlockType::grass, 4, 16, 0);
 
         auto charMap = resourceManager.generateCharMap("OpenSans-Regular.ttf", 24);
-        auto text = engine.instantiate<cubz::core::Text>();
+        auto fpsText = engine.instantiate<cubz::core::Text>();
+        auto positionText = engine.instantiate<cubz::core::Text>();
+
+        positionText->setPosition({ 10, 40 });
+
+        int frames = 0;
 
         while (!context.windowClosed()) {
             float deltaTime = context.getDeltaTime();
 
             deltaSum += deltaTime;
+            ++frames;
 
-            if (i++ == fpsFrequency) {
-                float averageDeltaTime = deltaSum / fpsFrequency;
-                int fps = 1.0f / averageDeltaTime;
-
-                text->setText("Fps: " + std::to_string(fps));
-
-                i = 0;
-                deltaSum = 0;
-            }
-
-            context.clear();
             auto [deltaX, deltaY] = context.getMouseMovement();
             auto [forward, side] = context.getPlayerMovement();
             player->updateView(deltaX, deltaY, deltaTime);
@@ -138,15 +133,27 @@ int main(int argc, char **argv) {
 
             camera.setTransform(playerTransform);
 
+            if (deltaSum >= 0.5f) {
+                float averageDeltaTime = deltaSum / frames;
+                int fps = 1.0f / averageDeltaTime;
+
+                fpsText->setText("Fps: " + std::to_string(fps));
+                positionText->setText("Position: " + cubz::utility::vectorToString(playerTransform.position));
+
+                i = 0;
+                deltaSum = 0;
+                frames = 0;
+            }
+
+            context.clear();
             lightRenderSystem->update(playerTransform.position, true);
             chunkUpdateSystem->updateChunks();
             torchRenderSystem->update();
             meshRenderSystem->update(deltaTime);
             textRenderSystem->update();
 
-
             meshRenderSystem->render(camera);
-            skyboxRenderSystem->render(camera, playerTransform.position);
+            skyboxRenderSystem->render(camera, playerTransform.position, 1.0f);
             torchRenderSystem->render(camera);
             textRenderSystem->render(camera, charMap);
             context.render();
