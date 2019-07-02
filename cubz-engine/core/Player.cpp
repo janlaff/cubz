@@ -18,7 +18,7 @@ namespace cubz::core {
     }
 
     void Player::updateView(float deltaX, float deltaY, float deltaTime) {
-        const auto mouseSpeed = 4.5f;
+        const auto mouseSpeed = 10.0f;
 
         if (!m_firstMouse) {
             m_yaw += glm::clamp(mouseSpeed * deltaTime * deltaX, -180.0f, 180.0f);
@@ -51,7 +51,7 @@ namespace cubz::core {
     }
 
     void Player::updatePosition(float forward, float side, float deltaTime) {
-        const auto speed = 4.5f;
+        const auto speed = 10.0f;
 
         auto& transform = getComponent<graphics::Transform>();
 
