@@ -7,7 +7,12 @@
 namespace cubz::graphics {
     class Camera {
     public:
-        Camera(int screenWidth, int screenHeight);
+        struct Properties {
+            float zNear;
+            float zFar;
+        };
+
+        Camera(int screenWidth, int screenHeight, const Properties props = { 0.1f, 100.0f });
 
         void setTransform(const Transform& transform);
 

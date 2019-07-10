@@ -7,8 +7,8 @@ namespace cubz::graphics {
     static const auto mouseSpeed = 2.5f;
     static const auto moveSpeed = 4.5f;
 
-    Camera::Camera(int screenWidth, int screenHeight) {
-        m_projection = glm::perspective(glm::radians(45.0f), float(screenWidth) / float(screenHeight), 0.1f, 100.0f);
+    Camera::Camera(int screenWidth, int screenHeight, Properties props) {
+        m_projection = glm::perspective(glm::radians(45.0f), float(screenWidth) / float(screenHeight), props.zNear, props.zFar);
         m_textProjection = glm::ortho(0.0f, float(screenWidth), 0.0f, float(screenHeight));
         m_transform = Transform {
             { 0, 0, 0 },
