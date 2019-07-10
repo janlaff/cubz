@@ -5,9 +5,9 @@
 #include "WorldPos.h"
 
 namespace cubz::game {
-    class TorchEntity : public core::GameObject {
+    class Torch : public core::GameObject {
     public:
-        TorchEntity(core::Engine* engine, const WorldPos& position);
+        Torch(core::Engine* engine, const WorldPos& position);
 
         void update(float deltaTime) override;
     };

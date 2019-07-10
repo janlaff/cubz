@@ -1,4 +1,4 @@
-#include "TorchEntity.h"
+#include "Torch.h"
 #include "TorchBlock.h"
 
 #include <graphics/Mesh.h>
@@ -7,7 +7,7 @@
 
 
 namespace cubz::game {
-    TorchEntity::TorchEntity(core::Engine *engine, const WorldPos& position) : GameObject(engine) {
+    Torch::Torch(core::Engine *engine, const WorldPos& position) : GameObject(engine) {
         auto mesh = graphics::Mesh();
 
         TorchBlock().addSolidToMesh(mesh);
@@ -40,7 +40,7 @@ namespace cubz::game {
         });
     }
 
-    void TorchEntity::update(float deltaTime) {
+    void Torch::update(float deltaTime) {
         // Dont do anything here
     }
 }

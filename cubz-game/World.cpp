@@ -78,7 +78,7 @@ namespace cubz::game {
 
     void World::createTorch(int x, int y, int z) {
         auto pos = WorldPos { x, y, z };
-        auto torchEntity = m_engine->instantiate<TorchEntity>(pos);
+        auto torchEntity = m_engine->instantiate<Torch>(pos);
         torchEntity->updateEntity();
         m_torchEntities.insert({ pos, torchEntity });
     }

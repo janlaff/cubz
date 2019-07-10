@@ -15,7 +15,7 @@ set(
         ChunkData.cpp
         ChunkEntity.cpp
         ChunkMeshBuilder.cpp
-        TorchEntity.cpp
+        Torch.cpp
 )
 
 add_executable(cubz-game ${CUBZ_GAME_SOURCE_FILES})

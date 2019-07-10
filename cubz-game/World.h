@@ -5,7 +5,7 @@
 #include "ChunkData.h"
 #include "WorldPos.h"
 #include "ChunkEntity.h"
-#include "TorchEntity.h"
+#include "Torch.h"
 
 namespace cubz::game {
     class World {
@@ -24,7 +24,7 @@ namespace cubz::game {
     private:
         core::Engine* m_engine;
         WorldPosMap<std::shared_ptr<ChunkEntity>> m_chunkEntities;
-        WorldPosMap<std::shared_ptr<TorchEntity>> m_torchEntities;
+        WorldPosMap<std::shared_ptr<Torch>> m_torchEntities;
     };
 
     /*class World {
