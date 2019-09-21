@@ -6,6 +6,7 @@ set(
         GUI_SOURCE_FILES
         imgui_impl_glfw_gl3.cpp
         ImGuiContext.cpp
+        ImGuiLogger.cpp
 )
 
 add_library(gui STATIC ${GUI_SOURCE_FILES})

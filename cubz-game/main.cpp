@@ -10,6 +10,8 @@
 
 #include <core/Skybox.h>
 #include <core/Timer.h>
+#include <graphics/gui/ImGuiContext.h>
+#include <graphics/gui/ImGuiLogger.h>
 
 #include "ChunkUpdateSystem.h"
 #include "World.h"
@@ -24,6 +26,10 @@ int main(int argc, char **argv) {
         auto& camera = engine.getCamera();
         auto& resourceManager = engine.getResourceManager();
         auto defaultSystems = cubz::core::DefaultSystems(&engine);
+        auto guiContext = cubz::graphics::gui::ImGuiContext(context);
+        auto guiLogger = std::make_shared<cubz::graphics::gui::ImGuiLogger>();
+
+        cubz::utility::Log::addLogger(guiLogger);
 
         auto sun = cubz::graphics::DirectionalLight {
                 { 1.0f, -1.0f, 1.0f },
@@ -125,6 +131,10 @@ int main(int argc, char **argv) {
             meshRenderSystem->render(camera);
             skyboxRenderSystem->render(camera, playerTransform.position, 1.0f);
             textRenderSystem->render(camera, charMap);
+
+            guiContext.newframe();
+            guiLogger->render("Log");
+            guiContext.render();
             context.render();
 
             // Update timer after all the main code has run

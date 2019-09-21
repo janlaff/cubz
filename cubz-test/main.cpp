@@ -12,6 +12,16 @@
 #include <core/Timer.h>
 #include <graphics/gui/ImGuiContext.h>
 #include <imgui.h>
+#include <graphics/gui/ImGuiLogger.h>
+
+class TestLogger : public cubz::utility::Logger {
+public:
+    void log(const cubz::utility::LogEntry& entry) override {
+        entries.push_back(entry);
+    }
+
+    std::vector<cubz::utility::LogEntry> entries;
+};
 
 int main(int argc, char **argv) {
     try {
@@ -23,6 +33,9 @@ int main(int argc, char **argv) {
         auto& resourceManager = engine.getResourceManager();
         auto defaultSystems = cubz::core::DefaultSystems(&engine);
         auto guiContext = cubz::graphics::gui::ImGuiContext(context);
+        auto guiLogger = std::make_shared<cubz::graphics::gui::ImGuiLogger>();
+
+        cubz::utility::Log::addLogger(guiLogger);
 
         auto sun = cubz::graphics::DirectionalLight {
                 { 1.0f, -1.0f, 1.0f },
@@ -87,6 +100,10 @@ int main(int argc, char **argv) {
             ImGui::Begin("Program Stats");
             ImGui::Text("FPS: %d", fps);
             ImGui::End();
+
+            guiLogger->render("Log");
+
+            ImGui::ShowDemoWindow();
 
             lightRenderSystem->update(playerTransform.position, true);
             meshRenderSystem->update(deltaTime);
