@@ -6,6 +6,7 @@ hunter_add_package(glew)
 hunter_add_package(stb)
 hunter_add_package(freetype)
 hunter_add_package(bullet)
+hunter_add_package(imgui)
 
 add_subdirectory(core)
 add_subdirectory(ecs)

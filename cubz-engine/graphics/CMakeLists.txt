@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 add_subdirectory(opengl)
 add_subdirectory(ui)
+add_subdirectory(gui)
 
 set(
         GRAPHICS_SOURCE_FILES
@@ -15,5 +16,5 @@ set(
 )
 
 add_library(graphics STATIC ${GRAPHICS_SOURCE_FILES})
-target_link_libraries(graphics opengl ui)
+target_link_libraries(graphics opengl ui gui)
 target_include_directories(graphics PUBLIC .)

@@ -4,7 +4,7 @@ find_package(bullet CONFIG REQUIRED)
 
 set(
         PHYSICS_SOURCE_FILES
-        BasicPhysicsSystem.cpp
+        PhysicsSystem.cpp
 )
 
 add_library(physics STATIC ${PHYSICS_SOURCE_FILES})

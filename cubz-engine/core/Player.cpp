@@ -14,7 +14,6 @@ namespace cubz::core {
             glm::mat4(1.0f),
             glm::vec3(1.0f)
         });
-
     }
 
     void Player::updateView(float deltaX, float deltaY, float deltaTime) {
